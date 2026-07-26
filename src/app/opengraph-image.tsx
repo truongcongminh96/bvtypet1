@@ -13,8 +13,8 @@ export default function OpenGraphImage() {
       <div
         style={{
           alignItems: "center",
-          background: "#eff7fb",
-          color: "#082d46",
+          background: "#eff7fa",
+          color: "#102e3a",
           display: "flex",
           height: "100%",
           justifyContent: "space-between",
@@ -32,11 +32,11 @@ export default function OpenGraphImage() {
         >
           <div
             style={{
-              color: "#0b6fc2",
+              color: "#0d5fa8",
               display: "flex",
               fontSize: "22px",
-              fontWeight: 700,
-              letterSpacing: "3px",
+              fontWeight: 600,
+              letterSpacing: "1.5px",
               textTransform: "uppercase",
             }}
           >
@@ -47,18 +47,18 @@ export default function OpenGraphImage() {
               display: "flex",
               flexDirection: "column",
               fontSize: "76px",
-              fontWeight: 800,
-              letterSpacing: "-4px",
-              lineHeight: 0.98,
+              fontWeight: 600,
+              letterSpacing: "-2px",
+              lineHeight: 1.04,
               marginTop: "28px",
             }}
           >
             <span>Hiểu rõ hơn.</span>
-            <span style={{ color: "#0b6fc2" }}>Chăm bé tốt hơn.</span>
+            <span style={{ color: "#1684d6" }}>Chăm bé tốt hơn.</span>
           </div>
           <div
             style={{
-              color: "#586a75",
+              color: "#5b737d",
               display: "flex",
               fontSize: "25px",
               lineHeight: 1.5,
@@ -71,7 +71,7 @@ export default function OpenGraphImage() {
         <div
           style={{
             alignItems: "center",
-            border: "44px solid rgba(11,111,194,0.14)",
+            border: "44px solid rgba(22,132,214,0.12)",
             borderRadius: "999px",
             display: "flex",
             height: "420px",
@@ -82,12 +82,12 @@ export default function OpenGraphImage() {
           <div
             style={{
               alignItems: "center",
-              background: "#e63843",
+              background: "#c92d3d",
               borderRadius: "28px",
               color: "white",
               display: "flex",
               fontSize: "96px",
-              fontWeight: 800,
+              fontWeight: 600,
               height: "150px",
               justifyContent: "center",
               width: "150px",

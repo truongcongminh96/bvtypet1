@@ -16,15 +16,21 @@ const navigation = [
   { href: "/lien-he", label: "Liên hệ" },
 ];
 
-export function Header() {
+export function Header({
+  phone,
+  phoneHref,
+}: {
+  phone: string;
+  phoneHref: string;
+}) {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/80 bg-clinical-white/88 backdrop-blur-xl">
-      <div className="shell flex h-[4.75rem] items-center justify-between gap-6">
+    <header className="sticky top-0 z-50 border-b border-border/85 bg-surface/94 backdrop-blur-lg">
+      <div className="shell flex h-[4.5rem] items-center justify-between gap-5">
         <Brand />
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Chính">
+        <nav className="hidden items-center gap-6 lg:flex" aria-label="Chính">
           {navigation.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
@@ -35,7 +41,7 @@ export function Header() {
                 className={cn(
                   "relative py-2 text-sm font-semibold text-muted-ink transition-colors hover:text-deep-navy",
                   active &&
-                    "text-deep-navy after:absolute after:inset-x-0 after:-bottom-[1.38rem] after:h-0.5 after:bg-medical-blue",
+                    "text-deep-navy after:absolute after:inset-x-0 after:-bottom-[1.2rem] after:h-0.5 after:bg-brand-blue",
                 )}
               >
                 {item.label}
@@ -44,13 +50,18 @@ export function Header() {
           })}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center gap-4 lg:flex">
           <Link
-            href="/lien-he"
-            className={buttonStyles({ variant: "secondary", className: "min-h-11" })}
+            href={phoneHref}
+            className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-text-secondary transition-colors hover:text-text-primary"
           >
-            <Phone size={18} weight="bold" />
-            Gọi phòng khám
+            <Phone
+              aria-hidden="true"
+              size={18}
+              weight="bold"
+              className="text-brand-red-strong"
+            />
+            {phone || "Gọi phòng khám"}
           </Link>
           <Link
             href="/lien-he#dat-lich"
@@ -64,15 +75,15 @@ export function Header() {
           <Dialog.Trigger asChild>
             <button
               type="button"
-              className="inline-flex size-11 items-center justify-center rounded-[14px] border border-line bg-clinical-white text-deep-navy lg:hidden"
+              className="inline-flex size-11 items-center justify-center rounded-[var(--radius-sm)] border border-line bg-clinical-white text-deep-navy lg:hidden"
               aria-label="Mở menu"
             >
-              <List size={25} weight="bold" />
+              <List aria-hidden="true" size={25} weight="bold" />
             </button>
           </Dialog.Trigger>
           <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 z-[70] bg-deep-navy/42 backdrop-blur-sm data-[state=open]:animate-in" />
-            <Dialog.Content className="fixed inset-y-0 right-0 z-[80] w-[min(88vw,24rem)] border-l border-line bg-clinical-white p-5 shadow-2xl outline-none">
+            <Dialog.Overlay className="fixed inset-0 z-[70] bg-text-primary/24 backdrop-blur-sm" />
+            <Dialog.Content className="fixed inset-y-0 right-0 z-[80] w-[min(88vw,22rem)] overflow-y-auto overscroll-contain border-l border-border bg-surface p-5 shadow-[0_24px_70px_rgba(16,46,58,0.16)] outline-none">
               <div className="flex items-center justify-between">
                 <Dialog.Title asChild>
                   <Brand compact />
@@ -81,9 +92,9 @@ export function Header() {
                   <button
                     type="button"
                     aria-label="Đóng menu"
-                    className="inline-flex size-11 items-center justify-center rounded-[14px] border border-line text-deep-navy"
+                    className="inline-flex size-11 items-center justify-center rounded-[var(--radius-sm)] border border-line text-deep-navy"
                   >
-                    <X size={23} weight="bold" />
+                    <X aria-hidden="true" size={23} weight="bold" />
                   </button>
                 </Dialog.Close>
               </div>
@@ -91,13 +102,19 @@ export function Header() {
                 Điều hướng tới các trang của Pet One
               </Dialog.Description>
 
-              <nav className="mt-10 grid gap-2" aria-label="Di động">
+              <nav className="mt-9 grid gap-1" aria-label="Di động">
                 {navigation.map((item) => (
                   <Dialog.Close asChild key={item.href}>
                     <Link
                       href={item.href}
+                      aria-current={
+                        pathname === item.href ||
+                        pathname.startsWith(`${item.href}/`)
+                          ? "page"
+                          : undefined
+                      }
                       className={cn(
-                        "rounded-2xl px-4 py-4 font-display text-xl font-bold text-deep-navy",
+                        "rounded-[var(--radius-sm)] px-4 py-3.5 text-base font-semibold text-deep-navy",
                         (pathname === item.href ||
                           pathname.startsWith(`${item.href}/`)) &&
                           "bg-ice text-medical-blue",
@@ -108,7 +125,7 @@ export function Header() {
                   </Dialog.Close>
                 ))}
               </nav>
-              <div className="mt-8 grid gap-3">
+              <div className="mt-8 grid gap-2 border-t border-border pt-6">
                 <Dialog.Close asChild>
                   <Link href="/lien-he#dat-lich" className={buttonStyles({})}>
                     Đặt lịch khám
@@ -116,11 +133,16 @@ export function Header() {
                 </Dialog.Close>
                 <Dialog.Close asChild>
                   <Link
-                    href="/lien-he"
-                    className={buttonStyles({ variant: "secondary" })}
+                    href={phoneHref}
+                    className="inline-flex min-h-11 items-center justify-center gap-2 text-sm font-semibold text-text-secondary transition-colors hover:text-text-primary"
                   >
-                    <Phone size={18} weight="bold" />
-                    Gọi phòng khám
+                    <Phone
+                      aria-hidden="true"
+                      size={18}
+                      weight="bold"
+                      className="text-brand-red-strong"
+                    />
+                    {phone || "Gọi phòng khám"}
                   </Link>
                 </Dialog.Close>
               </div>

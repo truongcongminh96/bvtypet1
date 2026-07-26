@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Chăm sóc thú y rõ ràng, nhẹ nhàng và tận tâm cho từng thú cưng.",
     start_url: "/",
     display: "standalone",
-    background_color: "#fbfdfe",
-    theme_color: "#0b6fc2",
+    background_color: "#fafcfd",
+    theme_color: "#1684d6",
     icons: [
       {
         src: "/brand/pet-one-source.jpg",

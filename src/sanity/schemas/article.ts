@@ -1,5 +1,166 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+const imageFields = [
+  defineField({
+    name: "alt",
+    title: "Mô tả ảnh",
+    type: "string",
+    validation: (rule) => rule.required(),
+  }),
+  defineField({
+    name: "placeholder",
+    title: "Ảnh minh hoạ tạm thời",
+    description:
+      "Bật khi ảnh chưa phải hình ảnh thực tế đã được PetOne xác minh.",
+    type: "boolean",
+    initialValue: true,
+  }),
+];
+
+const contentBlockFields = [
+  defineArrayMember({
+    type: "object",
+    name: "section",
+    title: "Phần nội dung",
+    fields: [
+      defineField({
+        name: "id",
+        title: "ID liên kết",
+        type: "string",
+        validation: (rule) => rule.required(),
+      }),
+      defineField({
+        name: "title",
+        title: "Tiêu đề phần",
+        type: "string",
+        validation: (rule) => rule.required(),
+      }),
+      defineField({
+        name: "paragraphs",
+        title: "Đoạn văn",
+        type: "array",
+        of: [defineArrayMember({ type: "text", rows: 5 })],
+        validation: (rule) => rule.required().min(1),
+      }),
+      defineField({
+        name: "items",
+        title: "Danh sách bổ sung",
+        type: "array",
+        of: [defineArrayMember({ type: "string" })],
+      }),
+    ],
+  }),
+  defineArrayMember({
+    type: "object",
+    name: "observationNote",
+    title: "Ghi chú quan sát",
+    fields: [
+      defineField({ name: "id", title: "ID liên kết", type: "string" }),
+      defineField({
+        name: "title",
+        title: "Tiêu đề",
+        type: "string",
+        validation: (rule) => rule.required(),
+      }),
+      defineField({
+        name: "description",
+        title: "Mô tả",
+        type: "text",
+        rows: 3,
+      }),
+      defineField({
+        name: "items",
+        title: "Điều cần quan sát",
+        type: "array",
+        of: [defineArrayMember({ type: "string" })],
+        validation: (rule) => rule.required().min(1),
+      }),
+    ],
+  }),
+  defineArrayMember({
+    type: "object",
+    name: "preparationChecklist",
+    title: "Danh sách chuẩn bị",
+    fields: [
+      defineField({ name: "id", title: "ID liên kết", type: "string" }),
+      defineField({
+        name: "title",
+        title: "Tiêu đề",
+        type: "string",
+        validation: (rule) => rule.required(),
+      }),
+      defineField({
+        name: "description",
+        title: "Mô tả",
+        type: "text",
+        rows: 3,
+      }),
+      defineField({
+        name: "items",
+        title: "Các mục chuẩn bị",
+        type: "array",
+        of: [defineArrayMember({ type: "string" })],
+        validation: (rule) => rule.required().min(1),
+      }),
+    ],
+  }),
+  defineArrayMember({
+    type: "object",
+    name: "importantCallout",
+    title: "Lưu ý quan trọng",
+    fields: [
+      defineField({ name: "id", title: "ID liên kết", type: "string" }),
+      defineField({ name: "title", title: "Tiêu đề", type: "string" }),
+      defineField({
+        name: "body",
+        title: "Nội dung",
+        type: "text",
+        rows: 4,
+        validation: (rule) => rule.required(),
+      }),
+    ],
+  }),
+  defineArrayMember({
+    type: "object",
+    name: "pullQuote",
+    title: "Trích dẫn nổi bật",
+    fields: [
+      defineField({
+        name: "quote",
+        title: "Trích dẫn",
+        type: "text",
+        rows: 4,
+        validation: (rule) => rule.required(),
+      }),
+      defineField({
+        name: "attribution",
+        title: "Nguồn đã xác minh",
+        type: "string",
+      }),
+    ],
+  }),
+  defineArrayMember({
+    type: "object",
+    name: "imageWithCaption",
+    title: "Ảnh có chú thích",
+    fields: [
+      defineField({
+        name: "image",
+        title: "Ảnh",
+        type: "image",
+        options: { hotspot: true },
+        fields: imageFields,
+        validation: (rule) => rule.required(),
+      }),
+      defineField({
+        name: "caption",
+        title: "Chú thích",
+        type: "string",
+      }),
+    ],
+  }),
+];
+
 export const articleType = defineType({
   name: "article",
   title: "Bài viết",
@@ -26,17 +187,45 @@ export const articleType = defineType({
       validation: (rule) => rule.required().max(240),
     }),
     defineField({
-      name: "category",
-      title: "Chuyên mục",
-      type: "string",
+      name: "lead",
+      title: "Đoạn dẫn",
+      type: "text",
+      rows: 4,
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "readTime",
-      title: "Thời gian đọc",
+      name: "category",
+      title: "Chuyên mục",
       type: "string",
-      initialValue: "4 phút đọc",
+      options: {
+        list: [
+          { title: "Sức khỏe hằng ngày", value: "suc-khoe-hang-ngay" },
+          { title: "Đi khám cùng bé", value: "di-kham-cung-be" },
+          { title: "Chăm sóc dự phòng", value: "cham-soc-du-phong" },
+          { title: "Dinh dưỡng", value: "dinh-duong" },
+          { title: "Da lông & vệ sinh", value: "da-long-ve-sinh" },
+        ],
+      },
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "journeyStage",
+      title: "Giai đoạn chăm sóc",
+      type: "string",
+      options: {
+        list: [
+          { title: "Nhận ra thay đổi", value: "notice" },
+          { title: "Chuẩn bị khi cần khám", value: "prepare" },
+          { title: "Theo dõi sau khám", value: "continue" },
+        ],
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "readingTime",
+      title: "Thời gian đọc (phút)",
+      type: "number",
+      validation: (rule) => rule.required().integer().min(1),
     }),
     defineField({
       name: "publishedAt",
@@ -45,42 +234,109 @@ export const articleType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "intro",
-      title: "Đoạn mở đầu",
-      type: "text",
-      rows: 4,
+      name: "coverImage",
+      title: "Ảnh bìa",
+      type: "image",
+      options: { hotspot: true },
+      fields: imageFields,
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "sections",
-      title: "Các phần nội dung",
+      name: "thumbnailImage",
+      title: "Ảnh thu nhỏ",
+      type: "image",
+      options: { hotspot: true },
+      fields: imageFields,
+    }),
+    defineField({
+      name: "contentBlocks",
+      title: "Nội dung bài viết",
       type: "array",
+      of: contentBlockFields,
+      validation: (rule) => rule.required().min(1),
+    }),
+    defineField({
+      name: "disclaimer",
+      title: "Lưu ý biên tập",
+      type: "text",
+      rows: 3,
+      initialValue:
+        "Nội dung nhằm hỗ trợ quan sát và không thay thế đánh giá trực tiếp của bác sĩ thú y.",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "reviewedBy",
+      title: "Người duyệt đã xác minh",
+      type: "reference",
+      to: [{ type: "doctor" }],
+      options: {
+        filter: "verificationStatus == $status",
+        filterParams: { status: "verified" },
+      },
+    }),
+    defineField({
+      name: "relatedArticles",
+      title: "Bài viết liên quan",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: [{ type: "article" }],
+        }),
+      ],
+    }),
+    defineField({
+      name: "featured",
+      title: "Bài viết nổi bật",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
+      name: "tags",
+      title: "Thẻ nội dung",
+      type: "array",
+      of: [defineArrayMember({ type: "string" })],
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "image",
+      title: "Ảnh bài viết cũ",
+      type: "image",
+      options: { hotspot: true },
+      fields: imageFields,
+      hidden: true,
+      readOnly: true,
+    }),
+    defineField({
+      name: "intro",
+      title: "Đoạn mở đầu cũ",
+      type: "text",
+      hidden: true,
+      readOnly: true,
+    }),
+    defineField({
+      name: "sections",
+      title: "Các phần nội dung cũ",
+      type: "array",
+      hidden: true,
+      readOnly: true,
       of: [
         defineArrayMember({
           type: "object",
           name: "articleSection",
-          title: "Phần nội dung",
           fields: [
-            defineField({
-              name: "title",
-              title: "Tiêu đề phần",
-              type: "string",
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: "body",
-              title: "Nội dung",
-              type: "text",
-              rows: 6,
-              validation: (rule) => rule.required(),
-            }),
+            defineField({ name: "title", type: "string" }),
+            defineField({ name: "body", type: "text" }),
           ],
         }),
       ],
-      validation: (rule) => rule.required().min(1),
     }),
   ],
   preview: {
-    select: { title: "title", subtitle: "category" },
+    select: {
+      title: "title",
+      subtitle: "category",
+      media: "coverImage",
+    },
   },
 });

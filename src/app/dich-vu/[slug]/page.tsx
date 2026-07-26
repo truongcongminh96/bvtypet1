@@ -1,13 +1,20 @@
 import type { Metadata } from "next";
-import {
-  ArrowLeft,
-  CalendarDots,
-  CheckCircle,
-} from "@phosphor-icons/react/dist/ssr";
 import { notFound } from "next/navigation";
 
-import { PageHero } from "@/components/site/page-hero";
-import { ButtonLink } from "@/components/ui/button";
+import { HomeMotionProvider } from "@/components/motion/home-motion-provider";
+import {
+  MotionGroup,
+  MotionItem,
+  MotionSection,
+} from "@/components/motion/reveal";
+import { CareChapter } from "@/components/services/detail/care-chapter";
+import { OutcomeSummary } from "@/components/services/detail/outcome-summary";
+import { PreparationPanel } from "@/components/services/detail/preparation-panel";
+import { RelatedServices } from "@/components/services/detail/related-services";
+import { RelevanceList } from "@/components/services/detail/relevance-list";
+import { ServiceDetailHero } from "@/components/services/detail/service-detail-hero";
+import { VisitStep } from "@/components/services/detail/visit-step";
+import { getServiceDetailPresentation } from "@/content/service-detail-presentation";
 import { getServices } from "@/sanity/content";
 
 type ServicePageProps = {
@@ -47,82 +54,80 @@ export default async function ServiceDetailPage({
     notFound();
   }
 
+  const presentation = getServiceDetailPresentation(service);
+  const servicesBySlug = new Map(
+    services.map((item) => [item.slug, item]),
+  );
+  const relatedServices = presentation.relatedServiceSlugs.flatMap(
+    (relatedSlug) => {
+      const relatedService = servicesBySlug.get(relatedSlug);
+      return relatedService ? [relatedService] : [];
+    },
+  );
+
   return (
-    <>
-      <PageHero
-        current={service.shortTitle}
-        title={service.title}
-        description={service.summary}
-      />
-      <section className="section-space">
-        <div className="shell grid gap-12 lg:grid-cols-[1fr_22rem]">
-          <article>
-            <h2 className="section-title text-deep-navy">
-              Một buổi chăm sóc bắt đầu như thế nào?
-            </h2>
-            <p className="body-large mt-6 max-w-3xl text-muted-ink">
-              {service.description}
-            </p>
-            <div className="mt-10 grid gap-4">
-              {service.points.map((point, index) => (
-                <div
-                  key={point}
-                  className="surface-card flex items-center gap-4 rounded-2xl p-5"
-                >
-                  <span className="font-display text-xs font-extrabold text-medical-blue">
-                    0{index + 1}
-                  </span>
-                  <CheckCircle
-                    size={22}
-                    weight="fill"
-                    className="shrink-0 text-medical-blue"
-                  />
-                  <p className="font-semibold text-deep-navy">{point}</p>
-                </div>
-              ))}
-            </div>
+    <HomeMotionProvider>
+      <ServiceDetailHero service={service} presentation={presentation} />
+      <RelevanceList items={presentation.relevanceItems} />
 
-            <div className="mt-12 rounded-3xl border border-line bg-ice p-6 sm:p-8">
-              <h2 className="font-display text-xl font-extrabold text-deep-navy">
-                Lưu ý trước khi đặt lịch
-              </h2>
-              <p className="mt-3 leading-7 text-muted-ink">
-                Nội dung trên mô tả định hướng trải nghiệm, không phải cam kết
-                chỉ định cho mọi trường hợp. Bác sĩ cần đánh giá trực tiếp trước
-                khi đưa ra tư vấn phù hợp.
-              </p>
-            </div>
-          </article>
+      <CareChapter
+        id="truoc-buoi-kham"
+        title="Bạn kể lại những điều đã quan sát."
+        intro="Thông tin ngắn nhưng cụ thể giúp PetOne hiểu điều gì đã thay đổi và điều bạn đang lo lắng nhất."
+        layout="media-right"
+        tone="warm"
+        image={presentation.images.detail}
+        careNote={presentation.careNotes[0]}
+      >
+        <MotionSection amount={0.12}>
+          <PreparationPanel items={presentation.preparationItems} />
+        </MotionSection>
+      </CareChapter>
 
-          <aside className="lg:sticky lg:top-28 lg:self-start">
-            <div className="rounded-[2rem] bg-medical-blue p-7 text-white shadow-[0_24px_60px_rgba(11,111,194,0.24)]">
-              <CalendarDots size={34} weight="duotone" />
-              <h2 className="mt-6 font-display text-2xl font-extrabold">
-                Chuẩn bị tốt hơn trước buổi khám
-              </h2>
-              <p className="mt-4 text-sm leading-7 text-white/78">
-                Gửi trước triệu chứng, thói quen gần đây và điều bạn đang lo
-                nhất về thú cưng.
-              </p>
-              <ButtonLink
-                href="/lien-he#dat-lich"
-                variant="dark"
-                className="mt-7 w-full bg-white text-deep-navy hover:bg-white/90"
-              >
-                Đặt lịch khám
-              </ButtonLink>
-            </div>
-            <ButtonLink
-              href="/dich-vu"
-              variant="ghost"
-              className="mt-4 w-full"
+      <CareChapter
+        id="trong-buoi-kham"
+        title="PetOne nối các thông tin lại với nhau."
+        intro={service.description}
+        layout="media-top"
+        tone="white"
+        image={presentation.images.process}
+        careNote={presentation.careNotes[1]}
+      >
+        <MotionGroup
+          className="grid gap-x-8 lg:grid-cols-2"
+          amount={0.1}
+        >
+          {presentation.visitSteps.map((step, index) => (
+            <MotionItem
+              key={step.id}
+              className={index === 0 ? "lg:col-span-2 lg:mb-3" : undefined}
             >
-              <ArrowLeft size={18} weight="bold" />
-              Tất cả dịch vụ
-            </ButtonLink>
-          </aside>
-        </div>
-      </section>
-    </>
+              <VisitStep
+                step={step}
+                index={index}
+                featured={index === 0}
+              />
+            </MotionItem>
+          ))}
+        </MotionGroup>
+      </CareChapter>
+
+      <CareChapter
+        id="sau-buoi-kham"
+        title="Bạn biết rõ điều gì cần theo dõi ở nhà."
+        intro="Hướng dẫn sau buổi khám tập trung vào điều cần quan sát, cách cập nhật diễn tiến và thời điểm nên liên hệ lại."
+        layout="text-only"
+        tone="blue"
+      >
+        <MotionSection amount={0.1}>
+          <OutcomeSummary
+            afterVisitItems={presentation.afterVisitItems}
+            outcomeItems={presentation.outcomeItems}
+          />
+        </MotionSection>
+      </CareChapter>
+
+      <RelatedServices services={relatedServices} />
+    </HomeMotionProvider>
   );
 }

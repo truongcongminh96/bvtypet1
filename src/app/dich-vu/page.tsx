@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import {
-  ArrowRight,
-  Heartbeat,
-  Microscope,
-  Scan,
-  ShieldCheck,
-  Tooth,
-} from "@phosphor-icons/react/dist/ssr";
-import Link from "next/link";
 
-import { PageHero } from "@/components/site/page-hero";
-import { ButtonLink } from "@/components/ui/button";
+import { HomeMotionProvider } from "@/components/motion/home-motion-provider";
+import { ServiceChapter } from "@/components/services/service-chapter";
+import { ServicesCta } from "@/components/services/services-cta";
+import { ServicesHero } from "@/components/services/services-hero";
+import { ServiceRow } from "@/components/services/service-row";
+import { MotionGroup, MotionItem } from "@/components/motion/reveal";
+import {
+  fallbackServiceChapter,
+  serviceChapters,
+} from "@/content/services-page";
 import { getServices } from "@/sanity/content";
 
 export const metadata: Metadata = {
@@ -19,79 +18,68 @@ export const metadata: Metadata = {
     "Tìm hiểu các nhóm dịch vụ chăm sóc, phòng ngừa và hỗ trợ chẩn đoán tại Pet One.",
 };
 
-const iconBySlug = {
-  "kham-tong-quat": Heartbeat,
-  "tiem-phong": ShieldCheck,
-  "chan-doan-hinh-anh": Scan,
-  "xet-nghiem": Microscope,
-  "cham-soc-rang-mieng": Tooth,
-};
-
 export default async function ServicesPage() {
   const services = await getServices();
+  const servicesBySlug = new Map(
+    services.map((service) => [service.slug, service]),
+  );
+  const groupedSlugs = new Set(
+    serviceChapters.flatMap((chapter) => chapter.serviceSlugs),
+  );
+  const ungroupedServices = services.filter(
+    (service) => !groupedSlugs.has(service.slug),
+  );
 
   return (
-    <>
-      <PageHero
-        current="Dịch vụ"
-        title="Chăm sóc đúng nhu cầu của từng bé"
-        description="Từ buổi khám đầu tiên đến theo dõi dự phòng, mỗi dịch vụ đều đi kèm mục tiêu rõ ràng và hướng dẫn dễ hiểu cho người nuôi."
-      />
-      <section className="section-space">
-        <div className="shell grid gap-5 lg:grid-cols-2">
-          {services.map((service, index) => {
-            const Icon =
-              iconBySlug[service.slug as keyof typeof iconBySlug] ?? Heartbeat;
+    <HomeMotionProvider>
+      <ServicesHero />
+      {serviceChapters.map((chapter) => {
+        const chapterServices = chapter.serviceSlugs.flatMap((slug) => {
+          const service = servicesBySlug.get(slug);
+          return service ? [service] : [];
+        });
 
-            return (
-              <Link
-                href={`/dich-vu/${service.slug}`}
-                key={service.slug}
-                className="surface-card group flex min-h-[20rem] flex-col justify-between rounded-[2rem] p-7 transition-transform duration-300 hover:-translate-y-1 sm:p-9"
-              >
-                <div className="flex items-start justify-between">
-                  <span className="inline-flex size-13 items-center justify-center rounded-2xl bg-medical-blue text-white">
-                    <Icon size={27} weight="duotone" />
-                  </span>
-                  <span className="font-display text-xs font-extrabold tracking-[0.15em] text-muted-ink">
-                    0{index + 1}
-                  </span>
-                </div>
-                <div>
-                  <h2 className="font-display text-2xl font-extrabold tracking-[-0.04em] text-deep-navy sm:text-3xl">
-                    {service.title}
-                  </h2>
-                  <p className="mt-4 max-w-xl text-sm leading-7 text-muted-ink">
-                    {service.summary}
-                  </p>
-                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-medical-blue">
-                    Xem quy trình
-                    <ArrowRight
-                      size={17}
-                      weight="bold"
-                      className="transition-transform group-hover:translate-x-1"
-                    />
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-      <section className="pb-[clamp(4.5rem,8vw,8rem)]">
-        <div className="shell rounded-[2.5rem] bg-deep-navy p-8 text-clinical-white sm:p-12">
-          <h2 className="section-title max-w-2xl text-clinical-white">
-            Chưa chắc dịch vụ nào phù hợp?
-          </h2>
-          <p className="mt-5 max-w-xl leading-7 text-clinical-white/70">
-            Hãy mô tả điều bạn đang quan sát. Pet One sẽ tiếp nhận thông tin và
-            hướng dẫn bước chuẩn bị phù hợp trước buổi khám.
-          </p>
-          <ButtonLink href="/lien-he#dat-lich" className="mt-8">
-            Đặt lịch khám
-          </ButtonLink>
-        </div>
-      </section>
-    </>
+        if (chapterServices.length === 0) {
+          return null;
+        }
+
+        return (
+          <ServiceChapter
+            key={chapter.id}
+            chapter={chapter}
+            services={chapterServices}
+          />
+        );
+      })}
+      {ungroupedServices.length > 0 ? (
+        <section id={fallbackServiceChapter.id} className="section-space bg-surface">
+          <MotionGroup className="shell max-w-4xl" amount={0.12}>
+            <MotionItem>
+              <p className="text-sm font-semibold text-brand-blue-dark">
+                {fallbackServiceChapter.label}
+              </p>
+            </MotionItem>
+            <MotionItem>
+              <h2 className="section-title mt-3 text-text-primary">
+                {fallbackServiceChapter.title}
+              </h2>
+            </MotionItem>
+            <MotionItem>
+              <p className="mt-5 max-w-2xl leading-7 text-text-secondary">
+                {fallbackServiceChapter.description}
+              </p>
+            </MotionItem>
+            <MotionItem>
+              <div className="mt-8 border-t border-border-strong">
+                {ungroupedServices.map((service) => (
+                  <ServiceRow key={service.slug} service={service} />
+                ))}
+              </div>
+            </MotionItem>
+          </MotionGroup>
+        </section>
+      ) : null}
+      <ServicesCta />
+    </HomeMotionProvider>
   );
 }

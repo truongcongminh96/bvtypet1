@@ -8,6 +8,12 @@ import { bookingSchema } from "@/lib/booking-schema";
 export type BookingActionResult = {
   success: boolean;
   message: string;
+  code:
+    | "success"
+    | "validation"
+    | "unavailable"
+    | "verification"
+    | "delivery";
 };
 
 let resendClient: Resend | null = null;
@@ -64,6 +70,7 @@ export async function submitBooking(
     return {
       success: false,
       message: "Một vài thông tin chưa hợp lệ. Vui lòng kiểm tra lại biểu mẫu.",
+      code: "validation",
     };
   }
 
@@ -75,7 +82,8 @@ export async function submitBooking(
     return {
       success: false,
       message:
-        "Kênh nhận lịch chưa được cấu hình. Vui lòng liên hệ phòng khám qua số điện thoại.",
+        "Biểu mẫu hiện chưa thể tiếp nhận yêu cầu. Vui lòng gọi phòng khám để được hỗ trợ.",
+      code: "unavailable",
     };
   }
 
@@ -86,7 +94,8 @@ export async function submitBooking(
     return {
       success: false,
       message:
-        "Biểu mẫu bảo mật chưa được kích hoạt. Vui lòng liên hệ phòng khám để được hỗ trợ.",
+        "Biểu mẫu đang được hoàn thiện. Vui lòng gọi phòng khám để được hỗ trợ.",
+      code: "unavailable",
     };
   }
 
@@ -98,6 +107,7 @@ export async function submitBooking(
         success: false,
         message:
           "Không thể xác minh yêu cầu. Vui lòng thử lại thao tác bảo mật.",
+        code: "verification",
       };
     }
 
@@ -117,19 +127,22 @@ export async function submitBooking(
         success: false,
         message:
           "Chưa thể gửi yêu cầu lúc này. Vui lòng liên hệ phòng khám để được hỗ trợ.",
+        code: "delivery",
       };
     }
 
     return {
       success: true,
       message:
-        "Pet One đã nhận thông tin. Phòng khám sẽ liên hệ lại để xác nhận lịch hẹn.",
+        "Phòng khám sẽ liên hệ lại để xác nhận lịch.",
+      code: "success",
     };
   } catch {
     return {
       success: false,
       message:
         "Chưa thể gửi yêu cầu lúc này. Vui lòng liên hệ phòng khám để được hỗ trợ.",
+      code: "delivery",
     };
   }
 }

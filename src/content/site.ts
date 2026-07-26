@@ -8,19 +8,125 @@ export type Service = {
   accent: "blue" | "red" | "navy" | "ice";
 };
 
+export const articleCategorySlugs = [
+  "suc-khoe-hang-ngay",
+  "di-kham-cung-be",
+  "cham-soc-du-phong",
+  "dinh-duong",
+  "da-long-ve-sinh",
+] as const;
+
+export type ArticleCategorySlug = (typeof articleCategorySlugs)[number];
+
+export type ArticleJourneyStage = "notice" | "prepare" | "continue";
+
+export type ArticleImage = {
+  src: string;
+  alt: string;
+  focalPoint?: string;
+  placeholder?: boolean;
+};
+
+export type ArticleSectionBlock = {
+  _type: "section";
+  id: string;
+  title: string;
+  paragraphs: string[];
+  items?: string[];
+};
+
+export type ObservationNoteBlock = {
+  _type: "observationNote";
+  id?: string;
+  title: string;
+  description?: string;
+  items: string[];
+};
+
+export type PreparationChecklistBlock = {
+  _type: "preparationChecklist";
+  id?: string;
+  title: string;
+  description?: string;
+  items: string[];
+};
+
+export type ImportantCalloutBlock = {
+  _type: "importantCallout";
+  id?: string;
+  title?: string;
+  body: string;
+};
+
+export type PullQuoteBlock = {
+  _type: "pullQuote";
+  quote: string;
+  attribution?: string;
+};
+
+export type ArticleImageBlock = {
+  _type: "imageWithCaption";
+  image: ArticleImage;
+  caption?: string;
+};
+
+export type ArticleContentBlock =
+  | ArticleSectionBlock
+  | ObservationNoteBlock
+  | PreparationChecklistBlock
+  | ImportantCalloutBlock
+  | PullQuoteBlock
+  | ArticleImageBlock;
+
+export type ArticleReviewer = {
+  verified: true;
+  name: string;
+  position?: string;
+};
+
 export type Article = {
   slug: string;
   title: string;
   excerpt: string;
-  category: string;
-  readTime: string;
+  lead: string;
+  category: ArticleCategorySlug;
+  journeyStage: ArticleJourneyStage;
+  readingTime: number;
   publishedAt: string;
-  intro: string;
-  sections: Array<{
-    title: string;
-    body: string;
-  }>;
+  coverImage: ArticleImage;
+  thumbnailImage?: ArticleImage;
+  contentBlocks: ArticleContentBlock[];
+  disclaimer: string;
+  reviewedBy?: ArticleReviewer;
+  relatedArticleSlugs: string[];
+  featured: boolean;
+  tags: string[];
 };
+
+type DoctorImage = {
+  src: string;
+  alt: string;
+};
+
+export type VerifiedDoctor = {
+  status: "verified";
+  slug: string;
+  name: string;
+  position: string;
+  specialty: string;
+  yearsOfExperience?: number;
+  schedule?: string;
+  image?: DoctorImage;
+};
+
+export type DoctorPlaceholder = {
+  status: "placeholder";
+  id: string;
+  title: string;
+  message: string;
+};
+
+export type Doctor = VerifiedDoctor | DoctorPlaceholder;
 
 export const services: Service[] = [
   {
@@ -52,6 +158,51 @@ export const services: Service[] = [
       "Hướng dẫn theo dõi phản ứng sau tiêm",
     ],
     accent: "red",
+  },
+  {
+    slug: "noi-khoa",
+    title: "Nội khoa thú y",
+    shortTitle: "Nội khoa",
+    summary:
+      "Đánh giá các thay đổi về tiêu hoá, hô hấp, da, tiết niệu và sức khỏe toàn thân.",
+    description:
+      "Bác sĩ kết nối triệu chứng, tiền sử và kết quả khám để xác định vấn đề cần ưu tiên. Các bước kiểm tra bổ sung chỉ được trao đổi khi có mục tiêu rõ ràng.",
+    points: [
+      "Ghi nhận triệu chứng và diễn tiến",
+      "Khám lâm sàng theo hệ cơ quan",
+      "Tư vấn điều trị và theo dõi tại nhà",
+    ],
+    accent: "ice",
+  },
+  {
+    slug: "ngoai-khoa",
+    title: "Ngoại khoa thú y",
+    shortTitle: "Ngoại khoa",
+    summary:
+      "Tư vấn trước thủ thuật, chuẩn bị an toàn và hướng dẫn chăm sóc sau can thiệp.",
+    description:
+      "Mỗi đề xuất can thiệp cần đi cùng lý do, mục tiêu và kế hoạch theo dõi. Pet One trao đổi rõ việc chuẩn bị trước thủ thuật và các dấu hiệu cần lưu ý trong giai đoạn hồi phục.",
+    points: [
+      "Đánh giá trước can thiệp",
+      "Trao đổi quy trình và lưu ý",
+      "Hướng dẫn chăm sóc sau thủ thuật",
+    ],
+    accent: "navy",
+  },
+  {
+    slug: "spa-grooming",
+    title: "Spa và Grooming",
+    shortTitle: "Spa & Grooming",
+    summary:
+      "Chăm sóc da lông và vệ sinh cơ bản theo thể trạng, tính cách của từng bé.",
+    description:
+      "Quy trình chăm sóc được điều chỉnh theo mức độ hợp tác và tình trạng da lông hiện tại. Nhân viên sẽ báo lại nếu quan sát thấy thay đổi cần được bác sĩ kiểm tra.",
+    points: [
+      "Trao đổi tình trạng da lông",
+      "Chọn quy trình phù hợp với từng bé",
+      "Ghi nhận thay đổi cần theo dõi",
+    ],
+    accent: "blue",
   },
   {
     slug: "chan-doan-hinh-anh",
@@ -106,75 +257,222 @@ export const articles: Article[] = [
     title: "Những thay đổi nhỏ cho thấy thú cưng nên được đi khám",
     excerpt:
       "Ăn ít, ngủ nhiều hay thay đổi thói quen vệ sinh đều có thể là tín hiệu cần quan sát kỹ hơn.",
-    category: "Sức khỏe hằng ngày",
-    readTime: "4 phút đọc",
+    lead:
+      "Người nuôi thường là người nhận ra thay đổi đầu tiên. Ghi lại thời điểm, tần suất và hoàn cảnh xuất hiện sẽ giúp buổi trao đổi với bác sĩ rõ ràng hơn.",
+    category: "suc-khoe-hang-ngay",
+    journeyStage: "notice",
+    readingTime: 4,
     publishedAt: "2026-07-18",
-    intro:
-      "Người nuôi thường là người nhận ra thay đổi đầu tiên. Việc ghi lại thời điểm, tần suất và hoàn cảnh xuất hiện giúp buổi trao đổi với bác sĩ hiệu quả hơn.",
-    sections: [
+    coverImage: {
+      src: "/images/pet-one-hero.png",
+      alt: "Ảnh minh hoạ bác sĩ thú y quan sát sức khỏe của chó và mèo",
+      focalPoint: "52% 48%",
+      placeholder: true,
+    },
+    thumbnailImage: {
+      src: "/images/pet-one-hero.png",
+      alt: "Ảnh minh hoạ bác sĩ thú y quan sát sức khỏe của chó và mèo",
+      focalPoint: "52% 44%",
+      placeholder: true,
+    },
+    contentBlocks: [
       {
+        _type: "observationNote",
+        id: "ghi-lai-thay-doi",
+        title: "Ghi lại điều đã thay đổi",
+        description:
+          "Một ghi chú ngắn nhưng cụ thể thường hữu ích hơn việc cố nhớ mọi chi tiết khi đến phòng khám.",
+        items: [
+          "Thời điểm bạn bắt đầu nhận thấy thay đổi",
+          "Tần suất xuất hiện và kéo dài bao lâu",
+          "Hoàn cảnh xảy ra, chẳng hạn sau khi ăn hoặc khi đang nghỉ",
+        ],
+      },
+      {
+        _type: "section",
+        id: "an-uong-va-sinh-hoat",
         title: "Thay đổi trong ăn uống và sinh hoạt",
-        body: "Nếu thú cưng ăn ít hơn bình thường, uống nước nhiều bất thường, khó nằm yên hoặc ít tương tác, bạn nên ghi lại trong một đến hai ngày và liên hệ phòng khám để được hướng dẫn.",
+        paragraphs: [
+          "Nếu thú cưng ăn ít hơn bình thường, uống nước nhiều bất thường, khó nằm yên hoặc ít tương tác, bạn nên ghi lại những gì đã quan sát và liên hệ phòng khám để được hướng dẫn.",
+        ],
       },
       {
+        _type: "section",
+        id: "di-chuyen-va-ho-hap",
         title: "Quan sát cách di chuyển và hô hấp",
-        body: "Đi khập khiễng, ngại nhảy, thở nhanh khi đang nghỉ hoặc tư thế lạ đều là dữ liệu hữu ích. Không tự dùng thuốc của người cho thú cưng khi chưa có tư vấn chuyên môn.",
+        paragraphs: [
+          "Đi khập khiễng, ngại nhảy, thở nhanh khi đang nghỉ hoặc xuất hiện tư thế lạ đều là dữ liệu hữu ích khi bạn trao đổi với bác sĩ.",
+        ],
       },
       {
+        _type: "importantCallout",
+        title: "Lưu ý quan trọng",
+        body: "Không tự dùng thuốc của người cho thú cưng khi chưa có tư vấn chuyên môn.",
+      },
+      {
+        _type: "preparationChecklist",
+        id: "chuan-bi-truoc-khi-lien-he",
         title: "Chuẩn bị trước khi liên hệ",
-        body: "Bạn có thể quay video ngắn, chụp lại thức ăn hoặc chất thải bất thường và ghi danh sách thuốc đang dùng. Những thông tin này giúp bác sĩ định hướng bước tiếp theo rõ hơn.",
+        description:
+          "Những thông tin sau giúp phòng khám hiểu bối cảnh trước khi hướng dẫn bước tiếp theo.",
+        items: [
+          "Quay một video ngắn nếu thay đổi liên quan đến di chuyển hoặc hành vi",
+          "Chụp lại thức ăn hoặc chất thải bất thường nếu có",
+          "Ghi danh sách thuốc và sản phẩm bé đang sử dụng",
+        ],
       },
     ],
+    disclaimer:
+      "Nội dung nhằm hỗ trợ quan sát và không thay thế đánh giá trực tiếp của bác sĩ thú y.",
+    relatedArticleSlugs: [
+      "chuan-bi-truoc-buoi-kham",
+      "cham-soc-rang-mieng-tai-nha",
+    ],
+    featured: true,
+    tags: ["ăn uống", "vận động", "hành vi", "vệ sinh"],
   },
   {
     slug: "chuan-bi-truoc-buoi-kham",
     title: "Chuẩn bị gì để buổi khám của thú cưng nhẹ nhàng hơn?",
     excerpt:
       "Một chiếc lồng quen mùi, vài ghi chú ngắn và tâm lý bình tĩnh có thể tạo khác biệt lớn.",
-    category: "Đi khám cùng bé",
-    readTime: "3 phút đọc",
-    publishedAt: "2026-07-11",
-    intro:
+    lead:
       "Một buổi khám ít căng thẳng bắt đầu từ trước khi rời nhà. Chuẩn bị đúng giúp thú cưng an tâm hơn và bác sĩ có đủ thông tin để đánh giá.",
-    sections: [
+    category: "di-kham-cung-be",
+    journeyStage: "prepare",
+    readingTime: 3,
+    publishedAt: "2026-07-11",
+    coverImage: {
+      src: "/images/pet-one-care.png",
+      alt: "Ảnh minh hoạ bác sĩ nhẹ nhàng giúp thú cưng làm quen với buổi khám",
+      focalPoint: "50% 46%",
+      placeholder: true,
+    },
+    thumbnailImage: {
+      src: "/images/pet-one-care.png",
+      alt: "Ảnh minh hoạ bác sĩ nhẹ nhàng giúp thú cưng làm quen với buổi khám",
+      focalPoint: "54% 44%",
+      placeholder: true,
+    },
+    contentBlocks: [
       {
+        _type: "section",
+        id: "mang-theo-do-quen-thuoc",
         title: "Mang theo những gì quen thuộc",
-        body: "Dùng lồng vận chuyển chắc chắn với mèo và dây dắt phù hợp với chó. Một tấm khăn hoặc món đồ có mùi quen thuộc có thể giúp bé bình tĩnh hơn.",
+        paragraphs: [
+          "Dùng lồng vận chuyển chắc chắn với mèo và dây dắt phù hợp với chó. Một tấm khăn hoặc món đồ có mùi quen thuộc có thể giúp bé bình tĩnh hơn.",
+        ],
       },
       {
+        _type: "observationNote",
+        id: "ghi-lai-dieu-dang-lo",
         title: "Ghi lại điều bạn đang lo lắng",
-        body: "Hãy ghi thời điểm triệu chứng bắt đầu, tần suất, chế độ ăn gần đây và các sản phẩm đang sử dụng. Danh sách ngắn nhưng cụ thể sẽ hữu ích hơn việc cố nhớ tại phòng khám.",
+        description:
+          "Danh sách ngắn nhưng cụ thể sẽ hữu ích hơn việc cố nhớ mọi chi tiết tại phòng khám.",
+        items: [
+          "Thời điểm thay đổi bắt đầu và tần suất xuất hiện",
+          "Chế độ ăn gần đây",
+          "Thuốc và sản phẩm bé đang sử dụng",
+        ],
       },
       {
+        _type: "preparationChecklist",
+        id: "truoc-khi-roi-nha",
+        title: "Trước khi rời nhà",
+        items: [
+          "Chuẩn bị lồng vận chuyển hoặc dây dắt phù hợp",
+          "Mang theo hồ sơ cũ nếu có",
+          "Lưu video hoặc hình ảnh bạn đã ghi lại",
+          "Giữ nhịp chuẩn bị bình tĩnh và quen thuộc với bé",
+        ],
+      },
+      {
+        _type: "importantCallout",
+        id: "xac-nhan-viec-nhin-an",
         title: "Hỏi trước nếu cần nhịn ăn",
         body: "Không phải buổi khám nào cũng cần nhịn ăn. Hãy xác nhận với phòng khám trước khi thay đổi bữa ăn hoặc lịch dùng thuốc của thú cưng.",
       },
     ],
+    disclaimer:
+      "Nội dung nhằm hỗ trợ quan sát và không thay thế đánh giá trực tiếp của bác sĩ thú y.",
+    relatedArticleSlugs: [
+      "dau-hieu-thu-cung-can-di-kham",
+      "cham-soc-rang-mieng-tai-nha",
+    ],
+    featured: false,
+    tags: ["lồng vận chuyển", "hồ sơ", "video", "giảm căng thẳng"],
   },
   {
     slug: "cham-soc-rang-mieng-tai-nha",
     title: "Bắt đầu chăm sóc răng miệng tại nhà theo cách dễ chịu",
     excerpt:
       "Đi chậm, chọn dụng cụ phù hợp và biến việc làm sạch răng thành một thói quen tích cực.",
-    category: "Chăm sóc dự phòng",
-    readTime: "5 phút đọc",
-    publishedAt: "2026-07-04",
-    intro:
+    lead:
       "Thói quen tốt không cần bắt đầu bằng một buổi chải răng hoàn hảo. Mục tiêu đầu tiên là giúp thú cưng cảm thấy an toàn khi bạn chạm quanh vùng miệng.",
-    sections: [
+    category: "cham-soc-du-phong",
+    journeyStage: "continue",
+    readingTime: 5,
+    publishedAt: "2026-07-04",
+    coverImage: {
+      src: "/images/pet-one-clinic.png",
+      alt: "Ảnh minh hoạ không gian chăm sóc thú y sáng và gọn gàng",
+      focalPoint: "58% 50%",
+      placeholder: true,
+    },
+    thumbnailImage: {
+      src: "/images/pet-one-clinic.png",
+      alt: "Ảnh minh hoạ không gian chăm sóc thú y sáng và gọn gàng",
+      focalPoint: "62% 50%",
+      placeholder: true,
+    },
+    contentBlocks: [
       {
+        _type: "section",
+        id: "lam-quen-tung-buoc",
         title: "Làm quen từng bước",
-        body: "Bắt đầu bằng việc chạm nhẹ quanh má và môi trong vài giây, sau đó thưởng cho bé. Khi thú cưng đã quen, bạn mới tăng dần thời gian và đưa dụng cụ vào.",
+        paragraphs: [
+          "Bắt đầu bằng việc chạm nhẹ quanh má và môi trong vài giây, sau đó thưởng cho bé. Khi thú cưng đã quen, bạn mới tăng dần thời gian và đưa dụng cụ vào.",
+        ],
       },
       {
+        _type: "preparationChecklist",
+        id: "tao-thoi-quen-de-chiu",
+        title: "Tạo một thói quen dễ chịu",
+        items: [
+          "Chọn thời điểm bé đang thư giãn",
+          "Bắt đầu trong thời gian ngắn",
+          "Tăng dần mức độ tiếp xúc khi bé đã quen",
+          "Dừng lại nếu bé trở nên căng thẳng",
+        ],
+      },
+      {
+        _type: "importantCallout",
+        id: "san-pham-danh-cho-thu-cung",
         title: "Chỉ dùng sản phẩm dành cho thú cưng",
         body: "Kem đánh răng của người không phù hợp để thú cưng nuốt. Hãy chọn sản phẩm chuyên dụng và hỏi bác sĩ nếu bé có tiền sử dị ứng hoặc bệnh lý răng miệng.",
       },
       {
+        _type: "observationNote",
+        id: "thay-doi-can-ghi-lai",
         title: "Nhận biết lúc cần được kiểm tra",
-        body: "Hơi thở thay đổi rõ, chảy nước dãi, nhai một bên, bỏ thức ăn cứng hoặc nướu chảy máu là những dấu hiệu nên trao đổi sớm với phòng khám.",
+        description:
+          "Ghi lại thay đổi bạn nhìn thấy và trao đổi với phòng khám để được hướng dẫn phù hợp.",
+        items: [
+          "Hơi thở thay đổi rõ",
+          "Chảy nước dãi hoặc nhai một bên",
+          "Bỏ thức ăn cứng",
+          "Nướu chảy máu",
+        ],
       },
     ],
+    disclaimer:
+      "Nội dung nhằm hỗ trợ quan sát và không thay thế đánh giá trực tiếp của bác sĩ thú y.",
+    relatedArticleSlugs: [
+      "dau-hieu-thu-cung-can-di-kham",
+      "chuan-bi-truoc-buoi-kham",
+    ],
+    featured: false,
+    tags: ["răng miệng", "vệ sinh", "thói quen", "theo dõi tại nhà"],
   },
 ];
 
@@ -187,20 +485,40 @@ export const careSteps = [
   },
   {
     number: "02",
-    title: "Đánh giá",
+    title: "Khám và đánh giá",
     description:
-      "Bác sĩ kiểm tra thể trạng và giải thích mục tiêu của từng bước đánh giá cần thiết.",
+      "Bác sĩ kiểm tra thể trạng, đối chiếu tiền sử và xác định dấu hiệu cần ưu tiên.",
   },
   {
     number: "03",
-    title: "Cùng quyết định",
+    title: "Chẩn đoán và tư vấn",
     description:
-      "Hướng chăm sóc được trao đổi rõ ràng để bạn hiểu lựa chọn, ưu tiên và cách theo dõi tại nhà.",
+      "Kết quả được giải thích rõ để bạn hiểu lựa chọn và lý do của từng chỉ định.",
   },
   {
     number: "04",
-    title: "Theo dõi",
+    title: "Điều trị và theo dõi",
     description:
-      "Những mốc cần chú ý sau buổi khám được tóm tắt để việc chăm sóc không bị đứt quãng.",
+      "Kế hoạch chăm sóc đi cùng hướng dẫn dùng thuốc và các dấu hiệu cần liên hệ lại.",
+  },
+];
+
+export const homepageTrustMetric = {
+  value: null,
+  label: "Số liệu đang được xác minh trước khi công bố.",
+  placeholder: "Đánh giá từ khách hàng",
+} satisfies {
+  value: string | null;
+  label: string;
+  placeholder: string;
+};
+
+export const doctors: Doctor[] = [
+  {
+    status: "placeholder",
+    id: "verified-doctor-profiles",
+    title: "Hồ sơ bác sĩ đang được cập nhật",
+    message:
+      "Tên, vị trí, chuyên môn, kinh nghiệm và lịch làm việc sẽ chỉ hiển thị sau khi PetOne xác minh dữ liệu chính thức.",
   },
 ];

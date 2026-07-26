@@ -36,7 +36,7 @@ export default function DoctorsPage() {
               sizes="(max-width: 1024px) 100vw, 40vw"
               className="object-cover"
             />
-            <span className="absolute bottom-4 left-4 rounded-full bg-clinical-white/90 px-3 py-2 text-[0.65rem] font-bold uppercase tracking-[0.13em] text-muted-ink backdrop-blur-md">
+            <span className="absolute bottom-4 left-4 rounded-full bg-clinical-white/90 px-3 py-2 text-xs font-medium text-muted-ink backdrop-blur-md">
               Hình ảnh minh hoạ
             </span>
           </div>
@@ -72,7 +72,7 @@ export default function DoctorsPage() {
                     <item.icon size={23} weight="duotone" />
                   </span>
                   <div>
-                    <h2 className="font-display font-extrabold text-deep-navy">
+                    <h2 className="font-semibold text-deep-navy">
                       {item.title}
                     </h2>
                     <p className="mt-1 text-sm leading-6 text-muted-ink">
@@ -89,7 +89,7 @@ export default function DoctorsPage() {
       <section className="section-space bg-ice">
         <div className="shell">
           <div className="max-w-3xl">
-            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-medical-blue">
+            <p className="text-sm font-semibold tracking-[-0.01em] text-medical-blue">
               Hồ sơ chuyên môn
             </p>
             <h2 className="section-title mt-4 text-deep-navy">

@@ -44,7 +44,7 @@ export function BookingRequestEmail({ booking }: { booking: BookingInput }) {
               textTransform: "uppercase",
             }}
           >
-            Pet One · Yêu cầu đặt lịch
+            Pet One | Yêu cầu đặt lịch
           </Text>
           <Heading
             style={{
@@ -72,14 +72,14 @@ export function BookingRequestEmail({ booking }: { booking: BookingInput }) {
           <Section>
             <Text style={labelStyle}>Thú cưng</Text>
             <Text style={valueStyle}>
-              {booking.petName} · {booking.petType}
+              {booking.petName} | {booking.petType}
             </Text>
             <Text style={labelStyle}>Thời gian mong muốn</Text>
             <Text style={valueStyle}>
-              {booking.preferredDate || "Chưa chọn ngày"} ·{" "}
+              {booking.preferredDate || "Chưa chọn ngày"} |{" "}
               {booking.preferredTime}
             </Text>
-            <Text style={labelStyle}>Điều người nuôi đang lo lắng</Text>
+            <Text style={labelStyle}>Điều người nuôi đang quan sát</Text>
             <Text style={{ ...valueStyle, whiteSpace: "pre-wrap" }}>
               {booking.concern}
             </Text>

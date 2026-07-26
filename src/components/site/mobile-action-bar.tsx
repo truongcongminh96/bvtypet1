@@ -1,25 +1,39 @@
 import { CalendarDots, Phone } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
+import { buttonStyles } from "@/components/ui/button";
+import { getPhoneHref, siteConfig } from "@/lib/site-config";
+
 export function MobileActionBar() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-clinical-white/94 p-2.5 backdrop-blur-xl md:hidden">
-      <div className="grid grid-cols-2 gap-2">
+    <nav
+      aria-label="Hành động nhanh"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-surface/96 px-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))] pt-2.5 backdrop-blur-lg md:hidden"
+    >
+      <div className="flex gap-2">
         <Link
-          href="/lien-he"
-          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[14px] bg-care-red px-3 text-sm font-bold text-white"
+          href={getPhoneHref()}
+          aria-label={
+            siteConfig.phone ? `Gọi ${siteConfig.phone}` : "Gọi phòng khám"
+          }
+          className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-[var(--radius-sm)] border border-border bg-surface px-3 text-sm font-semibold text-text-primary"
         >
-          <Phone size={18} weight="bold" />
-          Gọi phòng khám
+          <Phone
+            aria-hidden="true"
+            size={18}
+            weight="bold"
+            className="text-brand-red-strong"
+          />
+          Gọi
         </Link>
         <Link
           href="/lien-he#dat-lich"
-          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[14px] bg-medical-blue px-3 text-sm font-bold text-white"
+          className={buttonStyles({ className: "min-h-12 flex-1 px-3" })}
         >
-          <CalendarDots size={18} weight="bold" />
+          <CalendarDots aria-hidden="true" size={18} weight="bold" />
           Đặt lịch khám
         </Link>
       </div>
-    </div>
+    </nav>
   );
 }

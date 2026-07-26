@@ -1,103 +1,68 @@
 import type { Metadata } from "next";
-import {
-  Clock,
-  EnvelopeSimple,
-  MapPin,
-  Phone,
-} from "@phosphor-icons/react/dist/ssr";
 
 import { BookingForm } from "@/components/booking/booking-form";
-import { PageHero } from "@/components/site/page-hero";
+import { AppointmentExpectation } from "@/components/contact/appointment-expectation";
+import { ContactHero } from "@/components/contact/contact-hero";
+import { ContactRail } from "@/components/contact/contact-rail";
+import { HomeMotionProvider } from "@/components/motion/home-motion-provider";
+import { MotionSection } from "@/components/motion/reveal";
+import { contactPageContent } from "@/content/contact-page";
+import {
+  clinicContactDetails,
+  getPhoneHref,
+  siteConfig,
+} from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Liên hệ và đặt lịch",
   description:
     "Gửi yêu cầu đặt lịch khám và thông tin cần chuẩn bị trước khi đến Pet One.",
+  openGraph: {
+    title: "Liên hệ và đặt lịch | Pet One",
+    description:
+      "Gửi trước những thay đổi bạn quan sát được để Pet One chuẩn bị cuộc trao đổi phù hợp hơn.",
+  },
 };
 
 export default function ContactPage() {
+  const { form } = contactPageContent;
+  const supportPhoneHref = siteConfig.phone ? getPhoneHref() : undefined;
+
   return (
-    <>
-      <PageHero
-        current="Liên hệ"
-        title="Kể cho Pet One điều bạn đang quan sát"
-        description="Gửi trước một vài thông tin để phòng khám chuẩn bị cuộc trao đổi phù hợp hơn. Lịch hẹn chỉ được xác nhận sau khi Pet One liên hệ lại."
-      />
+    <HomeMotionProvider>
+      <ContactHero />
 
       <section className="section-space">
-        <div className="shell grid gap-12 lg:grid-cols-[0.72fr_1.28fr]">
-          <aside>
-            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-medical-blue">
-              Thông tin liên hệ
-            </p>
-            <h2 className="section-title mt-4 text-deep-navy">
-              Chuẩn bị cho một buổi khám nhẹ nhàng hơn
-            </h2>
-            <p className="mt-5 leading-7 text-muted-ink">
-              Hãy ghi lại thời điểm xuất hiện triệu chứng, thay đổi trong ăn
-              uống và các sản phẩm thú cưng đang dùng.
-            </p>
+        <div className="shell grid items-start gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-14 xl:grid-cols-[0.66fr_1.34fr]">
+          <ContactRail contact={clinicContactDetails} />
 
-            <div className="mt-8 grid gap-4">
-              {[
-                {
-                  icon: Phone,
-                  title: "Điện thoại",
-                  text: "Đang cập nhật số chính thức",
-                },
-                {
-                  icon: EnvelopeSimple,
-                  title: "Email",
-                  text: "Được cấu hình riêng trên Vercel",
-                },
-                {
-                  icon: MapPin,
-                  title: "Địa chỉ",
-                  text: "Đang cập nhật vị trí phòng khám",
-                },
-                {
-                  icon: Clock,
-                  title: "Giờ tiếp nhận",
-                  text: "Đang cập nhật lịch làm việc",
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="surface-card flex gap-4 rounded-2xl p-5"
-                >
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-ice text-medical-blue">
-                    <item.icon size={22} weight="duotone" />
-                  </span>
-                  <div>
-                    <h3 className="font-display text-sm font-extrabold text-deep-navy">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1 text-sm leading-6 text-muted-ink">
-                      {item.text}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </aside>
+          <div id="dat-lich" className="scroll-mt-28">
+            <MotionSection
+              className="rounded-[var(--radius-lg)] border border-border bg-surface p-5 shadow-[0_18px_46px_rgba(16,46,58,0.065)] sm:p-8 lg:p-10"
+              amount={0.08}
+            >
+              <h2 className="max-w-2xl font-display text-[clamp(2.1rem,3.4vw,3.1rem)] font-semibold leading-[1.06] tracking-[-0.016em] text-text-primary">
+                {form.title}
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-text-secondary">
+                {form.description}
+              </p>
+              <p className="mt-3 inline-flex rounded-[var(--radius-sm)] bg-surface-soft px-3 py-2 text-xs font-medium leading-5 text-text-secondary">
+                {form.requiredNote}
+              </p>
 
-          <div
-            id="dat-lich"
-            className="surface-card scroll-mt-28 rounded-[2rem] p-6 sm:p-9 lg:p-10"
-          >
-            <h2 className="font-display text-3xl font-extrabold tracking-[-0.045em] text-deep-navy">
-              Yêu cầu đặt lịch khám
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-ink">
-              Những trường có dấu * là bắt buộc. Không gửi thông tin thanh toán
-              hoặc dữ liệu nhạy cảm qua biểu mẫu này.
-            </p>
-            <div className="mt-8">
-              <BookingForm />
-            </div>
+              <div className="mt-6 sm:mt-8">
+                <BookingForm
+                  supportPhone={siteConfig.phone || undefined}
+                  supportPhoneHref={supportPhoneHref}
+                />
+              </div>
+            </MotionSection>
           </div>
         </div>
       </section>
-    </>
+
+      <AppointmentExpectation />
+    </HomeMotionProvider>
   );
 }

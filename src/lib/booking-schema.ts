@@ -27,7 +27,7 @@ export const bookingSchema = z.object({
     "Buổi sáng",
     "Buổi chiều",
     "Buổi tối",
-    "Cần trao đổi thêm",
+    "Linh hoạt, PetOne liên hệ lại",
   ]),
   preferredDate: z.string().trim().max(20).optional(),
   concern: z
@@ -38,7 +38,9 @@ export const bookingSchema = z.object({
   consent: z
     .boolean()
     .refine((value) => value, "Bạn cần đồng ý để Pet One tiếp nhận thông tin."),
-  turnstileToken: z.string().optional(),
+  turnstileToken: z
+    .string()
+    .min(1, "Vui lòng hoàn tất xác minh bảo mật trước khi gửi."),
   submissionId: z.string().min(8).max(120),
 });
 

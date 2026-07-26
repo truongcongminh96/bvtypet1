@@ -8,7 +8,7 @@ const validBooking = {
   email: "",
   petName: "Milo",
   petType: "Chó" as const,
-  preferredTime: "Buổi sáng" as const,
+  preferredTime: "Linh hoạt, PetOne liên hệ lại" as const,
   preferredDate: "2026-07-30",
   concern: "Bé ăn ít hơn bình thường trong hai ngày gần đây.",
   consent: true,
@@ -34,6 +34,24 @@ describe("bookingSchema", () => {
     const result = bookingSchema.safeParse({
       ...validBooking,
       phone: "not-a-phone",
+    });
+
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects the previous flexible-time value", () => {
+    const result = bookingSchema.safeParse({
+      ...validBooking,
+      preferredTime: "Cần trao đổi thêm",
+    });
+
+    expect(result.success).toBe(false);
+  });
+
+  it("requires a Turnstile token", () => {
+    const result = bookingSchema.safeParse({
+      ...validBooking,
+      turnstileToken: "",
     });
 
     expect(result.success).toBe(false);

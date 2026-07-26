@@ -8,10 +8,10 @@ export default function StudioPage() {
     return (
       <main className="grid min-h-screen place-items-center bg-ice p-6">
         <div className="surface-card max-w-xl rounded-3xl p-8">
-          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-medical-blue">
+          <p className="text-sm font-semibold text-medical-blue">
             Pet One Content Studio
           </p>
-          <h1 className="mt-4 font-display text-3xl font-extrabold text-deep-navy">
+          <h1 className="mt-4 text-3xl font-semibold text-deep-navy">
             Sanity chưa được kết nối
           </h1>
           <p className="mt-4 leading-7 text-muted-ink">

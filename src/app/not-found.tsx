@@ -9,7 +9,7 @@ export default function NotFound() {
         <span className="mx-auto flex size-16 items-center justify-center rounded-3xl bg-ice text-medical-blue">
           <PawPrint size={32} weight="duotone" />
         </span>
-        <p className="mt-7 text-xs font-extrabold uppercase tracking-[0.18em] text-medical-blue">
+        <p className="mt-7 text-sm font-semibold text-medical-blue">
           Không tìm thấy trang
         </p>
         <h1 className="section-title mt-4 text-deep-navy">

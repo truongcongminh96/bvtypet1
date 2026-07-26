@@ -1,19 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro, Manrope } from "next/font/google";
+import { Be_Vietnam_Pro, Cormorant_Garamond } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
 import { MobileActionBar } from "@/components/site/mobile-action-bar";
-import { siteConfig } from "@/lib/site-config";
+import { getPhoneHref, siteConfig } from "@/lib/site-config";
 
 import "./globals.css";
 
-const headingFont = Manrope({
+const headingFont = Cormorant_Garamond({
   subsets: ["latin", "vietnamese"],
   variable: "--font-heading",
   display: "swap",
+  weight: ["500", "600"],
 });
 
 const bodyFont = Be_Vietnam_Pro({
@@ -52,11 +53,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbfdfe" },
-    { media: "(prefers-color-scheme: dark)", color: "#081d29" },
-  ],
-  colorScheme: "light dark",
+  themeColor: "#fafcfd",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -70,22 +68,29 @@ export default function RootLayout({
     name: siteConfig.name,
     url: siteConfig.url,
     description: siteConfig.description,
+    ...(siteConfig.phone ? { telephone: siteConfig.phone } : {}),
+    ...(siteConfig.email ? { email: siteConfig.email } : {}),
+    ...(siteConfig.address ? { address: siteConfig.address } : {}),
+    ...(siteConfig.openingHours
+      ? { openingHours: siteConfig.openingHours }
+      : {}),
   };
 
   return (
     <html
       lang="vi"
       className={`${headingFont.variable} ${bodyFont.variable}`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <body>
         <a
           href="#main-content"
-          className="fixed left-4 top-4 z-[100] -translate-y-24 rounded-xl bg-deep-navy px-4 py-3 font-semibold text-clinical-white transition-transform focus:translate-y-0"
+          className="fixed left-4 top-4 z-[100] -translate-y-24 rounded-[var(--radius-sm)] bg-deep-navy px-4 py-3 font-semibold text-clinical-white transition-transform focus:translate-y-0"
         >
           Đi tới nội dung chính
         </a>
-        <Header />
+        <Header phone={siteConfig.phone} phoneHref={getPhoneHref()} />
         <main id="main-content">{children}</main>
         <Footer />
         <MobileActionBar />

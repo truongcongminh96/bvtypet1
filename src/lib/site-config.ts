@@ -5,8 +5,24 @@ export const siteConfig = {
     "Không gian thú y thân thiện, quy trình rõ ràng và kế hoạch chăm sóc phù hợp cho từng thú cưng.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   phone: process.env.NEXT_PUBLIC_CLINIC_PHONE?.trim() ?? "",
-  email: process.env.BOOKING_EMAIL_TO?.trim() ?? "",
+  email: process.env.NEXT_PUBLIC_CLINIC_EMAIL?.trim() ?? "",
+  address: process.env.NEXT_PUBLIC_CLINIC_ADDRESS?.trim() ?? "",
+  openingHours: process.env.NEXT_PUBLIC_CLINIC_HOURS?.trim() ?? "",
+  facebookUrl: process.env.NEXT_PUBLIC_FACEBOOK_URL?.trim() ?? "",
+  instagramUrl: process.env.NEXT_PUBLIC_INSTAGRAM_URL?.trim() ?? "",
 } as const;
+
+export type ClinicContactDetails = Pick<
+  typeof siteConfig,
+  "phone" | "email" | "address" | "openingHours"
+>;
+
+export const clinicContactDetails: ClinicContactDetails = {
+  phone: siteConfig.phone,
+  email: siteConfig.email,
+  address: siteConfig.address,
+  openingHours: siteConfig.openingHours,
+};
 
 export function getPhoneHref() {
   if (!siteConfig.phone) {

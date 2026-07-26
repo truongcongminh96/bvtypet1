@@ -19,7 +19,7 @@ export function SectionHeading({
       )}
     >
       {label ? (
-        <p className="mb-4 text-xs font-extrabold uppercase tracking-[0.18em] text-medical-blue">
+        <p className="mb-4 text-sm font-semibold tracking-[-0.01em] text-medical-blue">
           {label}
         </p>
       ) : null}

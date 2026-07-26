@@ -11,9 +11,8 @@ export function PageHero({
   current: string;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-line bg-ice">
-      <div className="medical-grid pointer-events-none absolute inset-0" />
-      <div className="shell relative py-16 sm:py-20 lg:py-24">
+    <section className="border-b border-border bg-surface-soft">
+      <div className="shell py-16 sm:py-20 lg:py-24">
         <nav
           aria-label="Breadcrumb"
           className="mb-7 flex items-center gap-2 text-xs font-semibold text-muted-ink"
@@ -22,10 +21,10 @@ export function PageHero({
             href="/"
             className="inline-flex items-center gap-1.5 transition-colors hover:text-medical-blue"
           >
-            <House size={15} weight="fill" />
+            <House aria-hidden="true" size={15} weight="fill" />
             Trang chủ
           </Link>
-          <CaretRight size={13} />
+          <CaretRight aria-hidden="true" size={13} />
           <span aria-current="page" className="text-medical-blue">
             {current}
           </span>

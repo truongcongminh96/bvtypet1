@@ -1,7 +1,7 @@
 # Pet One Veterinary Care
 
-Website phòng khám thú y Pet One với định hướng “Medical Friendly Premium”,
-signature Care Orbit và bảng màu xanh y tế, đỏ chăm sóc, trắng lâm sàng.
+Website phòng khám thú y Pet One với định hướng “Quiet Clinical Warmth”,
+signature Care Notes và bảng màu sáng với xanh Pet One làm điểm nhấn.
 
 ## Tech stack
 
@@ -33,6 +33,15 @@ ngoài. Form đặt lịch chỉ gửi email khi đã cấu hình:
 - `RESEND_FROM_EMAIL`
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
 - `TURNSTILE_SECRET_KEY`
+
+Thông tin công khai tại header và footer được cấu hình bằng:
+
+- `NEXT_PUBLIC_CLINIC_PHONE`
+- `NEXT_PUBLIC_CLINIC_EMAIL`
+- `NEXT_PUBLIC_CLINIC_ADDRESS`
+- `NEXT_PUBLIC_CLINIC_HOURS`
+- `NEXT_PUBLIC_FACEBOOK_URL`
+- `NEXT_PUBLIC_INSTAGRAM_URL`
 
 Sanity là tùy chọn trong giai đoạn đầu:
 
@@ -73,5 +82,6 @@ canonical URL được tạo đúng.
 - Email nhận lịch, domain gửi email và Turnstile
 - Các cam kết dịch vụ, số liệu hoặc chứng nhận đã được kiểm chứng
 
-Ba ảnh hiện dùng trên website là hình minh hoạ được tạo riêng cho concept và đã
-được ghi chú rõ trong giao diện.
+Các ảnh hiện dùng trên website là hình minh hoạ được tạo riêng cho concept và
+đã được ghi chú rõ trong giao diện. Bộ ảnh dịch vụ nằm tại
+`public/images/services`.
