@@ -19,13 +19,13 @@ export function ArticleGrid({
 
   return (
     <MotionGroup className="mt-12 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-      <MotionItem>
+      <MotionItem direction="left">
         <ArticleCard article={featured} variant="featured" />
       </MotionItem>
       {remaining.length > 0 ? (
         <MotionGroup className="grid content-start gap-4">
           {remaining.map((article) => (
-            <MotionItem key={article.slug}>
+            <MotionItem key={article.slug} direction="right">
               <ArticleCard article={article} variant="compact" />
             </MotionItem>
           ))}

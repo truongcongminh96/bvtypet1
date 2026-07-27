@@ -9,7 +9,7 @@ export function ClinicEnvironment({ items }: { items: Equipment[] }) {
   return (
     <section className="section-space bg-surface-warm">
       <div className="shell">
-        <MotionSection>
+        <MotionSection direction="left">
           <SectionHeading
             label="Cơ sở vật chất"
             title="Thiết bị phục vụ một câu hỏi lâm sàng rõ ràng"
@@ -18,8 +18,12 @@ export function ClinicEnvironment({ items }: { items: Equipment[] }) {
         </MotionSection>
         {items.length > 0 ? (
           <MotionGroup className="mt-10 grid gap-5 md:grid-cols-2" amount={0.12}>
-            {items.slice(0, 4).map((item) => (
-              <MotionItem key={item.id}>
+            {items.slice(0, 4).map((item, index) => (
+              <MotionItem
+                key={item.id}
+                direction={index % 2 === 0 ? "left" : "right"}
+                mobileDirection="right"
+              >
                 <article className="grid h-full overflow-hidden rounded-[var(--radius-lg)] border border-border bg-surface shadow-[var(--shadow-card)] sm:grid-cols-[0.9fr_1.1fr]">
                   <div className="relative min-h-56 bg-surface-soft">
                     {item.image ? (

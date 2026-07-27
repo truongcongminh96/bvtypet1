@@ -14,7 +14,10 @@ export function WhyPetOne({ settings }: { settings: HomePageSettings }) {
   return (
     <section className="section-space bg-surface-soft">
       <div className="shell grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-        <ImageReveal className="relative aspect-[5/4] overflow-hidden rounded-[var(--radius-image)] border border-border bg-surface shadow-[var(--shadow-soft)]">
+        <ImageReveal
+          className="relative aspect-[5/4] overflow-hidden rounded-[var(--radius-image)] border border-border bg-surface shadow-[var(--shadow-soft)]"
+          direction="left"
+        >
           <Image
             src="/images/pet-one-care.png"
             alt="Bác sĩ thú y trấn an một chú chó nhỏ trong buổi khám"
@@ -24,7 +27,7 @@ export function WhyPetOne({ settings }: { settings: HomePageSettings }) {
           />
         </ImageReveal>
         <div>
-          <MotionSection>
+          <MotionSection direction="right">
             <SectionHeading
               label="Lý do chọn Pet One"
               title="Rõ điều đang làm, nhẹ nhàng với từng bé"
@@ -33,7 +36,7 @@ export function WhyPetOne({ settings }: { settings: HomePageSettings }) {
           </MotionSection>
           <MotionGroup className="mt-8 grid gap-x-7 gap-y-6 sm:grid-cols-2">
             {settings.reasons.slice(0, 6).map((reason) => (
-              <MotionItem key={reason.title}>
+              <MotionItem key={reason.title} direction="right">
                 <div className="flex gap-3">
                   <CheckCircle
                     aria-hidden="true"

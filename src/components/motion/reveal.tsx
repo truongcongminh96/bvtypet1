@@ -8,13 +8,52 @@ import { cn } from "@/lib/cn";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+export type RevealDirection = "up" | "left" | "right" | "none";
+
+type RevealVariantOptions = {
+  delay?: number;
+  direction?: RevealDirection;
+  distance?: number;
+  scaleFrom?: number;
+};
+
+function getHiddenOffset(
+  direction: RevealDirection,
+  distance: number,
+) {
+  if (direction === "left") {
+    return { x: -distance, y: 0 };
+  }
+
+  if (direction === "right") {
+    return { x: distance, y: 0 };
+  }
+
+  if (direction === "none") {
+    return { x: 0, y: 0 };
+  }
+
+  return { x: 0, y: distance };
+}
+
 const revealVariants: Variants = {
-  hidden: ({ distance = 28 }: { distance?: number } = {}) => ({
-    opacity: 0,
-    y: distance,
-  }),
-  visible: ({ delay = 0 }: { delay?: number } = {}) => ({
+  hidden: ({
+    direction = "up",
+    distance = 28,
+    scaleFrom = 1,
+  }: RevealVariantOptions = {}) => {
+    const offset = getHiddenOffset(direction, distance);
+
+    return {
+      opacity: 0,
+      scale: scaleFrom,
+      ...offset,
+    };
+  },
+  visible: ({ delay = 0 }: RevealVariantOptions = {}) => ({
     opacity: 1,
+    scale: 1,
+    x: 0,
     y: 0,
     transition: {
       duration: 1,
@@ -24,12 +63,20 @@ const revealVariants: Variants = {
   }),
 };
 
+type GroupVariantOptions = {
+  delay?: number;
+  stagger?: number;
+};
+
 const groupVariants: Variants = {
   hidden: {},
-  visible: (delay = 0) => ({
+  visible: ({
+    delay = 0,
+    stagger = 0.16,
+  }: GroupVariantOptions = {}) => ({
     transition: {
       delayChildren: delay,
-      staggerChildren: 0.16,
+      staggerChildren: stagger,
     },
   }),
 };
@@ -39,6 +86,9 @@ type RevealProps = {
   className?: string;
   delay?: number;
   amount?: number;
+  direction?: RevealDirection;
+  mobileDirection?: RevealDirection;
+  scaleFrom?: number;
 };
 
 export function MotionSection({
@@ -46,17 +96,28 @@ export function MotionSection({
   className,
   delay = 0,
   amount = 0.16,
+  direction = "up",
+  mobileDirection,
+  scaleFrom = 1,
 }: RevealProps) {
   const reduceMotion = useReducedMotion();
-  const { distance } = useHomeMotionPreferences();
+  const { distance, isMobile, supportsInView } = useHomeMotionPreferences();
+  const resolvedDirection =
+    isMobile && mobileDirection ? mobileDirection : direction;
 
   return (
     <m.div
       data-motion-reveal
       className={cn(className)}
-      custom={{ delay, distance }}
+      custom={{
+        delay,
+        direction: resolvedDirection,
+        distance,
+        scaleFrom,
+      }}
       initial={reduceMotion ? false : "hidden"}
-      whileInView="visible"
+      animate={!reduceMotion && !supportsInView ? "visible" : undefined}
+      whileInView={supportsInView ? "visible" : undefined}
       viewport={{ once: true, amount }}
       variants={revealVariants}
     >
@@ -70,15 +131,18 @@ export function MotionGroup({
   className,
   delay = 0,
   amount = 0.16,
-}: RevealProps) {
+  stagger = 0.16,
+}: RevealProps & { stagger?: number }) {
   const reduceMotion = useReducedMotion();
+  const { supportsInView } = useHomeMotionPreferences();
 
   return (
     <m.div
       className={className}
-      custom={delay}
+      custom={{ delay, stagger: reduceMotion ? 0 : stagger }}
       initial={reduceMotion ? false : "hidden"}
-      whileInView="visible"
+      animate={!reduceMotion && !supportsInView ? "visible" : undefined}
+      whileInView={supportsInView ? "visible" : undefined}
       viewport={{ once: true, amount }}
       variants={groupVariants}
     >
@@ -91,15 +155,25 @@ export function MotionItem({
   children,
   className,
   delay = 0,
+  direction = "up",
+  mobileDirection,
+  scaleFrom = 1,
 }: Omit<RevealProps, "amount">) {
   const reduceMotion = useReducedMotion();
-  const { distance } = useHomeMotionPreferences();
+  const { distance, isMobile } = useHomeMotionPreferences();
+  const resolvedDirection =
+    isMobile && mobileDirection ? mobileDirection : direction;
 
   return (
     <m.div
       data-motion-reveal
       className={cn(className)}
-      custom={{ delay, distance }}
+      custom={{
+        delay,
+        direction: resolvedDirection,
+        distance,
+        scaleFrom,
+      }}
       variants={reduceMotion ? undefined : revealVariants}
     >
       {children}

@@ -5,7 +5,10 @@ import { ImageReveal } from "@/components/motion/image-reveal";
 export function HeroVisual() {
   return (
     <figure className="mx-auto w-full max-w-[37rem] lg:mr-0">
-      <ImageReveal className="relative aspect-[5/4] overflow-hidden rounded-[2rem_7rem_2rem_2rem] border border-border bg-surface-soft shadow-[0_24px_64px_rgba(16,46,58,0.12)] sm:aspect-[4/3]">
+      <ImageReveal
+        className="relative aspect-[5/4] overflow-hidden rounded-[2rem_7rem_2rem_2rem] border border-border bg-surface-soft shadow-[0_24px_64px_rgba(16,46,58,0.12)] sm:aspect-[4/3]"
+        direction="right"
+      >
         <Image
           src="/images/pet-one-hero.png"
           alt="Bác sĩ thú y đang kiểm tra nhẹ nhàng cho một chú chó"
