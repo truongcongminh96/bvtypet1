@@ -1,4 +1,4 @@
-import type { ArticleImage, ServiceGroup } from "@/content/site";
+import type { ArticleImage } from "@/content/site";
 
 export type Equipment = {
   id: string;
@@ -50,33 +50,6 @@ export type HomePageSettings = {
   googleMapsUrl?: string;
   reasons: Array<{ title: string; description: string }>;
 };
-
-export const serviceGroups: Array<{
-  id: ServiceGroup;
-  label: string;
-  description: string;
-}> = [
-  {
-    id: "pet-shop",
-    label: "Pet Shop",
-    description: "Sản phẩm chăm sóc phù hợp với nhu cầu hằng ngày của bé.",
-  },
-  {
-    id: "kham-chua-benh",
-    label: "Khám chữa bệnh",
-    description: "Khám, phòng ngừa, chẩn đoán và điều trị thú y.",
-  },
-  {
-    id: "spa-grooming",
-    label: "Spa / Grooming",
-    description: "Chăm sóc da lông và vệ sinh theo thể trạng của từng bé.",
-  },
-  {
-    id: "phau-thuat",
-    label: "Phẫu thuật",
-    description: "Đánh giá, chuẩn bị và theo dõi trước–sau can thiệp.",
-  },
-];
 
 export const fallbackHomePageSettings: HomePageSettings = {
   reasons: [

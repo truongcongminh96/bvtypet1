@@ -9,33 +9,41 @@ import { getPhoneHref, siteConfig } from "@/lib/site-config";
 
 export function ServicesCta() {
   return (
-    <section className="bg-background pb-[clamp(4rem,8vw,7rem)] pt-8 sm:pt-12">
+    <section className="bg-background py-8 sm:py-10">
       <div className="shell">
-        <div className="relative overflow-hidden rounded-[18px_36px_36px_36px] border border-white/10 bg-text-primary px-6 py-10 text-surface shadow-[0_28px_70px_rgba(16,46,58,0.18)] sm:px-10 sm:py-14 lg:px-16 lg:py-16">
-          <div
-            aria-hidden="true"
-            className="absolute inset-y-0 right-0 w-2/5 bg-[radial-gradient(circle_at_70%_30%,rgba(22,132,214,0.22),transparent_66%)]"
-          />
-          <MotionGroup className="relative max-w-3xl" amount={0.12}>
+        <div className="rounded-[16px_28px_28px_28px] border border-brand-blue/15 bg-brand-blue-soft/65 px-6 py-5 sm:px-8 sm:py-6 lg:flex lg:items-center lg:justify-between lg:gap-10 lg:px-10">
+          <MotionGroup className="max-w-2xl" amount={0.1} stagger={0.07}>
             <MotionItem>
-              <h2 className="font-display text-[clamp(2.55rem,5vw,4.75rem)] font-semibold leading-[1.04] tracking-[-0.02em] text-surface text-balance">
-                Bạn chưa cần biết tên dịch vụ.
-              </h2>
-            </MotionItem>
-            <MotionItem>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-surface/75 sm:text-lg sm:leading-8">
-                Chỉ cần kể PetOne điều bạn đang quan sát. Chúng tôi sẽ hướng dẫn bước chuẩn bị phù hợp.
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-blue-dark">
+                PetOne hỗ trợ bạn
               </p>
             </MotionItem>
             <MotionItem>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <h2 className="mt-2 font-display text-[clamp(2.05rem,3.2vw,2.7rem)] font-semibold leading-[1.02] tracking-[-0.015em] text-text-primary">
+                Không chắc nên chọn dịch vụ nào?
+              </h2>
+            </MotionItem>
+            <MotionItem>
+              <p className="mt-3 max-w-xl text-sm leading-7 text-text-secondary sm:text-base">
+                Chỉ cần kể PetOne điều bạn đang quan sát. Chúng tôi sẽ hướng dẫn bước phù hợp.
+              </p>
+            </MotionItem>
+          </MotionGroup>
+          <MotionGroup
+            className="mt-6 flex shrink-0 flex-col gap-3 sm:flex-row sm:flex-wrap lg:mt-0"
+            amount={0.1}
+            stagger={0.07}
+          >
+            <MotionItem>
                 <CareActionLink
                   href="/lien-he#dat-lich"
                   leadingIcon={<ChatCircleDots size={19} weight="duotone" />}
                   className="w-full sm:w-auto"
                 >
-                  Gửi yêu cầu tư vấn
+                  Đặt lịch khám
                 </CareActionLink>
+            </MotionItem>
+            <MotionItem>
                 {siteConfig.phone ? (
                   <CareActionLink
                     href={getPhoneHref()}
@@ -46,7 +54,6 @@ export function ServicesCta() {
                     Gọi phòng khám
                   </CareActionLink>
                 ) : null}
-              </div>
             </MotionItem>
           </MotionGroup>
         </div>

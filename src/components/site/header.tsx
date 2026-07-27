@@ -2,7 +2,6 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import {
-  CaretDown,
   List,
   MagnifyingGlass,
   X,
@@ -10,9 +9,10 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { serviceGroups } from "@/content/experience";
 import { Brand } from "@/components/site/brand";
+import { ServiceMegaMenu } from "@/components/site/service-mega-menu";
 import { buttonStyles } from "@/components/ui/button";
+import { serviceDirectoryGroups } from "@/content/service-directory";
 import { cn } from "@/lib/cn";
 
 const navigation = [
@@ -107,37 +107,7 @@ export function Header() {
             </Link>
           ))}
 
-          <div className="group relative">
-            <Link
-              href="/dich-vu"
-              aria-current={isActive("/dich-vu") ? "page" : undefined}
-              className={cn(
-                "inline-flex items-center gap-1 rounded-full px-4 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:bg-brand-blue-soft hover:text-text-primary",
-                isActive("/dich-vu") && "bg-brand-blue-soft text-brand-blue-dark",
-              )}
-            >
-              Dịch vụ
-              <CaretDown aria-hidden="true" size={14} weight="bold" />
-            </Link>
-            <div className="invisible absolute left-1/2 top-full w-[42rem] -translate-x-1/2 pt-3 opacity-0 transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-              <div className="grid grid-cols-2 gap-2 rounded-[var(--radius-lg)] border border-border bg-surface p-4 shadow-[0_24px_64px_rgba(16,46,58,0.14)]">
-                {serviceGroups.map((group) => (
-                  <Link
-                    key={group.id}
-                    href={`/dich-vu#${group.id}`}
-                    className="rounded-[var(--radius-md)] p-4 transition-colors hover:bg-surface-soft"
-                  >
-                    <span className="text-sm font-semibold text-text-primary">
-                      {group.label}
-                    </span>
-                    <span className="mt-1 block text-xs leading-5 text-text-secondary">
-                      {group.description}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
+          <ServiceMegaMenu active={isActive("/dich-vu")} />
 
           {navigation.slice(2).map((item) => (
             <Link
@@ -154,23 +124,21 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="flex items-center gap-2 md:gap-3">
           <SearchDialog />
-          <Link
-            href="/lien-he#dat-lich"
-            className={buttonStyles({ className: "min-h-11" })}
-          >
-            Đặt lịch khám
-          </Link>
-        </div>
-
-        <div className="flex items-center gap-2 md:hidden">
-          <SearchDialog />
+          <div className="hidden md:block">
+            <Link
+              href="/lien-he#dat-lich"
+              className={buttonStyles({ className: "min-h-11" })}
+            >
+              Đặt lịch khám
+            </Link>
+          </div>
           <Dialog.Root>
             <Dialog.Trigger asChild>
               <button
                 type="button"
-                className="inline-flex size-11 items-center justify-center rounded-[var(--radius-sm)] border border-border bg-surface text-text-primary"
+                className="inline-flex size-11 items-center justify-center rounded-[var(--radius-sm)] border border-border bg-surface text-text-primary xl:hidden"
                 aria-label="Mở menu"
               >
                 <List aria-hidden="true" size={25} weight="bold" />
@@ -198,16 +166,53 @@ export function Header() {
                       </Link>
                     </Dialog.Close>
                   ))}
-                  <p className="mt-3 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-text-muted">
-                    Dịch vụ
-                  </p>
-                  {serviceGroups.map((group) => (
-                    <Dialog.Close asChild key={group.id}>
-                      <Link href={`/dich-vu#${group.id}`} className="rounded-[var(--radius-sm)] px-4 py-2.5 text-sm font-medium text-text-secondary hover:bg-surface-soft">
-                        {group.label}
+                  <div className="mt-3 border-y border-border py-3">
+                    <Dialog.Close asChild>
+                      <Link
+                        href="/dich-vu"
+                        className="flex min-h-11 items-center rounded-[var(--radius-sm)] px-4 text-base font-semibold text-text-primary hover:bg-surface-soft"
+                      >
+                        Dịch vụ
                       </Link>
                     </Dialog.Close>
-                  ))}
+                    {serviceDirectoryGroups.map((group) => (
+                      <section
+                        key={group.id}
+                        aria-labelledby={`mobile-${group.id}`}
+                        className="mt-3 px-4"
+                      >
+                        <Dialog.Close asChild>
+                          <Link
+                            id={`mobile-${group.id}`}
+                            href={`/dich-vu#${group.id}`}
+                            className="flex min-h-10 items-center text-xs font-semibold uppercase tracking-[0.1em] text-brand-blue-dark"
+                          >
+                            {group.label}
+                          </Link>
+                        </Dialog.Close>
+                        {group.items.length > 0 ? (
+                          <ul className="border-l border-border pl-3">
+                            {group.items.map((item) => (
+                              <li key={item.slug}>
+                                <Dialog.Close asChild>
+                                  <Link
+                                    href={`/dich-vu/${item.slug}`}
+                                    className="flex min-h-10 items-center text-sm leading-5 text-text-secondary hover:text-brand-blue-dark"
+                                  >
+                                    {item.label}
+                                  </Link>
+                                </Dialog.Close>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="pb-1 text-xs font-medium text-text-muted">
+                            Sắp cập nhật
+                          </p>
+                        )}
+                      </section>
+                    ))}
+                  </div>
                   {navigation.slice(2).map((item) => (
                     <Dialog.Close asChild key={item.href}>
                       <Link href={item.href} className="rounded-[var(--radius-sm)] px-4 py-3 text-base font-semibold text-text-primary hover:bg-surface-soft">

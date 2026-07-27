@@ -10,6 +10,8 @@ import { cn } from "@/lib/cn";
 export type CareActionVariant =
   | "primary"
   | "secondary"
+  | "panel-primary"
+  | "panel-warm"
   | "text"
   | "card-action"
   | "icon-only";
@@ -29,6 +31,10 @@ export function careActionStyles({
       "inline-grid min-h-12 grid-cols-[auto_1fr_auto] gap-2 whitespace-nowrap rounded-[12px_16px_16px_16px] border border-brand-blue-dark/35 bg-[linear-gradient(145deg,var(--brand-blue-dark),#084d86)] p-1.5 pr-2 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_9px_22px_rgba(13,95,168,0.2)] hover:-translate-y-0.5 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.32),0_12px_26px_rgba(13,95,168,0.24)] active:translate-y-px",
     variant === "secondary" &&
       "inline-grid min-h-12 grid-cols-[auto_1fr_auto] gap-2 whitespace-nowrap rounded-[12px_16px_16px_16px] border border-brand-blue/25 bg-surface p-1.5 pr-2 text-sm text-text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_7px_18px_rgba(16,46,58,0.07)] hover:-translate-y-0.5 hover:border-brand-blue/45 hover:bg-brand-blue-soft/65 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_10px_22px_rgba(16,46,58,0.09)] active:translate-y-px",
+    variant === "panel-primary" &&
+      "inline-grid min-h-13 w-full grid-cols-[auto_1fr_auto] gap-3 whitespace-nowrap rounded-[12px_18px_18px_18px] border border-brand-blue-dark bg-brand-blue-dark p-2 pr-3 text-sm text-white shadow-[0_9px_22px_rgba(13,95,168,0.16)] hover:bg-[var(--medical-blue-hover)]",
+    variant === "panel-warm" &&
+      "inline-grid min-h-13 w-full grid-cols-[auto_1fr_auto] gap-3 whitespace-nowrap rounded-[12px_18px_18px_18px] border border-[#d9c9b6] bg-surface-warm p-2 pr-3 text-sm text-text-primary shadow-[0_8px_20px_rgba(16,46,58,0.06)] hover:border-brand-blue/35 hover:bg-brand-blue-soft",
     variant === "text" &&
       "inline-grid min-h-11 grid-cols-[1fr_auto] gap-3 rounded-[var(--radius-sm)] px-1 py-1 text-sm text-brand-blue-dark hover:text-brand-blue-dark",
     variant === "card-action" &&
@@ -82,9 +88,9 @@ function CareActionContent({
         aria-hidden="true"
         className={cn(
           "inline-flex size-9 shrink-0 items-center justify-center rounded-[9px_12px_12px_12px] border",
-          variant === "primary" &&
+          (variant === "primary" || variant === "panel-primary") &&
             "border-white/20 bg-white/14 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]",
-          variant === "secondary" &&
+          (variant === "secondary" || variant === "panel-warm") &&
             "border-brand-blue/15 bg-brand-blue-soft text-brand-blue-dark",
         )}
       >
@@ -95,8 +101,9 @@ function CareActionContent({
         aria-hidden="true"
         className={cn(
           "inline-flex size-7 shrink-0 items-center justify-center rounded-full text-sm leading-none transition-transform duration-200 group-hover/care-action:-translate-y-0.5 group-hover/care-action:translate-x-0.5",
-          variant === "primary" && "bg-white/12 text-white",
-          variant === "secondary" &&
+          (variant === "primary" || variant === "panel-primary") &&
+            "bg-white/12 text-white",
+          (variant === "secondary" || variant === "panel-warm") &&
             "border border-brand-blue/15 bg-surface text-brand-blue-dark",
         )}
       >
@@ -117,7 +124,7 @@ type CareActionLinkBaseProps = Omit<
 type CareActionLinkProps = CareActionLinkBaseProps &
   (
     | {
-        variant?: "primary" | "secondary";
+        variant?: "primary" | "secondary" | "panel-primary" | "panel-warm";
         leadingIcon: ReactNode;
         children: ReactNode;
       }

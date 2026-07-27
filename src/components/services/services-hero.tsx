@@ -2,24 +2,18 @@ import { CaretRight, House } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
 
-import { CareNoteReveal } from "@/components/motion/care-note-reveal";
 import { ImageReveal } from "@/components/motion/image-reveal";
-import {
-  MotionGroup,
-  MotionItem,
-} from "@/components/motion/reveal";
-import { CareNote } from "@/components/ui/care-note";
-import { servicesHero } from "@/content/services-page";
+import { MotionGroup, MotionItem } from "@/components/motion/reveal";
 
 export function ServicesHero() {
   return (
     <section className="overflow-hidden border-b border-border bg-surface-soft">
-      <div className="shell grid items-center gap-9 py-10 sm:py-14 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14 lg:py-16">
-        <MotionGroup className="order-2 max-w-2xl lg:order-1" amount={0.08}>
+      <div className="shell grid min-h-[24rem] items-center gap-9 py-10 sm:min-h-[27rem] sm:py-12 lg:min-h-[29rem] lg:grid-cols-[1.08fr_0.92fr] lg:gap-16 lg:py-12">
+        <MotionGroup className="max-w-3xl" amount={0.08} stagger={0.08}>
           <MotionItem>
             <nav
               aria-label="Breadcrumb"
-              className="mb-6 flex items-center gap-2 text-xs font-semibold text-text-secondary"
+              className="mb-5 flex items-center gap-2 text-xs font-semibold text-text-secondary"
             >
               <Link
                 href="/"
@@ -35,67 +29,39 @@ export function ServicesHero() {
             </nav>
           </MotionItem>
           <MotionItem>
-            <p className="text-sm font-semibold text-brand-blue-dark">
-              {servicesHero.eyebrow}
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-blue-dark">
+              Chăm sóc tại PetOne
             </p>
           </MotionItem>
           <MotionItem>
-            <h1 className="mt-4 font-display text-[clamp(2.8rem,5.2vw,4.9rem)] font-semibold leading-[1.02] tracking-[-0.02em] text-text-primary text-balance">
-              {servicesHero.title}
+            <h1 className="mt-3 font-display text-[clamp(3rem,6vw,5rem)] font-semibold leading-[0.98] tracking-[-0.025em] text-text-primary text-balance">
+              Dịch vụ tại PetOne
             </h1>
           </MotionItem>
           <MotionItem>
-            <p className="mt-5 max-w-xl text-base leading-7 text-text-secondary sm:text-lg sm:leading-8">
-              {servicesHero.description}
+            <p className="mt-4 max-w-xl text-base leading-7 text-text-secondary sm:text-lg sm:leading-8">
+              Mỗi nhóm dịch vụ là một hành trình chăm sóc riêng, bắt đầu từ điều bạn đang quan sát ở bé.
             </p>
           </MotionItem>
         </MotionGroup>
 
-        <div className="order-1 lg:order-2">
-          {/* TODO: Replace this generated concept image with verified PetOne photography before production launch. */}
-          <div className="relative mx-auto max-w-[43rem]">
-            <ImageReveal className="relative aspect-[16/11] overflow-hidden rounded-[18px_36px_36px_36px] border border-border bg-surface shadow-[0_24px_60px_rgba(16,46,58,0.1)]">
+        <MotionGroup className="hidden sm:block" amount={0.1} stagger={0.08}>
+          <MotionItem>
+            <ImageReveal className="relative ml-auto aspect-[5/3] max-w-[31rem] overflow-hidden rounded-[18px_38px_38px_38px] border border-border bg-surface shadow-[0_18px_45px_rgba(16,46,58,0.08)]">
               <Image
-                src={servicesHero.image.src}
-                alt={servicesHero.image.alt}
+                src="/images/services/services-hero-concept.png"
+                alt="Bác sĩ thú y lắng nghe người nuôi bên cạnh thú cưng trong phòng khám"
                 fill
                 priority
-                sizes="(max-width: 1023px) 100vw, 56vw"
-                className="object-cover"
+                sizes="(max-width: 1023px) 82vw, 31rem"
+                className="object-cover object-[50%_42%]"
               />
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_62%,rgba(16,46,58,0.12))]"
-              />
-              <span className="absolute bottom-3 right-3 z-10 rounded-full border border-white/70 bg-white/90 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-text-secondary shadow-sm backdrop-blur-sm">
+              <span className="absolute bottom-3 right-3 rounded-full border border-white/70 bg-white/92 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-text-secondary shadow-sm backdrop-blur-sm">
                 Hình ảnh minh hoạ
               </span>
             </ImageReveal>
-            <CareNoteReveal
-              label={servicesHero.careNotes[0]}
-              className="left-[-1.25rem] top-[20%]"
-              delay={0.22}
-            />
-            <CareNoteReveal
-              label={servicesHero.careNotes[1]}
-              direction="left"
-              className="right-[-1rem] top-[47%]"
-              delay={0.46}
-            />
-            <CareNoteReveal
-              label={servicesHero.careNotes[2]}
-              className="bottom-[9%] left-[7%]"
-              delay={0.7}
-            />
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2 md:hidden">
-            {servicesHero.careNotes.map((note) => (
-              <CareNote key={note} className="min-h-9 py-1.5">
-                {note}
-              </CareNote>
-            ))}
-          </div>
-        </div>
+          </MotionItem>
+        </MotionGroup>
       </div>
     </section>
   );
