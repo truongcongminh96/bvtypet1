@@ -4,6 +4,7 @@ import { BookingForm } from "@/components/booking/booking-form";
 import { AppointmentExpectation } from "@/components/contact/appointment-expectation";
 import { ContactHero } from "@/components/contact/contact-hero";
 import { ContactRail } from "@/components/contact/contact-rail";
+import { ClinicLocations } from "@/components/contact/clinic-locations";
 import { HomeMotionProvider } from "@/components/motion/home-motion-provider";
 import { MotionSection } from "@/components/motion/reveal";
 import { contactPageContent } from "@/content/contact-page";
@@ -12,6 +13,7 @@ import {
   getPhoneHref,
   siteConfig,
 } from "@/lib/site-config";
+import { getClinicLocations } from "@/sanity/content";
 
 export const metadata: Metadata = {
   title: "Liên hệ và đặt lịch",
@@ -24,18 +26,27 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
   const { form } = contactPageContent;
   const supportPhoneHref = siteConfig.phone ? getPhoneHref() : undefined;
+  const locations = await getClinicLocations();
+  const locationSchema = locations.map((location) => ({
+    "@context": "https://schema.org",
+    "@type": "VeterinaryCare",
+    name: location.name,
+    address: location.address,
+    ...(location.phone ? { telephone: location.phone } : {}),
+    ...(location.email ? { email: location.email } : {}),
+    ...(location.openingHours ? { openingHours: location.openingHours } : {}),
+    hasMap: location.mapUrl,
+  }));
 
   return (
     <HomeMotionProvider>
       <ContactHero />
 
       <section className="section-space">
-        <div className="shell grid items-start gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-14 xl:grid-cols-[0.66fr_1.34fr]">
-          <ContactRail contact={clinicContactDetails} />
-
+        <div className="shell grid items-start gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:gap-14">
           <div id="dat-lich" className="scroll-mt-28">
             <MotionSection
               className="rounded-[var(--radius-lg)] border border-border bg-surface p-5 shadow-[0_18px_46px_rgba(16,46,58,0.065)] sm:p-8 lg:p-10"
@@ -59,10 +70,20 @@ export default function ContactPage() {
               </div>
             </MotionSection>
           </div>
+          <ContactRail contact={clinicContactDetails} />
         </div>
       </section>
 
+      <ClinicLocations items={locations} />
       <AppointmentExpectation />
+      {locationSchema.length > 0 ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(locationSchema).replace(/</g, "\\u003c"),
+          }}
+        />
+      ) : null}
     </HomeMotionProvider>
   );
 }

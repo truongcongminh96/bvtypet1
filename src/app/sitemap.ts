@@ -1,14 +1,23 @@
 import type { MetadataRoute } from "next";
 
 import { siteConfig } from "@/lib/site-config";
-import { getArticles, getServices } from "@/sanity/content";
+import { getArticles, getDoctors, getServices } from "@/sanity/content";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [services, articles] = await Promise.all([
+  const [services, articles, doctors] = await Promise.all([
     getServices(),
     getArticles(),
+    getDoctors(),
   ]);
-  const pages = ["", "/dich-vu", "/bac-si", "/cam-nang", "/lien-he"];
+  const pages = [
+    "",
+    "/gioi-thieu",
+    "/dich-vu",
+    "/bac-si",
+    "/cam-nang",
+    "/lien-he",
+    "/chinh-sach-bao-mat",
+  ];
 
   return [
     ...pages.map((path) => ({
@@ -29,5 +38,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
       priority: 0.65,
     })),
+    ...doctors.flatMap((doctor) =>
+      doctor.status === "verified"
+        ? [{
+            url: `${siteConfig.url}/bac-si/${doctor.slug}`,
+            lastModified: new Date(),
+            changeFrequency: "monthly" as const,
+            priority: 0.7,
+          }]
+        : [],
+    ),
   ];
 }

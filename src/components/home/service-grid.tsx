@@ -1,73 +1,49 @@
-import {
-  FirstAid,
-  Heartbeat,
-  Scissors,
-  Stethoscope,
-  Syringe,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
+import Link from "next/link";
 
 import { MotionGroup, MotionItem } from "@/components/motion/reveal";
-import { CareRecordCard } from "@/components/ui/care-record-card";
-import {
-  homeServicePresentation,
-  type HomeServicePresentation,
-} from "@/content/home-service-presentation";
 import { services as fallbackServices, type Service } from "@/content/site";
 
-const iconBySlug = {
-  "kham-tong-quat": Stethoscope,
-  "tiem-phong": Syringe,
-  "noi-khoa": Heartbeat,
-  "ngoai-khoa": FirstAid,
-  "spa-grooming": Scissors,
-};
-
-const layoutByIndex = [
-  "lg:col-span-3",
-  "lg:col-span-3",
-  "lg:col-span-2",
-  "lg:col-span-2",
-  "md:col-span-2 lg:col-span-2",
-];
-
-const fallbackPresentation: HomeServicePresentation = {
-  variant: "standard-record",
-  suitability: "Khi bạn cần trao đổi rõ hơn về thay đổi của bé.",
-  observationTags: ["Quan sát", "Đánh giá", "Theo dõi"],
-  actionLabel: "Xem dịch vụ",
-};
-
 export function ServiceGrid({
-  items = fallbackServices.slice(0, 5),
+  items = fallbackServices.slice(0, 3),
 }: {
   items?: Service[];
 }) {
   return (
-    <MotionGroup
-      className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-6"
-      amount={0.12}
-    >
-      {items.map((service, index) => {
-        const Icon =
-          iconBySlug[service.slug as keyof typeof iconBySlug] ?? Stethoscope;
-        const presentation =
-          homeServicePresentation[
-            service.slug as keyof typeof homeServicePresentation
-          ] ?? fallbackPresentation;
-
-        return (
-          <MotionItem key={service.slug} className={layoutByIndex[index]}>
-            <CareRecordCard
-              index={String(index + 1).padStart(2, "0")}
-              href={`/dich-vu/${service.slug}`}
-              icon={Icon}
-              title={service.shortTitle}
-              description={service.summary}
-              presentation={presentation}
-            />
-          </MotionItem>
-        );
-      })}
+    <MotionGroup className="mt-10 grid gap-5 md:grid-cols-3" amount={0.12}>
+      {items.slice(0, 3).map((service) => (
+        <MotionItem key={service.slug}>
+          <Link
+            href={`/dich-vu/${service.slug}`}
+            className="group block h-full overflow-hidden rounded-[var(--radius-lg)] border border-border bg-surface shadow-[var(--shadow-card)]"
+          >
+            <div className="relative aspect-[4/3] overflow-hidden bg-surface-soft">
+              {service.cardImage ? (
+                <Image
+                  src={service.cardImage.src}
+                  alt={service.cardImage.alt}
+                  fill
+                  sizes="(max-width: 767px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+                />
+              ) : null}
+            </div>
+            <div className="p-6">
+              <h3 className="font-display text-2xl font-semibold text-text-primary">
+                {service.shortTitle}
+              </h3>
+              <p className="mt-3 text-sm leading-6 text-text-secondary">
+                {service.summary}
+              </p>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand-blue-dark">
+                Tìm hiểu thêm
+                <ArrowUpRight aria-hidden="true" size={17} />
+              </span>
+            </div>
+          </Link>
+        </MotionItem>
+      ))}
     </MotionGroup>
   );
 }

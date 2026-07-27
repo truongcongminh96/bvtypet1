@@ -6,7 +6,17 @@ export type Service = {
   description: string;
   points: string[];
   accent: "blue" | "red" | "navy" | "ice";
+  group?: ServiceGroup;
+  cardImage?: ArticleImage;
+  featuredOnHome?: boolean;
+  homeOrder?: number;
 };
+
+export type ServiceGroup =
+  | "pet-shop"
+  | "kham-chua-benh"
+  | "spa-grooming"
+  | "phau-thuat";
 
 export const articleCategorySlugs = [
   "suc-khoe-hang-ngay",
@@ -117,6 +127,13 @@ export type VerifiedDoctor = {
   yearsOfExperience?: number;
   schedule?: string;
   image?: DoctorImage;
+  biography?: string;
+  credentials?: string[];
+  journey?: Array<{
+    year: string;
+    title: string;
+    description?: string;
+  }>;
 };
 
 export type DoctorPlaceholder = {

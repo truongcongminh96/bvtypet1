@@ -9,7 +9,7 @@ import { cn } from "@/lib/cn";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const revealVariants: Variants = {
-  hidden: ({ distance = 26 }: { distance?: number } = {}) => ({
+  hidden: ({ distance = 28 }: { distance?: number } = {}) => ({
     opacity: 0,
     y: distance,
   }),
@@ -17,7 +17,7 @@ const revealVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.76,
+      duration: 1,
       delay,
       ease,
     },
@@ -29,7 +29,7 @@ const groupVariants: Variants = {
   visible: (delay = 0) => ({
     transition: {
       delayChildren: delay,
-      staggerChildren: 0.075,
+      staggerChildren: 0.16,
     },
   }),
 };

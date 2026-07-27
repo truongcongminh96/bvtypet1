@@ -42,6 +42,51 @@ export const doctorType = defineType({
       type: "string",
     }),
     defineField({
+      name: "biography",
+      title: "Giới thiệu chuyên môn",
+      type: "text",
+      rows: 6,
+    }),
+    defineField({
+      name: "credentials",
+      title: "Chứng chỉ và bằng cấp",
+      type: "array",
+      of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "journey",
+      title: "Hành trình nghề nghiệp",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({
+              name: "year",
+              title: "Năm / giai đoạn",
+              type: "string",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "title",
+              title: "Cột mốc",
+              type: "string",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "description",
+              title: "Mô tả",
+              type: "text",
+              rows: 3,
+            }),
+          ],
+          preview: {
+            select: { title: "title", subtitle: "year" },
+          },
+        },
+      ],
+    }),
+    defineField({
       name: "image",
       title: "Ảnh hồ sơ",
       type: "image",

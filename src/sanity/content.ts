@@ -3,6 +3,18 @@ import {
   doctors as fallbackDoctors,
   services as fallbackServices,
 } from "@/content/site";
+import {
+  fallbackAboutPage,
+  fallbackEquipment,
+  fallbackHomePageSettings,
+  fallbackLocations,
+  fallbackReviews,
+  type AboutPageContent,
+  type ClinicLocation,
+  type CustomerReview,
+  type Equipment,
+  type HomePageSettings,
+} from "@/content/experience";
 import type {
   Article,
   ArticleCategorySlug,
@@ -15,6 +27,7 @@ import type {
 } from "@/content/site";
 import { sanityClient } from "@/sanity/client";
 import { isSanityConfigured } from "@/sanity/env";
+import { onlyVerified } from "@/lib/verified-content";
 
 const servicesQuery = `*[_type == "service"] | order(order asc) {
   "slug": slug.current,
@@ -23,7 +36,15 @@ const servicesQuery = `*[_type == "service"] | order(order asc) {
   summary,
   description,
   points,
-  accent
+  accent,
+  group,
+  featuredOnHome,
+  homeOrder,
+  cardImage {
+    "src": asset->url,
+    alt,
+    hotspot
+  }
 }`;
 
 const articlesQuery = `*[_type == "article"] | order(publishedAt desc) {
@@ -287,23 +308,62 @@ const doctorsQuery = `*[_type == "doctor" && verificationStatus == "verified"] |
   specialty,
   yearsOfExperience,
   schedule,
+  biography,
+  credentials,
+  journey[]{year, title, description},
   image {
     "src": asset->url,
     alt
   }
 }`;
 
-const homeServiceSlugs = [
-  "kham-tong-quat",
-  "tiem-phong",
-  "noi-khoa",
-  "ngoai-khoa",
-  "spa-grooming",
-] as const;
+const fallbackServiceImages: Record<string, ArticleImage> = {
+  "kham-tong-quat": {
+    src: "/images/services/kham-tong-quat.png",
+    alt: "Bác sĩ thú y kiểm tra sức khỏe tổng quát cho một chú chó",
+    placeholder: true,
+  },
+  "tiem-phong": {
+    src: "/images/services/tiem-phong.png",
+    alt: "Bác sĩ thú y tiêm phòng nhẹ nhàng cho một chú mèo",
+    placeholder: true,
+  },
+  "noi-khoa": {
+    src: "/images/services/services-treatment-concept.png",
+    alt: "Bác sĩ trao đổi kế hoạch đánh giá sức khỏe thú cưng",
+    placeholder: true,
+  },
+  "ngoai-khoa": {
+    src: "/images/services/services-treatment-concept.png",
+    alt: "Bác sĩ trao đổi kế hoạch chăm sóc trước và sau can thiệp",
+    placeholder: true,
+  },
+  "spa-grooming": {
+    src: "/images/services/services-daily-care-concept.png",
+    alt: "Nhân viên chăm sóc da lông cho thú cưng",
+    placeholder: true,
+  },
+};
+
+function withServicePresentation(service: Service): Service {
+  const group =
+    service.group ??
+    (service.slug === "spa-grooming"
+      ? "spa-grooming"
+      : service.slug === "ngoai-khoa"
+        ? "phau-thuat"
+        : "kham-chua-benh");
+
+  return {
+    ...service,
+    group,
+    cardImage: service.cardImage ?? fallbackServiceImages[service.slug],
+  };
+}
 
 export async function getServices(): Promise<Service[]> {
   if (!isSanityConfigured) {
-    return fallbackServices;
+    return fallbackServices.map(withServicePresentation);
   }
 
   try {
@@ -313,22 +373,21 @@ export async function getServices(): Promise<Service[]> {
       { next: { revalidate: 300 } },
     );
 
-    return data.length > 0 ? data : fallbackServices;
+    return (data.length > 0 ? data : fallbackServices).map(
+      withServicePresentation,
+    );
   } catch {
-    return fallbackServices;
+    return fallbackServices.map(withServicePresentation);
   }
 }
 
 export async function getHomeServices(): Promise<Service[]> {
   const services = await getServices();
-  const servicesBySlug = new Map(
-    [...fallbackServices, ...services].map((service) => [service.slug, service]),
-  );
+  const featured = services
+    .filter((service) => service.featuredOnHome)
+    .sort((a, b) => (a.homeOrder ?? 10) - (b.homeOrder ?? 10));
 
-  return homeServiceSlugs.flatMap((slug) => {
-    const service = servicesBySlug.get(slug);
-    return service ? [service] : [];
-  });
+  return (featured.length > 0 ? featured : services).slice(0, 3);
 }
 
 export async function getArticles(): Promise<Article[]> {
@@ -371,5 +430,125 @@ export async function getDoctors(): Promise<Doctor[]> {
     return data.length > 0 ? data : fallbackDoctors;
   } catch {
     return fallbackDoctors;
+  }
+}
+
+export async function getDoctor(slug: string): Promise<VerifiedDoctor | null> {
+  const doctors = await getDoctors();
+  const doctor = doctors.find(
+    (item): item is VerifiedDoctor =>
+      item.status === "verified" && item.slug === slug,
+  );
+  return doctor ?? null;
+}
+
+const equipmentQuery = `*[_type == "equipment" && verificationStatus == "verified"] | order(order asc)[0...4] {
+  "id": _id,
+  name,
+  summary,
+  supports,
+  "verified": true,
+  order,
+  image { "src": asset->url, alt, hotspot }
+}`;
+
+const reviewsQuery = `*[_type == "customerReview" && verificationStatus == "verified"] | order(order asc)[0...6] {
+  "id": _id,
+  author,
+  rating,
+  quote,
+  reviewedAt,
+  sourceUrl,
+  "verified": true,
+  order
+}`;
+
+const locationsQuery = `*[_type == "clinicLocation" && verificationStatus == "verified"] | order(order asc)[0...3] {
+  "id": _id,
+  name,
+  address,
+  phone,
+  email,
+  openingHours,
+  mapUrl,
+  mapEmbedUrl,
+  "verified": true,
+  order
+}`;
+
+const aboutPageQuery = `*[_type == "aboutPage"][0] {
+  eyebrow,
+  title,
+  description,
+  storyTitle,
+  story,
+  principles[]{title, description},
+  image { "src": asset->url, alt, hotspot }
+}`;
+
+const homePageSettingsQuery = `*[_type == "homePageSettings"][0] {
+  rating,
+  reviewCount,
+  googleMapsUrl,
+  reasons[]{title, description}
+}`;
+
+async function fetchVerifiedList<T extends { verified: boolean }>(
+  query: string,
+  fallback: T[],
+): Promise<T[]> {
+  if (!isSanityConfigured) return onlyVerified(fallback);
+  try {
+    const data = await sanityClient.fetch<T[]>(query, {}, { next: { revalidate: 300 } });
+    return onlyVerified(data.length > 0 ? data : fallback);
+  } catch {
+    return onlyVerified(fallback);
+  }
+}
+
+export function getEquipment(): Promise<Equipment[]> {
+  return fetchVerifiedList(equipmentQuery, fallbackEquipment);
+}
+
+export function getCustomerReviews(): Promise<CustomerReview[]> {
+  return fetchVerifiedList(reviewsQuery, fallbackReviews);
+}
+
+export function getClinicLocations(): Promise<ClinicLocation[]> {
+  return fetchVerifiedList(locationsQuery, fallbackLocations);
+}
+
+export async function getAboutPage(): Promise<AboutPageContent> {
+  if (!isSanityConfigured) return fallbackAboutPage;
+  try {
+    const data = await sanityClient.fetch<AboutPageContent | null>(
+      aboutPageQuery,
+      {},
+      { next: { revalidate: 300 } },
+    );
+    return data ?? fallbackAboutPage;
+  } catch {
+    return fallbackAboutPage;
+  }
+}
+
+export async function getHomePageSettings(): Promise<HomePageSettings> {
+  if (!isSanityConfigured) return fallbackHomePageSettings;
+  try {
+    const data = await sanityClient.fetch<HomePageSettings | null>(
+      homePageSettingsQuery,
+      {},
+      { next: { revalidate: 300 } },
+    );
+    return {
+      ...fallbackHomePageSettings,
+      ...data,
+      reasons:
+        data?.reasons && data.reasons.length > 0
+          ? data.reasons.slice(0, 6)
+          : fallbackHomePageSettings.reasons,
+    };
+  } catch {
+    return fallbackHomePageSettings;
   }
 }

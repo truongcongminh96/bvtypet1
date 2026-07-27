@@ -10,18 +10,18 @@ import {
   type ReactNode,
 } from "react";
 
-const HomeMotionContext = createContext({ distance: 26 });
+const HomeMotionContext = createContext({ distance: 28 });
 
 export function useHomeMotionPreferences() {
   return useContext(HomeMotionContext);
 }
 
 export function HomeMotionProvider({ children }: { children: ReactNode }) {
-  const [distance, setDistance] = useState(26);
+  const [distance, setDistance] = useState(28);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const updateDistance = () => setDistance(mediaQuery.matches ? 16 : 26);
+    const updateDistance = () => setDistance(mediaQuery.matches ? 18 : 28);
 
     updateDistance();
     mediaQuery.addEventListener("change", updateDistance);

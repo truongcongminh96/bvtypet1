@@ -15,7 +15,7 @@ export function ArticleGrid({
 
   const remaining = items
     .filter((article) => article.slug !== featured.slug)
-    .slice(0, 2);
+    .slice(0, 3);
 
   return (
     <MotionGroup className="mt-12 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">

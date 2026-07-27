@@ -37,7 +37,7 @@ export function ImageReveal({
         scale: 1,
       }}
       viewport={{ once: true, amount: 0.18 }}
-      transition={{ duration: 0.88, delay, ease }}
+      transition={{ duration: 1.05, delay, ease }}
     >
       {children}
     </m.div>

@@ -10,6 +10,7 @@ export const siteConfig = {
   openingHours: process.env.NEXT_PUBLIC_CLINIC_HOURS?.trim() ?? "",
   facebookUrl: process.env.NEXT_PUBLIC_FACEBOOK_URL?.trim() ?? "",
   instagramUrl: process.env.NEXT_PUBLIC_INSTAGRAM_URL?.trim() ?? "",
+  zaloUrl: process.env.NEXT_PUBLIC_ZALO_URL?.trim() ?? "",
 } as const;
 
 export type ClinicContactDetails = Pick<
@@ -30,4 +31,8 @@ export function getPhoneHref() {
   }
 
   return `tel:${siteConfig.phone.replace(/[^\d+]/g, "")}`;
+}
+
+export function getContactHref(value: string) {
+  return value || "/lien-he";
 }

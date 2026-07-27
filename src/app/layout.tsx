@@ -6,7 +6,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
 import { MobileActionBar } from "@/components/site/mobile-action-bar";
-import { getPhoneHref, siteConfig } from "@/lib/site-config";
+import { FloatingContactRail } from "@/components/site/floating-contact-rail";
+import { siteConfig } from "@/lib/site-config";
 
 import "./globals.css";
 
@@ -90,9 +91,10 @@ export default function RootLayout({
         >
           Đi tới nội dung chính
         </a>
-        <Header phone={siteConfig.phone} phoneHref={getPhoneHref()} />
+        <Header />
         <main id="main-content">{children}</main>
         <Footer />
+        <FloatingContactRail />
         <MobileActionBar />
         <Analytics />
         <SpeedInsights />

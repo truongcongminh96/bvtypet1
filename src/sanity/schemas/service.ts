@@ -32,6 +32,47 @@ export const serviceType = defineType({
       validation: (rule) => rule.required().max(240),
     }),
     defineField({
+      name: "group",
+      title: "Nhóm dịch vụ",
+      type: "string",
+      initialValue: "kham-chua-benh",
+      options: {
+        list: [
+          { title: "Pet Shop", value: "pet-shop" },
+          { title: "Khám chữa bệnh", value: "kham-chua-benh" },
+          { title: "Spa / Grooming", value: "spa-grooming" },
+          { title: "Phẫu thuật", value: "phau-thuat" },
+        ],
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "cardImage",
+      title: "Ảnh thẻ dịch vụ",
+      type: "image",
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Mô tả ảnh",
+          type: "string",
+          validation: (rule) => rule.required(),
+        }),
+      ],
+    }),
+    defineField({
+      name: "featuredOnHome",
+      title: "Hiển thị trong Top dịch vụ trang chủ",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
+      name: "homeOrder",
+      title: "Thứ tự trên trang chủ",
+      type: "number",
+      initialValue: 10,
+    }),
+    defineField({
       name: "description",
       title: "Nội dung giới thiệu",
       type: "text",
