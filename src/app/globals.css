@@ -162,6 +162,20 @@ form[id] {
   text-wrap: balance;
 }
 
+.editorial-statement {
+  font-family: var(--font-heading), serif;
+  font-size: clamp(3.25rem, 4.8vw, 4.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.featured-service-overlay {
+  min-height: 16rem;
+  contain: layout;
+}
+
 .body-large {
   font-size: clamp(1.04rem, 1.5vw, 1.24rem);
   line-height: 1.72;
@@ -233,7 +247,7 @@ form[id] {
 
 .editorial-collage__exam {
   z-index: 3;
-  grid-column: 8 / 13;
+  grid-column: 7 / 13;
   grid-row: 6 / 11;
   border-radius: 1.5rem 1.5rem 4rem 1.5rem;
 }
@@ -250,10 +264,6 @@ form[id] {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 2rem;
   row-gap: 0.4rem;
-}
-
-.why-reasons > :nth-child(even) {
-  transform: translateY(1.75rem);
 }
 
 .why-reason {
@@ -340,32 +350,32 @@ form[id] {
   .editorial-collage {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: 17rem 10rem 11rem;
-    gap: 0.65rem;
+    gap: 0;
     min-height: 0;
   }
 
   .editorial-collage__main {
     grid-column: 1 / 3;
     grid-row: 1 / 2;
-    border-radius: 3rem 1.25rem 1.25rem 1.25rem;
+    border-radius: 3rem 1.25rem 0.75rem 1.25rem;
   }
 
   .editorial-collage__room {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
-    border-radius: 1rem 2.5rem 1rem 1rem;
+    border-radius: 0.75rem 2.5rem 0.75rem 0.75rem;
   }
 
   .editorial-collage__exam {
     grid-column: 2 / 3;
     grid-row: 2 / 4;
-    border-radius: 1rem 1rem 2.5rem 1rem;
+    border-radius: 0.75rem 0.75rem 2.5rem 0.75rem;
   }
 
   .editorial-collage__detail {
     grid-column: 1 / 2;
     grid-row: 3 / 4;
-    border-radius: 2.25rem 1rem 2.25rem 1rem;
+    border-radius: 0.75rem 0.75rem 2.25rem 2.25rem;
   }
 
   .why-reasons {
@@ -373,12 +383,19 @@ form[id] {
     row-gap: 0;
   }
 
-  .why-reasons > :nth-child(even) {
-    transform: none;
-  }
-
   .why-reason {
     min-height: 0;
+  }
+
+  .editorial-statement {
+    font-size: clamp(2.5rem, 11vw, 3.25rem);
+    line-height: 1.02;
+  }
+}
+
+@media (min-width: 1024px) {
+  .featured-service-overlay {
+    min-height: 17rem;
   }
 }
 

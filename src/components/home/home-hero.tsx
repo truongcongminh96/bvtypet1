@@ -1,13 +1,11 @@
 import { CalendarDots, Phone } from "@phosphor-icons/react/dist/ssr";
 
 import { ArchImage } from "@/components/home/arch-image";
-import { TrustStrip } from "@/components/home/trust-strip";
 import { MotionGroup, MotionItem } from "@/components/motion/reveal";
 import { CareActionLink } from "@/components/ui/button";
-import type { HomePageSettings } from "@/content/experience";
 import { getPhoneHref } from "@/lib/site-config";
 
-export function HomeHero({ settings }: { settings: HomePageSettings }) {
+export function HomeHero() {
   return (
     <section className="home-hero relative overflow-hidden">
       <div className="shell relative z-10 grid min-h-[42rem] items-center gap-10 pb-28 pt-12 md:pt-16 lg:grid-cols-[0.88fr_1.12fr] lg:gap-6 lg:pb-36 lg:pt-12 xl:min-h-[47rem]">
@@ -54,15 +52,6 @@ export function HomeHero({ settings }: { settings: HomePageSettings }) {
               >
                 Gọi phòng khám
               </CareActionLink>
-            </div>
-          </MotionItem>
-          <MotionItem direction="left">
-            <div className="mt-7">
-              <TrustStrip
-                rating={settings.rating}
-                reviewCount={settings.reviewCount}
-                href={settings.googleMapsUrl}
-              />
             </div>
           </MotionItem>
         </MotionGroup>

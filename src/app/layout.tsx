@@ -15,6 +15,8 @@ const headingFont = Cormorant_Garamond({
   subsets: ["latin", "vietnamese"],
   variable: "--font-heading",
   display: "swap",
+  preload: true,
+  adjustFontFallback: true,
   weight: ["500", "600"],
 });
 

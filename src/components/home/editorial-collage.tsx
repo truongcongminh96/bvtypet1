@@ -55,7 +55,7 @@ export function EditorialCollage() {
           </ImageReveal>
         ))}
       </div>
-      <figcaption className="mt-4 max-w-[30rem] text-[0.68rem] leading-5 text-text-muted lg:ml-10">
+      <figcaption className="mt-4 max-w-[30rem] text-[0.68rem] leading-5 text-text-muted">
         Hình ảnh minh hoạ, sẵn sàng thay thế bằng ảnh Pet One đã xác minh mà
         không thay đổi bố cục.
       </figcaption>

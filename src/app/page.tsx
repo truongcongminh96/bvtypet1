@@ -26,7 +26,7 @@ export default async function HomePage() {
   return (
     <HomeMotionProvider>
       <div className="overflow-x-clip">
-        <HomeHero settings={settings} />
+        <HomeHero />
         <WhyPetOne settings={settings} />
         <ServiceGrid items={services} />
         <ClinicEnvironment items={equipment} />

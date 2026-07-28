@@ -24,13 +24,13 @@ export function ServiceGrid({
         className="absolute right-[-12rem] top-20 size-[34rem] rounded-full border border-brand-blue/10"
       />
       <div className="shell relative z-10">
-        <MotionSection className="max-w-3xl" direction="left">
+        <MotionSection className="max-w-[52rem]" direction="left">
           <p className="text-xs font-semibold uppercase tracking-[0.13em] text-brand-blue-dark">
             Những chăm sóc thường bắt đầu từ đây
           </p>
-          <h2 className="section-title mt-5 text-text-primary">
-            Dịch vụ không bắt đầu bằng một chỉ định.
-            <span className="block text-brand-blue-dark">Nó bắt đầu bằng điều bạn nhận thấy.</span>
+          <h2 className="editorial-statement mt-5 text-text-primary">
+            Dịch vụ không bắt đầu bằng một chỉ định.{" "}
+            <span className="text-brand-blue-dark">Nó bắt đầu bằng điều bạn nhận thấy.</span>
           </h2>
         </MotionSection>
 
@@ -39,7 +39,10 @@ export function ServiceGrid({
           amount={0.1}
           stagger={0.12}
         >
-          <MotionItem className="lg:col-span-8 lg:col-start-4 lg:row-start-1" direction="right">
+          <div
+            className="lg:col-span-8 lg:col-start-4 lg:row-start-1"
+            data-featured-service
+          >
             <Link
               href={`/dich-vu/${featured.slug}`}
               className="group block focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-brand-blue-dark"
@@ -55,11 +58,17 @@ export function ServiceGrid({
                   />
                 ) : null}
               </figure>
-              <div className="relative z-10 -mt-14 ml-4 max-w-[36rem] bg-background px-5 pb-2 pt-5 sm:ml-10 sm:px-8 lg:-ml-28 lg:mt-[-5.5rem]">
+              <div
+                className="featured-service-overlay relative z-10 -mt-14 ml-4 max-w-[36rem] bg-background px-5 pb-2 pt-5 sm:ml-10 sm:px-8 lg:-ml-28 lg:mt-[-5.5rem]"
+                data-featured-service-overlay
+              >
                 <p className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-blue-dark">
                   Dịch vụ nổi bật
                 </p>
-                <h3 className="mt-2 font-display text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[0.98] text-text-primary">
+                <h3
+                  className="mt-2 font-display text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[0.98] text-text-primary"
+                  data-featured-service-title
+                >
                   {featured.shortTitle}
                 </h3>
                 <p className="mt-4 max-w-xl text-sm leading-7 text-text-secondary">
@@ -71,7 +80,7 @@ export function ServiceGrid({
                 </span>
               </div>
             </Link>
-          </MotionItem>
+          </div>
 
           {secondary ? (
             <MotionItem className="lg:col-span-4 lg:col-start-1 lg:row-start-1 lg:pt-44" direction="left">

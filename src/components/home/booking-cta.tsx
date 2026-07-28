@@ -33,7 +33,7 @@ export function BookingCta() {
               </p>
             </MotionItem>
             <MotionItem direction="left">
-              <h2 className="mt-5 max-w-[10ch] font-display text-[clamp(3.1rem,7vw,6.5rem)] font-semibold leading-[0.94] tracking-[-0.02em]">
+              <h2 className="mt-5 max-w-[44rem] font-display text-[clamp(3.1rem,7vw,6.5rem)] font-semibold leading-[0.96] tracking-[-0.02em]">
                 Cùng Pet One nhìn rõ bước tiếp theo.
               </h2>
             </MotionItem>

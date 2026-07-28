@@ -28,9 +28,9 @@ export function ArticleGrid({
             <p className="text-xs font-semibold uppercase tracking-[0.13em] text-brand-blue-dark">
               Cẩm nang Pet One
             </p>
-            <h2 className="section-title mt-5 text-text-primary">
-              Đọc để nhận ra sớm hơn.
-              <span className="block text-brand-blue-dark">Chuẩn bị bình tĩnh hơn.</span>
+            <h2 className="section-title mt-5 max-w-[56rem] text-text-primary">
+              Đọc để nhận ra sớm hơn.{" "}
+              <span className="text-brand-blue-dark">Chuẩn bị bình tĩnh hơn.</span>
             </h2>
           </div>
           <Link

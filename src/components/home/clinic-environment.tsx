@@ -8,13 +8,13 @@ export function ClinicEnvironment({ items }: { items: Equipment[] }) {
   return (
     <section className="relative overflow-hidden bg-surface-soft py-24 sm:py-28 lg:py-36">
       <div className="shell">
-        <MotionSection className="ml-auto max-w-[48rem] lg:pr-[8%]" direction="right" mobileDirection="left">
+        <MotionSection className="ml-auto max-w-[64rem]" direction="right" mobileDirection="left">
           <p className="text-xs font-semibold uppercase tracking-[0.13em] text-brand-blue-dark">
             Không gian chăm sóc
           </p>
-          <h2 className="section-title mt-5 text-text-primary">
-            Thiết bị chỉ có ý nghĩa khi trả lời
-            <span className="block text-brand-blue-dark">một câu hỏi lâm sàng rõ ràng.</span>
+          <h2 className="editorial-statement mt-5 text-text-primary">
+            Thiết bị chỉ có ý nghĩa khi trả lời{" "}
+            <span className="text-brand-blue-dark">một câu hỏi lâm sàng rõ ràng.</span>
           </h2>
         </MotionSection>
       </div>
