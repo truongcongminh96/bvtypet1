@@ -109,6 +109,10 @@ type SanityImage = {
   hotspot?: { x?: number; y?: number };
 };
 
+type SanityService = Omit<Service, "cardImage"> & {
+  cardImage?: SanityImage;
+};
+
 type SanityArticle = {
   slug?: string;
   title?: string;
@@ -329,7 +333,7 @@ const fallbackServiceImages: Record<string, ArticleImage> = {
     placeholder: true,
   },
   "noi-khoa": {
-    src: "/images/services/services-treatment-concept.png",
+    src: "/images/services/services-diagnostics-concept.png",
     alt: "Bác sĩ trao đổi kế hoạch đánh giá sức khỏe thú cưng",
     placeholder: true,
   },
@@ -343,7 +347,35 @@ const fallbackServiceImages: Record<string, ArticleImage> = {
     alt: "Nhân viên chăm sóc da lông cho thú cưng",
     placeholder: true,
   },
+  "chan-doan-hinh-anh": {
+    src: "/images/services/chan-doan-hinh-anh.png",
+    alt: "Thiết bị chẩn đoán hình ảnh trong phòng khám thú y",
+    placeholder: true,
+  },
+  "xet-nghiem": {
+    src: "/images/services/xet-nghiem.png",
+    alt: "Bác sĩ thực hiện xét nghiệm hỗ trợ đánh giá sức khỏe thú cưng",
+    placeholder: true,
+  },
+  "cham-soc-rang-mieng": {
+    src: "/images/services/cham-soc-rang-mieng.png",
+    alt: "Bác sĩ kiểm tra sức khỏe răng miệng cho thú cưng",
+    placeholder: true,
+  },
 };
+
+function normalizeServiceImage(image?: SanityImage): ArticleImage | undefined {
+  if (!image?.src || !image.alt) {
+    return undefined;
+  }
+
+  return {
+    src: image.src,
+    alt: image.alt,
+    focalPoint: getFocalPoint(image),
+    placeholder: image.placeholder ?? false,
+  };
+}
 
 function withServicePresentation(service: Service): Service {
   const group =
@@ -367,14 +399,21 @@ export async function getServices(): Promise<Service[]> {
   }
 
   try {
-    const data = await sanityClient.fetch<Service[]>(
+    const data = await sanityClient.fetch<SanityService[]>(
       servicesQuery,
       {},
       { next: { revalidate: 300 } },
     );
 
-    return (data.length > 0 ? data : fallbackServices).map(
-      withServicePresentation,
+    if (data.length === 0) {
+      return fallbackServices.map(withServicePresentation);
+    }
+
+    return data.map((service) =>
+      withServicePresentation({
+        ...service,
+        cardImage: normalizeServiceImage(service.cardImage),
+      }),
     );
   } catch {
     return fallbackServices.map(withServicePresentation);
@@ -382,12 +421,24 @@ export async function getServices(): Promise<Service[]> {
 }
 
 export async function getHomeServices(): Promise<Service[]> {
-  const services = await getServices();
-  const featured = services
+  const sanityServices = await getServices();
+  const combined = [...sanityServices, ...fallbackServices.map(withServicePresentation)];
+  const deduped = Array.from(
+    new Map(combined.map((service) => [service.slug, service])).values(),
+  );
+  const featured = deduped
     .filter((service) => service.featuredOnHome)
-    .sort((a, b) => (a.homeOrder ?? 10) - (b.homeOrder ?? 10));
+    .sort(
+      (a, b) =>
+        (a.homeOrder ?? Number.MAX_SAFE_INTEGER) -
+        (b.homeOrder ?? Number.MAX_SAFE_INTEGER),
+    );
+  const featuredSlugs = new Set(featured.map((service) => service.slug));
+  const remaining = deduped.filter(
+    (service) => !featuredSlugs.has(service.slug),
+  );
 
-  return (featured.length > 0 ? featured : services).slice(0, 3);
+  return [...featured, ...remaining].slice(0, 8);
 }
 
 export async function getArticles(): Promise<Article[]> {
