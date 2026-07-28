@@ -178,7 +178,7 @@ export function ServiceCarousel({ items }: { items: Service[] }) {
             className="service-carousel-card group"
             data-service-carousel-card
           >
-            <figure className="relative h-full min-w-0 overflow-hidden bg-surface-soft">
+            <figure className="service-carousel-card__media relative h-full min-w-0 overflow-hidden bg-surface-soft">
               {service.cardImage ? (
                 <Image
                   src={service.cardImage.src}
@@ -190,13 +190,18 @@ export function ServiceCarousel({ items }: { items: Service[] }) {
                 />
               ) : null}
             </figure>
-            <div className="flex min-w-0 flex-col items-start justify-center px-5 py-5 sm:px-6">
-              <h4 className="font-display text-[1.75rem] font-semibold leading-[1.02] text-text-primary">
+            <div className="service-carousel-card__content flex min-w-0 flex-col items-start justify-center px-5 py-5 sm:px-6">
+              <h4 className="service-carousel-card__title font-display text-[1.75rem] font-semibold leading-[1.02]">
                 {service.shortTitle}
               </h4>
-              <span className="mt-5 inline-flex min-h-10 items-center gap-2 rounded-[var(--radius-sm)] bg-brand-blue-dark px-3.5 text-xs font-semibold text-white shadow-[0_7px_16px_rgba(13,95,168,0.16)] transition-[transform,background-color] duration-200 group-hover:-translate-y-0.5 group-hover:bg-[var(--medical-blue-hover)]">
+              <span className="service-carousel-card__cta mt-5 inline-flex min-h-10 items-center gap-2 rounded-[var(--radius-sm)] px-3.5 text-xs font-semibold">
                 Tìm hiểu
-                <ArrowUpRight size={14} weight="bold" aria-hidden="true" />
+                <ArrowUpRight
+                  className="service-carousel-card__cta-icon"
+                  size={14}
+                  weight="bold"
+                  aria-hidden="true"
+                />
               </span>
             </div>
           </Link>

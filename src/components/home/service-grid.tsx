@@ -1,4 +1,8 @@
-import { ArrowUpRight, Stethoscope } from "@phosphor-icons/react/dist/ssr";
+import {
+  ArrowUpRight,
+  Stethoscope,
+  Syringe,
+} from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -69,7 +73,7 @@ export function ServiceGrid({
               </figure>
 
               <div
-                className="featured-service-overlay"
+                className="service-info-card featured-service-overlay"
                 data-featured-service-overlay
               >
                 <div className="featured-service-overlay__header">
@@ -117,13 +121,35 @@ export function ServiceGrid({
                 href={`/dich-vu/${secondary.slug}`}
                 className="group grid gap-5 rounded-[2rem] focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-brand-blue-dark"
               >
-                <div className="service-collage__secondary-copy">
-                  <h3 className="font-display text-[2rem] font-semibold leading-none text-text-primary sm:text-4xl lg:text-[2.2rem]">
-                    {secondary.shortTitle}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-text-secondary lg:text-[0.8125rem] lg:leading-6">
+                <div className="service-info-card secondary-service-card service-collage__secondary-copy">
+                  <div className="featured-service-overlay__header">
+                    <span
+                      className="featured-service-overlay__icon"
+                      aria-hidden="true"
+                    >
+                      <Syringe size={22} weight="regular" />
+                    </span>
+                    <div>
+                      <p className="featured-service-overlay__eyebrow">
+                        Chăm sóc phòng ngừa
+                      </p>
+                      <h3 className="featured-service-overlay__title secondary-service-card__title font-display text-text-primary">
+                        {secondary.shortTitle}
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="featured-service-overlay__description text-text-secondary">
                     {secondary.summary}
                   </p>
+                  <span className="featured-service-overlay__cta">
+                    Tìm hiểu dịch vụ
+                    <ArrowUpRight
+                      aria-hidden="true"
+                      className="featured-service-overlay__cta-icon"
+                      size={15}
+                      weight="bold"
+                    />
+                  </span>
                 </div>
                 <figure className="service-collage__secondary-image relative overflow-hidden bg-surface-soft shadow-[0_14px_34px_rgba(16,46,58,0.07)]">
                   {secondary.cardImage ? (
