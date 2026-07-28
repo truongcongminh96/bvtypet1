@@ -9,6 +9,34 @@ export const homePageSettingsType = defineType({
     defineField({ name: "reviewCount", title: "Số lượt đánh giá Google", type: "number", validation: (rule) => rule.integer().positive() }),
     defineField({ name: "googleMapsUrl", title: "Link Google Maps", type: "url" }),
     defineField({
+      name: "metrics",
+      title: "Số liệu đã xác minh",
+      description: "Chỉ số chỉ hiển thị trên trang chủ khi được đánh dấu đã xác minh.",
+      type: "array",
+      validation: (rule) => rule.max(3),
+      of: [{
+        type: "object",
+        fields: [
+          defineField({ name: "value", title: "Giá trị", type: "string", validation: (rule) => rule.required() }),
+          defineField({ name: "label", title: "Nhãn", type: "string", validation: (rule) => rule.required() }),
+          defineField({ name: "detail", title: "Ghi chú nguồn", type: "string" }),
+          defineField({
+            name: "verificationStatus",
+            title: "Trạng thái",
+            type: "string",
+            initialValue: "draft",
+            options: {
+              list: [
+                { title: "Đang kiểm tra", value: "draft" },
+                { title: "Đã xác minh", value: "verified" },
+              ],
+            },
+            validation: (rule) => rule.required(),
+          }),
+        ],
+      }],
+    }),
+    defineField({
       name: "reasons",
       title: "Lý do chọn Pet One",
       type: "array",

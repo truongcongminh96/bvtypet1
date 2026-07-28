@@ -1,6 +1,6 @@
 "use client";
 
-import { m, useReducedMotion, type Variants } from "motion/react";
+import { m, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 
 import { useHomeMotionPreferences } from "@/components/motion/home-motion-provider";
@@ -100,7 +100,6 @@ export function MotionSection({
   mobileDirection,
   scaleFrom = 1,
 }: RevealProps) {
-  const reduceMotion = useReducedMotion();
   const { distance, isMobile, supportsInView } = useHomeMotionPreferences();
   const resolvedDirection =
     isMobile && mobileDirection ? mobileDirection : direction;
@@ -115,8 +114,8 @@ export function MotionSection({
         distance,
         scaleFrom,
       }}
-      initial={reduceMotion ? false : "hidden"}
-      animate={!reduceMotion && !supportsInView ? "visible" : undefined}
+      initial="hidden"
+      animate={!supportsInView ? "visible" : undefined}
       whileInView={supportsInView ? "visible" : undefined}
       viewport={{ once: true, amount }}
       variants={revealVariants}
@@ -133,15 +132,14 @@ export function MotionGroup({
   amount = 0.16,
   stagger = 0.16,
 }: RevealProps & { stagger?: number }) {
-  const reduceMotion = useReducedMotion();
   const { supportsInView } = useHomeMotionPreferences();
 
   return (
     <m.div
       className={className}
-      custom={{ delay, stagger: reduceMotion ? 0 : stagger }}
-      initial={reduceMotion ? false : "hidden"}
-      animate={!reduceMotion && !supportsInView ? "visible" : undefined}
+      custom={{ delay, stagger }}
+      initial="hidden"
+      animate={!supportsInView ? "visible" : undefined}
       whileInView={supportsInView ? "visible" : undefined}
       viewport={{ once: true, amount }}
       variants={groupVariants}
@@ -159,7 +157,6 @@ export function MotionItem({
   mobileDirection,
   scaleFrom = 1,
 }: Omit<RevealProps, "amount">) {
-  const reduceMotion = useReducedMotion();
   const { distance, isMobile } = useHomeMotionPreferences();
   const resolvedDirection =
     isMobile && mobileDirection ? mobileDirection : direction;
@@ -174,7 +171,7 @@ export function MotionItem({
         distance,
         scaleFrom,
       }}
-      variants={reduceMotion ? undefined : revealVariants}
+      variants={revealVariants}
     >
       {children}
     </m.div>

@@ -490,7 +490,13 @@ const homePageSettingsQuery = `*[_type == "homePageSettings"][0] {
   rating,
   reviewCount,
   googleMapsUrl,
-  reasons[]{title, description}
+  reasons[]{title, description},
+  metrics[]{
+    value,
+    label,
+    detail,
+    "verified": verificationStatus == "verified"
+  }
 }`;
 
 async function fetchVerifiedList<T extends { verified: boolean }>(
@@ -547,6 +553,7 @@ export async function getHomePageSettings(): Promise<HomePageSettings> {
         data?.reasons && data.reasons.length > 0
           ? data.reasons.slice(0, 6)
           : fallbackHomePageSettings.reasons,
+      metrics: (data?.metrics ?? []).filter((metric) => metric.verified).slice(0, 3),
     };
   } catch {
     return fallbackHomePageSettings;

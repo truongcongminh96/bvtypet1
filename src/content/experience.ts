@@ -1,4 +1,5 @@
 import type { ArticleImage } from "@/content/site";
+import { siteConfig } from "@/lib/site-config";
 
 export type Equipment = {
   id: string;
@@ -49,9 +50,17 @@ export type HomePageSettings = {
   reviewCount?: number;
   googleMapsUrl?: string;
   reasons: Array<{ title: string; description: string }>;
+  metrics: Array<{
+    value: string;
+    label: string;
+    detail?: string;
+    verified: boolean;
+  }>;
 };
 
 export const fallbackHomePageSettings: HomePageSettings = {
+  googleMapsUrl: siteConfig.googleMapsUrl,
+  metrics: [],
   reasons: [
     {
       title: "Bắt đầu từ điều bạn quan sát",
@@ -113,4 +122,16 @@ export const fallbackAboutPage: AboutPageContent = {
 
 export const fallbackEquipment: Equipment[] = [];
 export const fallbackReviews: CustomerReview[] = [];
-export const fallbackLocations: ClinicLocation[] = [];
+export const fallbackLocations: ClinicLocation[] = [
+  {
+    id: "pet-one-tan-huong",
+    name: "Phòng khám thú y Pet One",
+    address: siteConfig.address,
+    phone: siteConfig.phone,
+    openingHours: siteConfig.openingHours,
+    mapUrl: siteConfig.googleMapsUrl,
+    mapEmbedUrl: siteConfig.googleMapsEmbedUrl,
+    verified: true,
+    order: 1,
+  },
+];

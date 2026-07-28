@@ -1,13 +1,32 @@
+const clinicDefaults = {
+  phone: "0964 402 602",
+  address: "329 Tân Hương, Phú Thọ Hòa, Hồ Chí Minh",
+  openingHours: "Thứ Hai–Chủ Nhật: 08:00–20:00",
+  googleMapsUrl: "https://maps.app.goo.gl/MPnJZTfC9wyFNQ9f7",
+  googleMapsEmbedUrl:
+    "https://maps.google.com/maps?cid=16726709539771933563&hl=vi&output=embed",
+} as const;
+
 export const siteConfig = {
   name: "Pet One",
   title: "Pet One | Chăm sóc thú y rõ ràng và tận tâm",
   description:
     "Không gian thú y thân thiện, quy trình rõ ràng và kế hoạch chăm sóc phù hợp cho từng thú cưng.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  phone: process.env.NEXT_PUBLIC_CLINIC_PHONE?.trim() ?? "",
+  phone:
+    process.env.NEXT_PUBLIC_CLINIC_PHONE?.trim() || clinicDefaults.phone,
   email: process.env.NEXT_PUBLIC_CLINIC_EMAIL?.trim() ?? "",
-  address: process.env.NEXT_PUBLIC_CLINIC_ADDRESS?.trim() ?? "",
-  openingHours: process.env.NEXT_PUBLIC_CLINIC_HOURS?.trim() ?? "",
+  address:
+    process.env.NEXT_PUBLIC_CLINIC_ADDRESS?.trim() || clinicDefaults.address,
+  openingHours:
+    process.env.NEXT_PUBLIC_CLINIC_HOURS?.trim() ||
+    clinicDefaults.openingHours,
+  googleMapsUrl:
+    process.env.NEXT_PUBLIC_GOOGLE_MAPS_URL?.trim() ||
+    clinicDefaults.googleMapsUrl,
+  googleMapsEmbedUrl:
+    process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL?.trim() ||
+    clinicDefaults.googleMapsEmbedUrl,
   facebookUrl: process.env.NEXT_PUBLIC_FACEBOOK_URL?.trim() ?? "",
   instagramUrl: process.env.NEXT_PUBLIC_INSTAGRAM_URL?.trim() ?? "",
   zaloUrl: process.env.NEXT_PUBLIC_ZALO_URL?.trim() ?? "",
@@ -15,7 +34,7 @@ export const siteConfig = {
 
 export type ClinicContactDetails = Pick<
   typeof siteConfig,
-  "phone" | "email" | "address" | "openingHours"
+  "phone" | "email" | "address" | "openingHours" | "googleMapsUrl"
 >;
 
 export const clinicContactDetails: ClinicContactDetails = {
@@ -23,6 +42,7 @@ export const clinicContactDetails: ClinicContactDetails = {
   email: siteConfig.email,
   address: siteConfig.address,
   openingHours: siteConfig.openingHours,
+  googleMapsUrl: siteConfig.googleMapsUrl,
 };
 
 export function getPhoneHref() {

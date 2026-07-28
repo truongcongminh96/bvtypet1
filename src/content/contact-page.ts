@@ -39,6 +39,7 @@ export const contactPageContent = {
       address: {
         title: "Địa chỉ",
         description: "Kiểm tra vị trí trước khi đưa bé đến phòng khám.",
+        actionLabel: "Xem Google Maps",
       },
       openingHours: {
         title: "Giờ tiếp nhận",

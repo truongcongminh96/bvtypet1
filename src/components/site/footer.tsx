@@ -30,7 +30,24 @@ export function Footer() {
           </p>
           <address className="mt-6 not-italic">
             <ul className="grid gap-3 text-sm leading-6 text-text-secondary">
-              <li className="flex gap-3"><MapPin aria-hidden="true" size={18} className="mt-0.5 shrink-0 text-brand-blue-dark" /><span>{siteConfig.address || "Địa chỉ đang được cập nhật."}</span></li>
+              <li className="flex gap-3">
+                <MapPin
+                  aria-hidden="true"
+                  size={18}
+                  className="mt-0.5 shrink-0 text-brand-blue-dark"
+                />
+                {siteConfig.address ? (
+                  <Link
+                    href={siteConfig.googleMapsUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {siteConfig.address}
+                  </Link>
+                ) : (
+                  <span>Địa chỉ đang được cập nhật.</span>
+                )}
+              </li>
               <li className="flex gap-3"><Phone aria-hidden="true" size={18} className="mt-0.5 shrink-0 text-brand-red-strong" />{siteConfig.phone ? <Link href={getPhoneHref()}>{siteConfig.phone}</Link> : <span>Số điện thoại đang được cập nhật.</span>}</li>
               <li className="flex gap-3"><EnvelopeSimple aria-hidden="true" size={18} className="mt-0.5 shrink-0 text-brand-blue-dark" />{siteConfig.email ? <Link href={`mailto:${siteConfig.email}`}>{siteConfig.email}</Link> : <span>Email đang được cập nhật.</span>}</li>
               <li className="flex gap-3"><Clock aria-hidden="true" size={18} className="mt-0.5 shrink-0 text-brand-blue-dark" /><span>{siteConfig.openingHours || "Giờ hoạt động đang được cập nhật."}</span></li>

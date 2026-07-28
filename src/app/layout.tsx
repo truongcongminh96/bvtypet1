@@ -72,6 +72,7 @@ export default function RootLayout({
     ...(siteConfig.phone ? { telephone: siteConfig.phone } : {}),
     ...(siteConfig.email ? { email: siteConfig.email } : {}),
     ...(siteConfig.address ? { address: siteConfig.address } : {}),
+    ...(siteConfig.googleMapsUrl ? { hasMap: siteConfig.googleMapsUrl } : {}),
     ...(siteConfig.openingHours
       ? { openingHours: siteConfig.openingHours }
       : {}),

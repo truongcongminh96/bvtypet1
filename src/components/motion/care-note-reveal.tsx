@@ -1,6 +1,6 @@
 "use client";
 
-import { m, useReducedMotion } from "motion/react";
+import { m } from "motion/react";
 
 import { CareNote } from "@/components/ui/care-note";
 import { cn } from "@/lib/cn";
@@ -18,9 +18,6 @@ export function CareNoteReveal({
   direction?: "left" | "right";
   delay?: number;
 }) {
-  const reduceMotion = useReducedMotion();
-  const initial = reduceMotion ? false : undefined;
-
   return (
     <div
       className={cn(
@@ -33,7 +30,7 @@ export function CareNoteReveal({
         data-motion-reveal
         aria-hidden="true"
         className="size-2.5 shrink-0 rounded-full border-2 border-brand-blue bg-surface"
-        initial={initial ?? { opacity: 0, scale: 0.4 }}
+        initial={{ opacity: 0, scale: 0.4 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.35, delay, ease }}
@@ -45,19 +42,17 @@ export function CareNoteReveal({
           "h-px w-5 bg-brand-blue/35",
           direction === "left" ? "origin-right" : "origin-left",
         )}
-        initial={initial ?? { opacity: 0, scaleX: 0 }}
+        initial={{ opacity: 0, scaleX: 0 }}
         whileInView={{ opacity: 1, scaleX: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.38, delay: delay + 0.1, ease }}
       />
       <m.span
         data-motion-reveal
-        initial={
-          initial ?? {
-            opacity: 0,
-            x: direction === "left" ? 8 : -8,
-          }
-        }
+        initial={{
+          opacity: 0,
+          x: direction === "left" ? 8 : -8,
+        }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.48, delay: delay + 0.2, ease }}

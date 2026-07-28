@@ -34,7 +34,9 @@ export function ContactRail({ contact }: { contact: ClinicContactDetails }) {
         ? `tel:${value.replace(/[^\d+]/g, "")}`
         : key === "email" && value
           ? `mailto:${value}`
-          : undefined;
+          : key === "address" && value
+            ? contact.googleMapsUrl
+            : undefined;
 
     return {
       ...content,
@@ -104,6 +106,8 @@ export function ContactRail({ contact }: { contact: ClinicContactDetails }) {
                     {item.href && "actionLabel" in item ? (
                       <Link
                         href={item.href}
+                        target={item.key === "address" ? "_blank" : undefined}
+                        rel={item.key === "address" ? "noreferrer" : undefined}
                         className="inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-brand-blue-dark underline decoration-brand-blue/30 underline-offset-4 transition-colors hover:decoration-brand-blue-dark"
                       >
                         {item.actionLabel}

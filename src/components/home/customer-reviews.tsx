@@ -2,60 +2,83 @@ import { ArrowUpRight, Star } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
 import { MotionGroup, MotionItem, MotionSection } from "@/components/motion/reveal";
-import { SectionHeading } from "@/components/ui/section-heading";
 import type { CustomerReview } from "@/content/experience";
 
 export function CustomerReviews({ items }: { items: CustomerReview[] }) {
   if (items.length === 0) return null;
 
-  return (
-    <section className="section-space bg-surface-soft">
-      <div className="shell">
-        <MotionSection direction="left">
-          <SectionHeading
-            label="Đánh giá từ Google Maps"
-            title="Điều khách hàng ghi nhận sau khi chăm bé"
-            description="Các đánh giá dưới đây được Pet One chọn lọc và đối chiếu với nguồn công khai."
-          />
-        </MotionSection>
-        <MotionGroup className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {items.slice(0, 6).map((review, index) => {
-            const column = index % 3;
-            const direction = column === 0 ? "left" : column === 1 ? "none" : "right";
+  const featured = items[0];
+  const supporting = items.slice(1, 3);
 
-            return (
+  return (
+    <section className="relative overflow-hidden bg-surface-warm py-24 sm:py-28 lg:py-36">
+      <span
+        aria-hidden="true"
+        className="absolute left-[8%] top-24 font-display text-[16rem] leading-none text-brand-blue/5"
+      >
+        “
+      </span>
+      <div className="shell relative z-10">
+        <MotionSection className="max-w-xl" direction="left">
+          <p className="text-xs font-semibold uppercase tracking-[0.13em] text-brand-blue-dark">
+            Ghi nhận từ khách hàng
+          </p>
+          <h2 className="section-title mt-5 text-text-primary">
+            Điều còn lại sau một buổi chăm bé.
+          </h2>
+        </MotionSection>
+
+        <MotionSection className="mx-auto mt-14 max-w-5xl" direction="none" scaleFrom={0.992}>
+          <article>
+            <div className="flex gap-1 text-[#c78612]" aria-label={`${featured.rating} trên 5 sao`}>
+              {Array.from({ length: 5 }, (_, index) => (
+                <Star
+                  key={index}
+                  aria-hidden="true"
+                  size={18}
+                  weight={index < Math.round(featured.rating) ? "fill" : "regular"}
+                />
+              ))}
+            </div>
+            <blockquote className="mt-6 font-display text-[clamp(2.35rem,5vw,4.7rem)] font-medium leading-[1.08] tracking-[-0.015em] text-text-primary">
+              “{featured.quote}”
+            </blockquote>
+            <footer className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-text-primary/12 pt-5 text-sm">
+              <strong className="text-text-primary">{featured.author}</strong>
+              <Link
+                href={featured.sourceUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 font-semibold text-brand-blue-dark"
+              >
+                Nguồn Google Maps
+                <ArrowUpRight aria-hidden="true" size={14} />
+              </Link>
+            </footer>
+          </article>
+        </MotionSection>
+
+        {supporting.length > 0 ? (
+          <MotionGroup className="mt-16 grid gap-10 md:grid-cols-2 md:gap-16 lg:ml-auto lg:max-w-4xl" stagger={0.12}>
+            {supporting.map((review, index) => (
               <MotionItem
                 key={review.id}
-                direction={direction}
+                className={index === 1 ? "md:translate-y-10" : undefined}
+                direction={index === 0 ? "left" : "right"}
                 mobileDirection="left"
-                scaleFrom={column === 1 ? 0.985 : 1}
               >
-                <article className="flex h-full flex-col rounded-[var(--radius-lg)] border border-border bg-surface p-6 shadow-[var(--shadow-card)]">
-                  <div className="flex gap-1 text-[#e7a51a]" aria-label={`${review.rating} trên 5 sao`}>
-                    {Array.from({ length: 5 }, (_, index) => (
-                      <Star key={index} aria-hidden="true" size={17} weight={index < Math.round(review.rating) ? "fill" : "regular"} />
-                    ))}
-                  </div>
-                  <blockquote className="mt-5 flex-1 text-sm leading-7 text-text-secondary">
+                <article className="border-l border-brand-blue/25 pl-5">
+                  <blockquote className="text-base leading-8 text-text-secondary">
                     “{review.quote}”
                   </blockquote>
-                  <div className="mt-6 border-t border-border pt-4">
-                    <p className="text-sm font-semibold text-text-primary">{review.author}</p>
-                    <Link
-                      href={review.sourceUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand-blue-dark"
-                    >
-                      Xem nguồn Google Maps
-                      <ArrowUpRight aria-hidden="true" size={14} />
-                    </Link>
-                  </div>
+                  <footer className="mt-5 text-xs font-semibold text-text-primary">
+                    {review.author}
+                  </footer>
                 </article>
               </MotionItem>
-            );
-          })}
-        </MotionGroup>
+            ))}
+          </MotionGroup>
+        ) : null}
       </div>
     </section>
   );

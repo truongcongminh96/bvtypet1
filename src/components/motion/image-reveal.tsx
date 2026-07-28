@@ -1,6 +1,6 @@
 "use client";
 
-import { m, useReducedMotion } from "motion/react";
+import { m } from "motion/react";
 import type { ReactNode } from "react";
 
 import { useHomeMotionPreferences } from "@/components/motion/home-motion-provider";
@@ -27,7 +27,6 @@ export function ImageReveal({
   delay?: number;
   direction?: ImageRevealDirection;
 }) {
-  const reduceMotion = useReducedMotion();
   const { distance, supportsInView } = useHomeMotionPreferences();
   const horizontalOffset =
     direction === "left"
@@ -40,18 +39,14 @@ export function ImageReveal({
     <m.div
       data-motion-reveal
       className={cn(className)}
-      initial={
-        reduceMotion
-          ? false
-          : {
-              opacity: 0,
-              clipPath: clipPathByDirection[direction],
-              scale: 1.015,
-              x: horizontalOffset,
-            }
-      }
+      initial={{
+        opacity: 0,
+        clipPath: clipPathByDirection[direction],
+        scale: 1.015,
+        x: horizontalOffset,
+      }}
       animate={
-        !reduceMotion && !supportsInView
+        !supportsInView
           ? {
               opacity: 1,
               clipPath: "inset(0 0 0% 0 round var(--radius-image))",
