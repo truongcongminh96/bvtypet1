@@ -4,14 +4,14 @@ import { ImageReveal } from "@/components/motion/image-reveal";
 
 export function ArchImage() {
   return (
-    <figure className="relative mx-auto w-full max-w-[36rem] lg:mr-0">
+    <figure className="relative mx-auto w-full max-w-[42rem]">
       <span
         aria-hidden="true"
-        className="absolute left-1/2 top-[46%] h-[72%] w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-[radial-gradient(circle_at_center,rgba(22,132,214,0.2),rgba(232,244,252,0.62)_48%,transparent_72%)]"
+        className="absolute left-1/2 top-[44%] h-[76%] w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-[radial-gradient(circle_at_center,rgba(22,132,214,0.13),rgba(232,244,252,0.46)_50%,transparent_74%)]"
       />
       <ImageReveal
-        className="hero-arch relative z-[1] mx-auto aspect-[4/5] w-[82%] overflow-hidden border border-white/80 bg-surface-soft shadow-[0_26px_70px_rgba(16,46,58,0.14)] sm:w-[78%] lg:w-[84%]"
-        direction="right"
+        className="hero-arch relative z-[1] mx-auto aspect-[4/5] w-full overflow-hidden border border-white/80 bg-surface-soft shadow-[0_24px_58px_rgba(16,46,58,0.12)] sm:w-[78%]"
+        direction="up"
       >
         <Image
           src="/images/pet-one-hero.png"
@@ -19,7 +19,7 @@ export function ArchImage() {
           fill
           priority
           loading="eager"
-          sizes="(max-width: 639px) 82vw, (max-width: 1023px) 62vw, 38vw"
+          sizes="(max-width: 639px) calc(100vw - 1.25rem), (max-width: 1023px) 72vw, 1px"
           className="object-cover"
           style={{ objectPosition: "54% 46%" }}
         />
