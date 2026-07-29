@@ -65,7 +65,7 @@ export function ArticleGrid({
                   </figcaption>
                 ) : null}
               </figure>
-              <div className="home-guide-feature__copy relative z-10 -mt-8 ml-4 max-w-[44rem] px-5 py-5 sm:-mt-14 sm:ml-10 sm:px-7 sm:py-6 lg:-mr-24 lg:ml-16">
+              <div className="home-guide-feature__copy relative z-10 -mt-32 ml-4 max-w-[44rem] px-5 py-5 sm:-mt-48 sm:ml-10 sm:px-7 sm:py-6 lg:-mr-24 lg:ml-16">
                 <p className="text-xs font-semibold uppercase tracking-[0.1em] text-brand-blue-dark">
                   {guideCategoryLabels[featured.category]}
                 </p>

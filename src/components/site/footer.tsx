@@ -1,4 +1,6 @@
 import {
+  ArrowUpRight,
+  CaretRight,
   Clock,
   EnvelopeSimple,
   MapPin,
@@ -20,66 +22,197 @@ const informationLinks = [
 ];
 
 export function Footer() {
+  const addressParts = siteConfig.address
+    ? siteConfig.address
+        .split(",")
+        .map((part) => part.trim())
+        .filter(Boolean)
+    : [];
+  const [streetAddress, ...localityParts] = addressParts;
+  const localityAddress = localityParts.join(", ");
+
   return (
-    <footer className="border-t border-border bg-surface-soft">
-      <div className="shell grid gap-10 py-14 lg:grid-cols-[1.05fr_0.7fr_1.25fr] lg:gap-12 lg:py-16">
-        <div>
-          <Brand />
-          <p className="mt-5 max-w-sm text-sm leading-7 text-text-secondary">
-            Pet One giúp người nuôi hiểu rõ tình trạng của bé và biết điều gì cần làm tiếp theo.
-          </p>
-          <address className="mt-6 not-italic">
-            <ul className="grid gap-3 text-sm leading-6 text-text-secondary">
-              <li className="flex gap-3">
-                <MapPin
-                  aria-hidden="true"
-                  size={18}
-                  className="mt-0.5 shrink-0 text-brand-blue-dark"
-                />
-                {siteConfig.address ? (
+    <footer className="relative bg-transparent pt-20 sm:pt-24">
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1440 96"
+        preserveAspectRatio="none"
+        className="absolute inset-x-0 top-0 h-20 w-full sm:h-24"
+      >
+        <path
+          d="M0 54C326 12 806 5 1440 60V96H0Z"
+          fill="var(--surface-warm)"
+        />
+      </svg>
+
+      <div className="relative bg-surface-warm">
+        <div className="shell grid gap-10 pb-10 pt-5 sm:pb-12 md:grid-cols-2 lg:grid-cols-[1.05fr_0.7fr_1fr] lg:gap-14 lg:pb-14 lg:pt-3">
+          <div className="lg:pt-2">
+            <Brand />
+            <p className="mt-5 max-w-sm text-sm leading-7 text-text-secondary">
+              Pet One giúp người nuôi hiểu rõ tình trạng của bé và biết điều gì
+              cần làm tiếp theo.
+            </p>
+
+            {siteConfig.phone ? (
+              <Link
+                href={getPhoneHref()}
+                className="mt-6 inline-flex min-h-16 items-center gap-3 rounded-full bg-brand-blue-dark px-4 pr-6 text-white shadow-[0_14px_30px_rgba(13,95,168,0.2)] transition-transform hover:-translate-y-0.5"
+              >
+                <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-white/15">
+                  <Phone aria-hidden="true" size={20} weight="fill" />
+                </span>
+                <span>
+                  <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-white/75">
+                    Tư vấn &amp; đặt lịch
+                  </span>
+                  <span className="mt-0.5 block text-lg font-bold tracking-[0.04em]">
+                    {siteConfig.phone}
+                  </span>
+                </span>
+              </Link>
+            ) : null}
+
+            <address className="mt-7 not-italic">
+              <ul className="grid gap-4 text-sm leading-6 text-text-secondary">
+                <li className="flex items-start gap-3">
+                  <MapPin
+                    aria-hidden="true"
+                    size={18}
+                    weight="fill"
+                    className="mt-1 shrink-0 text-brand-blue-dark"
+                  />
+                  {siteConfig.address ? (
+                    <Link
+                      href={siteConfig.googleMapsUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex max-w-[20rem] items-start gap-1.5 transition-colors hover:text-brand-blue-dark"
+                    >
+                      <span>
+                        <span className="block font-semibold text-text-primary">
+                          Địa chỉ phòng khám
+                        </span>
+                        <span className="mt-0.5 block">{streetAddress}</span>
+                        {localityAddress ? (
+                          <span className="block">{localityAddress}</span>
+                        ) : null}
+                      </span>
+                      <ArrowUpRight
+                        aria-hidden="true"
+                        size={14}
+                        weight="bold"
+                        className="mt-1 shrink-0"
+                      />
+                    </Link>
+                  ) : (
+                    <span>Địa chỉ đang được cập nhật.</span>
+                  )}
+                </li>
+                <li className="flex items-center gap-3">
+                  <EnvelopeSimple
+                    aria-hidden="true"
+                    size={18}
+                    weight="fill"
+                    className="shrink-0 text-brand-blue-dark"
+                  />
+                  {siteConfig.email ? (
+                    <Link
+                      href={`mailto:${siteConfig.email}`}
+                      className="transition-colors hover:text-brand-blue-dark"
+                    >
+                      {siteConfig.email}
+                    </Link>
+                  ) : (
+                    <span>Email đang được cập nhật.</span>
+                  )}
+                </li>
+                <li className="flex items-start gap-3">
+                  <Clock
+                    aria-hidden="true"
+                    size={18}
+                    weight="fill"
+                    className="mt-1 shrink-0 text-brand-blue-dark"
+                  />
+                  <span>
+                    {siteConfig.openingHours ||
+                      "Giờ hoạt động đang được cập nhật."}
+                  </span>
+                </li>
+              </ul>
+            </address>
+          </div>
+
+          <nav aria-label="Thông tin tại footer" className="lg:pt-2">
+            <h2 className="font-display text-[1.75rem] font-semibold text-text-primary">
+              Về Pet One
+            </h2>
+            <div
+              aria-hidden="true"
+              className="mt-3 h-px w-16 bg-brand-blue-dark"
+            />
+            <ul className="mt-5 grid gap-3">
+              {informationLinks.map((link) => (
+                <li key={link.href}>
                   <Link
-                    href={siteConfig.googleMapsUrl}
-                    target="_blank"
-                    rel="noreferrer"
+                    href={link.href}
+                    className="group inline-flex items-center gap-2 text-sm leading-6 text-text-secondary transition-colors hover:text-brand-blue-dark"
                   >
-                    {siteConfig.address}
+                    <CaretRight
+                      aria-hidden="true"
+                      size={12}
+                      weight="bold"
+                      className="transition-transform group-hover:translate-x-0.5"
+                    />
+                    {link.label}
                   </Link>
-                ) : (
-                  <span>Địa chỉ đang được cập nhật.</span>
-                )}
-              </li>
-              <li className="flex gap-3"><Phone aria-hidden="true" size={18} className="mt-0.5 shrink-0 text-brand-red-strong" />{siteConfig.phone ? <Link href={getPhoneHref()}>{siteConfig.phone}</Link> : <span>Số điện thoại đang được cập nhật.</span>}</li>
-              <li className="flex gap-3"><EnvelopeSimple aria-hidden="true" size={18} className="mt-0.5 shrink-0 text-brand-blue-dark" />{siteConfig.email ? <Link href={`mailto:${siteConfig.email}`}>{siteConfig.email}</Link> : <span>Email đang được cập nhật.</span>}</li>
-              <li className="flex gap-3"><Clock aria-hidden="true" size={18} className="mt-0.5 shrink-0 text-brand-blue-dark" /><span>{siteConfig.openingHours || "Giờ hoạt động đang được cập nhật."}</span></li>
+                </li>
+              ))}
             </ul>
-          </address>
+          </nav>
+
+          <section
+            aria-labelledby="footer-consultation-title"
+            className="rounded-[var(--radius-lg)] border border-border-strong bg-surface/90 p-5 shadow-[0_18px_44px_rgba(16,46,58,0.07)] sm:p-6 md:col-span-2 md:w-full md:max-w-2xl md:justify-self-center lg:col-span-1 lg:max-w-none"
+          >
+            <h2
+              id="footer-consultation-title"
+              className="text-center font-display text-[1.75rem] font-semibold text-text-primary"
+            >
+              Đăng ký tư vấn
+            </h2>
+            <p className="mt-2 text-center text-sm leading-6 text-text-secondary">
+              Để lại thông tin, Pet One sẽ liên hệ để trao đổi rõ hơn.
+            </p>
+            <ConsultationForm />
+          </section>
         </div>
 
-        <nav aria-label="Thông tin tại footer">
-          <h2 className="font-display text-2xl font-semibold text-text-primary">Về Pet One</h2>
-          <ul className="mt-5 grid gap-3">
-            {informationLinks.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className="text-sm leading-6 text-text-secondary transition-colors hover:text-brand-blue-dark">
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div>
-          <h2 className="font-display text-2xl font-semibold text-text-primary">Đăng ký tư vấn</h2>
-          <p className="mt-2 text-sm leading-6 text-text-secondary">
-            Để lại thông tin ngắn, Pet One sẽ liên hệ lại để trao đổi rõ hơn.
-          </p>
-          <ConsultationForm />
-        </div>
-      </div>
-      <div className="border-t border-border">
-        <div className="shell flex flex-col gap-2 py-5 text-xs leading-5 text-text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Pet One.</p>
-          <p>Nội dung chăm sóc có tính tham khảo, không thay thế chẩn đoán trực tiếp.</p>
+        <div className="shell pb-8 sm:pb-10">
+          <div className="rounded-[var(--radius-md)] border border-border bg-surface px-5 py-5 text-center shadow-[0_10px_28px_rgba(16,46,58,0.045)] sm:px-8">
+            <p className="text-sm font-semibold uppercase tracking-[0.06em] text-text-primary">
+              Pet One Veterinary Care
+            </p>
+            <div className="mt-2 flex flex-col items-center justify-center gap-1 text-xs leading-5 text-text-muted sm:flex-row sm:gap-2">
+              <p>© {new Date().getFullYear()} Pet One.</p>
+              <span aria-hidden="true" className="hidden sm:inline">
+                ·
+              </span>
+              <p>
+                Nội dung chăm sóc có tính tham khảo, không thay thế chẩn đoán
+                trực tiếp.
+              </p>
+              <span aria-hidden="true" className="hidden sm:inline">
+                ·
+              </span>
+              <Link
+                href="/chinh-sach-bao-mat"
+                className="font-medium text-brand-blue-dark hover:underline"
+              >
+                Chính sách bảo mật
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

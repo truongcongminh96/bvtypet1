@@ -1226,7 +1226,7 @@ form[id] {
   }
 
   .service-collage__statement {
-    max-width: 37rem;
+    max-width: 28rem;
     font-size: clamp(3rem, 3.15vw, 3.2rem);
   }
 

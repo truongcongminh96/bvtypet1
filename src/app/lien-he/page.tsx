@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 
 import { BookingForm } from "@/components/booking/booking-form";
-import { AppointmentExpectation } from "@/components/contact/appointment-expectation";
-import { ContactHero } from "@/components/contact/contact-hero";
 import { ContactRail } from "@/components/contact/contact-rail";
 import { ClinicLocations } from "@/components/contact/clinic-locations";
 import { HomeMotionProvider } from "@/components/motion/home-motion-provider";
@@ -43,8 +41,6 @@ export default async function ContactPage() {
 
   return (
     <HomeMotionProvider>
-      <ContactHero />
-
       <section className="section-space">
         <div className="shell grid items-start gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:gap-14">
           <div id="dat-lich" className="scroll-mt-28">
@@ -52,9 +48,9 @@ export default async function ContactPage() {
               className="rounded-[var(--radius-lg)] border border-border bg-surface p-5 shadow-[0_18px_46px_rgba(16,46,58,0.065)] sm:p-8 lg:p-10"
               amount={0.08}
             >
-              <h2 className="max-w-2xl font-display text-[clamp(2.1rem,3.4vw,3.1rem)] font-semibold leading-[1.06] tracking-[-0.016em] text-text-primary">
+              <h1 className="max-w-2xl font-display text-[clamp(2.1rem,3.4vw,3.1rem)] font-semibold leading-[1.06] tracking-[-0.016em] text-text-primary">
                 {form.title}
-              </h2>
+              </h1>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-text-secondary">
                 {form.description}
               </p>
@@ -75,7 +71,6 @@ export default async function ContactPage() {
       </section>
 
       <ClinicLocations items={locations} />
-      <AppointmentExpectation />
       {locationSchema.length > 0 ? (
         <script
           type="application/ld+json"
