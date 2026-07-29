@@ -162,6 +162,69 @@ form[id] {
   text-wrap: balance;
 }
 
+.review-stories-track {
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.review-stories-track::-webkit-scrollbar {
+  display: none;
+}
+
+.review-story-card__quote {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 9;
+}
+
+@media (min-width: 640px) {
+  .review-story-card__quote {
+    -webkit-line-clamp: 7;
+  }
+}
+
+.review-story-control {
+  display: inline-grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--text-primary) 14%, transparent);
+  border-radius: 999px;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.64);
+  box-shadow: 0 8px 22px rgba(49, 39, 29, 0.06);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.review-story-control:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--brand-blue) 48%, white);
+  background: var(--surface);
+  transform: translateY(-1px);
+}
+
+.review-story-control:disabled {
+  cursor: not-allowed;
+  opacity: 0.34;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review-story-card img,
+  .review-story-control {
+    transition: none !important;
+  }
+
+  .review-story-card:hover img,
+  .review-story-control:hover {
+    transform: none !important;
+  }
+}
+
 .editorial-statement {
   font-family: var(--font-heading), serif;
   font-size: clamp(3.25rem, 4.8vw, 4.5rem);

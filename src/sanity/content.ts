@@ -509,7 +509,16 @@ const reviewsQuery = `*[_type == "customerReview" && verificationStatus == "veri
   rating,
   quote,
   reviewedAt,
+  reviewedLabel,
   sourceUrl,
+  avatar {
+    "src": asset->url,
+    alt
+  },
+  image {
+    "src": asset->url,
+    alt
+  },
   "verified": true,
   order
 }`;
@@ -600,6 +609,11 @@ export async function getHomePageSettings(): Promise<HomePageSettings> {
     return {
       ...fallbackHomePageSettings,
       ...data,
+      rating: data?.rating ?? fallbackHomePageSettings.rating,
+      reviewCount:
+        data?.reviewCount ?? fallbackHomePageSettings.reviewCount,
+      googleMapsUrl:
+        data?.googleMapsUrl ?? fallbackHomePageSettings.googleMapsUrl,
       reasons:
         data?.reasons && data.reasons.length > 0
           ? data.reasons.slice(0, 6)

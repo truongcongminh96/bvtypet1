@@ -17,7 +17,10 @@ export type CustomerReview = {
   rating: number;
   quote: string;
   reviewedAt?: string;
+  reviewedLabel?: string;
   sourceUrl: string;
+  avatar?: ArticleImage;
+  image?: ArticleImage;
   verified: boolean;
   order: number;
 };
@@ -58,7 +61,50 @@ export type HomePageSettings = {
   }>;
 };
 
+export type HeroReviewer = {
+  id: string;
+  name: string;
+  avatar: string;
+  sourceUrl: string;
+};
+
+export const heroReviewers: HeroReviewer[] = [
+  {
+    id: "thi-quynh-chi-phung",
+    name: "Thi Quynh Chi Phung",
+    avatar: "/images/reviews/thi-quynh-chi-phung.jpg",
+    sourceUrl:
+      "https://www.google.com/maps/reviews/data=!4m8!14m7!1m6!2m5!1sChZDSUhNMG9nS0VJQ0FnSUR1MGRyRVJ3EAE!2m1!1s0x0:0xe82135b45b3e637b!3m1!1s2@1:CIHM0ogKEICAgIDu0drERw%7C%7C?hl=en-GB&source=sh/x/kp/local/m1/0&kgs=243e973f9995bd55&utm_source=sh/x/kp/local/m1/0",
+  },
+  {
+    id: "quynh-chi-phung",
+    name: "Quynh Chi Phung",
+    avatar: "/images/reviews/quynh-chi-phung.jpg",
+    sourceUrl: "https://share.google/q57mkVSRrg28pmmpD",
+  },
+  {
+    id: "duy-h-tong",
+    name: "Duy H. Tong",
+    avatar: "/images/reviews/duy-h-tong.jpg",
+    sourceUrl: "https://share.google/8wWllK781ONoRc6KB",
+  },
+  {
+    id: "huy-bui",
+    name: "Huy Bui",
+    avatar: "/images/reviews/huy-bui.jpg",
+    sourceUrl: "https://share.google/oK3oVArDFz5MstXT2",
+  },
+  {
+    id: "khuyen-nguyen",
+    name: "Khuyên Nguyễn",
+    avatar: "/images/reviews/khuyen-nguyen.jpg",
+    sourceUrl: "https://share.google/49xILjyNOCfuwwHEn",
+  },
+];
+
 export const fallbackHomePageSettings: HomePageSettings = {
+  rating: 4.8,
+  reviewCount: 295,
   googleMapsUrl: siteConfig.googleMapsUrl,
   metrics: [],
   reasons: [
@@ -121,7 +167,112 @@ export const fallbackAboutPage: AboutPageContent = {
 };
 
 export const fallbackEquipment: Equipment[] = [];
-export const fallbackReviews: CustomerReview[] = [];
+export const fallbackReviews: CustomerReview[] = [
+  {
+    id: "thi-quynh-chi-phung",
+    author: "Thi Quynh Chi Phung",
+    rating: 5,
+    quote:
+      "My experience with this clinic so far is excellent. My puppy was happy all the time she stayed there. The grooming is fitted and the the shampoo using very fragrant. Before curing, we all have consulted by the veterinarian for which medication they will use for our babies and how we cooperated at home to make it better. Very satisfied when come here",
+    reviewedLabel: "3 năm trước",
+    sourceUrl: heroReviewers[0].sourceUrl,
+    avatar: {
+      src: heroReviewers[0].avatar,
+      alt: "Ảnh đại diện của Thi Quynh Chi Phung",
+    },
+    image: {
+      src: "/images/services/services-daily-care-concept.png",
+      alt: "Bác sĩ Pet One chăm sóc chó và mèo tại phòng khám",
+      focalPoint: "62% 48%",
+      placeholder: true,
+    },
+    verified: true,
+    order: 1,
+  },
+  {
+    id: "quynh-chi-phung",
+    author: "Quynh Chi Phung",
+    rating: 5,
+    quote:
+      "The store is super clean and neat, all products have price tags and the veterinarians are all friendly. They are very helpful and welcome. Keep it up!",
+    reviewedLabel: "3 năm trước",
+    sourceUrl: heroReviewers[1].sourceUrl,
+    avatar: {
+      src: heroReviewers[1].avatar,
+      alt: "Ảnh đại diện của Quynh Chi Phung",
+    },
+    image: {
+      src: "/images/pet-one-clinic.png",
+      alt: "Không gian và thiết bị tại phòng khám thú y Pet One",
+      focalPoint: "66% 50%",
+      placeholder: true,
+    },
+    verified: true,
+    order: 2,
+  },
+  {
+    id: "duy-h-tong",
+    author: "Duy H. Tong",
+    rating: 5,
+    quote: "Good services",
+    reviewedLabel: "1 năm trước",
+    sourceUrl: heroReviewers[2].sourceUrl,
+    avatar: {
+      src: heroReviewers[2].avatar,
+      alt: "Ảnh đại diện của Duy H. Tong",
+    },
+    image: {
+      src: "/images/services/kham-tong-quat.png",
+      alt: "Bác sĩ Pet One kiểm tra sức khỏe tổng quát cho chó",
+      focalPoint: "58% 50%",
+      placeholder: true,
+    },
+    verified: true,
+    order: 3,
+  },
+  {
+    id: "huy-bui",
+    author: "Huy Bui",
+    rating: 5,
+    quote:
+      "Cám ơn các em rất nhiều ! đã dành thời gian chăm sóc và cứu chữa em ! đến giây phút cuối cùng vẫn được chăm sóc tận tình trong vòng tay các chị ! Chúc cơ sở mình luôn phát triển và là điểm đến tin cậy cho các bạn yêu thích thú cưng",
+    reviewedLabel: "8 tháng trước",
+    sourceUrl: heroReviewers[3].sourceUrl,
+    avatar: {
+      src: heroReviewers[3].avatar,
+      alt: "Ảnh đại diện của Huy Bui",
+    },
+    image: {
+      src: "/images/pet-one-care.png",
+      alt: "Bác sĩ Pet One nhẹ nhàng thăm khám cho một chú chó",
+      focalPoint: "58% 44%",
+      placeholder: true,
+    },
+    verified: true,
+    order: 4,
+  },
+  {
+    id: "khuyen-nguyen",
+    author: "Khuyên Nguyễn",
+    rating: 5,
+    quote:
+      "Mình cũng tìm khá nhiều thú y để lựa chọn cho bé Cỏ nhà mình, được cái tắm sạch, thơm lâu. Con mình bị đường ruột điều trị trộm vía bác sĩ mát tay, đây cũng là nơi uy tín để các bạn ghé trải nghiệm và tin tưởng lựa chọn 👏🏻",
+    reviewedLabel: "2 tháng trước",
+    sourceUrl: heroReviewers[4].sourceUrl,
+    avatar: {
+      src: heroReviewers[4].avatar,
+      alt: "Ảnh đại diện của Khuyên Nguyễn",
+    },
+    image: {
+      src: "/images/services/cham-soc-rang-mieng.png",
+      alt: "Đội ngũ Pet One chăm sóc răng miệng cho thú cưng",
+      focalPoint: "57% 50%",
+      placeholder: true,
+    },
+    verified: true,
+    order: 5,
+  },
+];
 export const fallbackLocations: ClinicLocation[] = [
   {
     id: "pet-one-tan-huong",

@@ -1,12 +1,17 @@
 import { CalendarDots, Phone } from "@phosphor-icons/react/dist/ssr";
 
-import { ArchImage } from "@/components/home/arch-image";
+import { HeroReviewProof } from "@/components/home/hero-review-proof";
 import { HeroMedia } from "@/components/home/hero-media";
 import { MotionGroup, MotionItem } from "@/components/motion/reveal";
 import { CareActionLink } from "@/components/ui/button";
+import type { HomePageSettings } from "@/content/experience";
 import { getPhoneHref } from "@/lib/site-config";
 
-export function HomeHero() {
+export function HomeHero({ settings }: { settings: HomePageSettings }) {
+  const rating = settings.rating ?? 4.8;
+  const reviewCount = settings.reviewCount ?? 295;
+  const googleMapsUrl = settings.googleMapsUrl ?? "/lien-he";
+
   return (
     <section className="home-hero relative isolate overflow-hidden">
       <div className="home-hero__desktop-media">
@@ -14,7 +19,7 @@ export function HomeHero() {
       </div>
       <div className="home-hero__scrim" aria-hidden="true" />
 
-      <div className="home-hero__layout shell relative z-10 grid items-center gap-10 pb-28 pt-10 md:gap-12 md:pb-32 md:pt-14 lg:grid-cols-[minmax(0,0.43fr)_minmax(0,0.57fr)] lg:gap-0 lg:pb-32 lg:pt-10">
+      <div className="home-hero__layout shell relative z-10 grid items-center gap-10 pt-10 pb-20 md:gap-12 md:pt-12 md:pb-24 lg:grid-cols-[minmax(0,0.43fr)_minmax(0,0.57fr)] lg:gap-0 lg:pt-10 lg:pb-32">
         <MotionGroup
           className="relative z-10 max-w-[39rem] lg:pr-4 xl:pr-8"
           amount={0.15}
@@ -65,11 +70,14 @@ export function HomeHero() {
               </CareActionLink>
             </div>
           </MotionItem>
+          <MotionItem direction="up">
+            <HeroReviewProof
+              rating={rating}
+              reviewCount={reviewCount}
+              googleMapsUrl={googleMapsUrl}
+            />
+          </MotionItem>
         </MotionGroup>
-
-        <div className="relative lg:hidden">
-          <ArchImage />
-        </div>
       </div>
 
       <svg

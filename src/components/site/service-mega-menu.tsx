@@ -78,7 +78,7 @@ export function ServiceMegaMenu({ active }: { active: boolean }) {
         aria-current={active ? "page" : undefined}
         onKeyDown={handleTriggerKeyDown}
         className={cn(
-          "inline-flex min-h-11 items-center py-2.5 pl-4 pr-1 text-sm font-semibold text-text-secondary transition-colors hover:text-text-primary",
+          "inline-flex min-h-11 items-center py-2.5 pr-0.5 pl-3 text-[0.8rem] font-semibold text-text-secondary transition-colors hover:text-text-primary xl:pr-1 xl:pl-4 xl:text-sm",
           active && "text-brand-blue-dark",
         )}
       >
@@ -94,7 +94,7 @@ export function ServiceMegaMenu({ active }: { active: boolean }) {
         onClick={() => setOpen((current) => !current)}
         onKeyDown={handleTriggerKeyDown}
         className={cn(
-          "inline-flex size-10 items-center justify-center rounded-full text-text-secondary transition-colors hover:text-text-primary",
+          "inline-flex size-9 items-center justify-center rounded-full text-text-secondary transition-colors hover:text-text-primary xl:size-10",
           active && "text-brand-blue-dark",
         )}
       >

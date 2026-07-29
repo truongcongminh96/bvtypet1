@@ -89,17 +89,20 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/85 bg-surface/94 backdrop-blur-lg">
-      <div className="shell flex h-[4.5rem] items-center justify-between gap-4">
+      <div className="shell flex h-[4.5rem] items-center justify-between gap-2 lg:gap-3 xl:gap-4">
         <Brand />
 
-        <nav className="hidden items-center gap-1 xl:flex" aria-label="Chính">
+        <nav
+          className="hidden min-w-0 items-center gap-0 lg:flex xl:gap-1"
+          aria-label="Chính"
+        >
           {navigation.slice(0, 2).map((item) => (
             <Link
               key={item.href}
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
               className={cn(
-                "rounded-full px-4 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:bg-brand-blue-soft hover:text-text-primary",
+                "rounded-full px-2.5 py-2.5 text-[0.8rem] font-semibold text-text-secondary transition-colors hover:bg-brand-blue-soft hover:text-text-primary xl:px-4 xl:text-sm",
                 isActive(item.href) && "bg-brand-blue-soft text-brand-blue-dark",
               )}
             >
@@ -115,7 +118,7 @@ export function Header() {
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
               className={cn(
-                "rounded-full px-4 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:bg-brand-blue-soft hover:text-text-primary",
+                "rounded-full px-2.5 py-2.5 text-[0.8rem] font-semibold text-text-secondary transition-colors hover:bg-brand-blue-soft hover:text-text-primary xl:px-4 xl:text-sm",
                 isActive(item.href) && "bg-brand-blue-soft text-brand-blue-dark",
               )}
             >
@@ -124,12 +127,15 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-2 xl:gap-3">
           <SearchDialog />
           <div className="hidden md:block">
             <Link
               href="/lien-he#dat-lich"
-              className={buttonStyles({ className: "min-h-11" })}
+              className={buttonStyles({
+                className:
+                  "min-h-11 px-3 text-[0.8rem] xl:px-5 xl:text-sm",
+              })}
             >
               Đặt lịch khám
             </Link>
@@ -138,7 +144,7 @@ export function Header() {
             <Dialog.Trigger asChild>
               <button
                 type="button"
-                className="inline-flex size-11 items-center justify-center rounded-[var(--radius-sm)] border border-border bg-surface text-text-primary xl:hidden"
+                className="inline-flex size-11 items-center justify-center rounded-[var(--radius-sm)] border border-border bg-surface text-text-primary lg:hidden"
                 aria-label="Mở menu"
               >
                 <List aria-hidden="true" size={25} weight="bold" />
