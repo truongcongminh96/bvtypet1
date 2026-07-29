@@ -49,15 +49,15 @@ export function ServicesHero() {
           <MotionItem>
             <ImageReveal className="relative ml-auto aspect-[5/3] max-w-[31rem] overflow-hidden rounded-[18px_38px_38px_38px] border border-border bg-surface shadow-[0_18px_45px_rgba(16,46,58,0.08)]">
               <Image
-                src="/images/services/services-hero-concept.png"
-                alt="Bác sĩ thú y lắng nghe người nuôi bên cạnh thú cưng trong phòng khám"
+                src="/images/clinic/pet-one-ultrasound-team.jpg"
+                alt="Đội ngũ Pet One thực hiện siêu âm cho thú cưng tại phòng khám"
                 fill
                 priority
                 sizes="(max-width: 1023px) 82vw, 31rem"
-                className="object-cover object-[50%_42%]"
+                className="object-cover object-[50%_52%]"
               />
               <span className="absolute bottom-3 right-3 rounded-full border border-white/70 bg-white/92 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-text-secondary shadow-sm backdrop-blur-sm">
-                Hình ảnh minh hoạ
+                Hình ảnh tại Pet One
               </span>
             </ImageReveal>
           </MotionItem>

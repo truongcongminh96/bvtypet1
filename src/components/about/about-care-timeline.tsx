@@ -5,23 +5,23 @@ import { careSteps } from "@/content/site";
 
 const timelineImages = [
   {
-    src: "/images/pet-one-care.png",
-    alt: "Bác sĩ Pet One lắng nghe và kiểm tra nhẹ nhàng cho thú cưng",
-    position: "center 48%",
+    src: "/images/clinic/pet-one-general-exam-cat.jpg",
+    alt: "Bác sĩ Pet One quan sát và kiểm tra nhẹ nhàng cho một chú mèo",
+    position: "center 42%",
   },
   {
-    src: "/images/pet-one-clinic.png",
-    alt: "Không gian khám và đánh giá tại Pet One",
-    position: "center",
+    src: "/images/clinic/pet-one-team-records.jpg",
+    alt: "Đội ngũ Pet One ghi nhận và đối chiếu thông tin trong buổi khám",
+    position: "center 40%",
   },
   {
-    src: "/images/services/chan-doan-hinh-anh.png",
-    alt: "Bác sĩ Pet One thực hiện chẩn đoán hình ảnh cho thú cưng",
-    position: "center",
+    src: "/images/clinic/pet-one-ultrasound-team.jpg",
+    alt: "Đội ngũ Pet One thực hiện siêu âm hỗ trợ chẩn đoán",
+    position: "center 52%",
   },
   {
-    src: "/images/pet-one-hero.png",
-    alt: "Bác sĩ Pet One theo dõi sức khỏe của chó và mèo",
+    src: "/images/clinic/pet-one-general-exam-dog.jpg",
+    alt: "Đội ngũ Pet One cùng theo dõi sức khỏe của một chú chó",
     position: "center 42%",
   },
 ] as const;

@@ -323,9 +323,10 @@ const doctorsQuery = `*[_type == "doctor" && verificationStatus == "verified"] |
 
 const fallbackServiceImages: Record<string, ArticleImage> = {
   "kham-tong-quat": {
-    src: "/images/services/kham-tong-quat.png",
-    alt: "Bác sĩ thú y kiểm tra sức khỏe tổng quát cho một chú chó",
-    placeholder: true,
+    src: "/images/clinic/pet-one-general-exam-dog.jpg",
+    alt: "Đội ngũ Pet One kiểm tra sức khỏe tổng quát cho một chú chó",
+    focalPoint: "50% 42%",
+    placeholder: false,
   },
   "tiem-phong": {
     src: "/images/services/tiem-phong.png",
@@ -333,9 +334,10 @@ const fallbackServiceImages: Record<string, ArticleImage> = {
     placeholder: true,
   },
   "noi-khoa": {
-    src: "/images/services/services-diagnostics-concept.png",
-    alt: "Bác sĩ trao đổi kế hoạch đánh giá sức khỏe thú cưng",
-    placeholder: true,
+    src: "/images/clinic/pet-one-general-exam-cat.jpg",
+    alt: "Bác sĩ Pet One kiểm tra nhẹ nhàng cho một chú mèo",
+    focalPoint: "50% 44%",
+    placeholder: false,
   },
   "ngoai-khoa": {
     src: "/images/services/services-treatment-concept.png",
@@ -348,14 +350,16 @@ const fallbackServiceImages: Record<string, ArticleImage> = {
     placeholder: true,
   },
   "chan-doan-hinh-anh": {
-    src: "/images/services/chan-doan-hinh-anh.png",
-    alt: "Thiết bị chẩn đoán hình ảnh trong phòng khám thú y",
-    placeholder: true,
+    src: "/images/clinic/pet-one-ultrasound-team.jpg",
+    alt: "Đội ngũ Pet One thực hiện siêu âm hỗ trợ chẩn đoán",
+    focalPoint: "50% 52%",
+    placeholder: false,
   },
   "xet-nghiem": {
-    src: "/images/services/xet-nghiem.png",
-    alt: "Bác sĩ thực hiện xét nghiệm hỗ trợ đánh giá sức khỏe thú cưng",
-    placeholder: true,
+    src: "/images/clinic/pet-one-lab-microscope.jpg",
+    alt: "Kỹ thuật viên Pet One quan sát mẫu xét nghiệm qua kính hiển vi",
+    focalPoint: "50% 46%",
+    placeholder: false,
   },
   "cham-soc-rang-mieng": {
     src: "/images/services/cham-soc-rang-mieng.png",
@@ -503,7 +507,7 @@ const equipmentQuery = `*[_type == "equipment" && verificationStatus == "verifie
   image { "src": asset->url, alt, hotspot }
 }`;
 
-const reviewsQuery = `*[_type == "customerReview" && verificationStatus == "verified"] | order(order asc)[0...6] {
+const reviewsQuery = `*[_type == "customerReview" && verificationStatus == "verified"] | order(order asc)[0...10] {
   "id": _id,
   author,
   rating,

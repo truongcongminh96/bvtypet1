@@ -23,12 +23,12 @@ export function ClinicEnvironment({ items }: { items: Equipment[] }) {
         <figure>
           <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem_4.5rem_1.5rem_1.5rem] bg-surface shadow-[0_28px_80px_rgba(16,46,58,0.12)] sm:aspect-[16/9] lg:aspect-[16/7]">
             <Image
-              src="/images/pet-one-clinic.png"
-              alt="Ảnh minh hoạ không gian phòng khám thú y với khu vực thăm khám và thiết bị hỗ trợ"
+              src="/images/clinic/pet-one-ultrasound-team.jpg"
+              alt="Đội ngũ Pet One thực hiện siêu âm hỗ trợ đánh giá sức khỏe cho thú cưng"
               fill
               sizes="100vw"
               className="object-cover"
-              style={{ objectPosition: "52% 50%" }}
+              style={{ objectPosition: "50% 52%" }}
             />
             <span
               aria-hidden="true"
@@ -36,7 +36,7 @@ export function ClinicEnvironment({ items }: { items: Equipment[] }) {
             />
           </div>
           <figcaption className="shell mt-3 text-[0.68rem] leading-5 text-text-muted">
-            Hình ảnh minh hoạ, không đại diện cho cơ sở thực tế của Pet One.
+            Hình ảnh thực tế trong quá trình siêu âm tại Pet One.
           </figcaption>
         </figure>
       </MotionSection>

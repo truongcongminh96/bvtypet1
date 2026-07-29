@@ -123,12 +123,20 @@ export const serviceDetailPresentation: Record<
     ],
     images: {
       hero: {
-        src: "/images/services/kham-tong-quat.png",
-        alt: "Hình ảnh minh hoạ bác sĩ thú y kiểm tra sức khỏe tổng quát cho một chú chó",
-        placeholder: true,
+        src: "/images/clinic/pet-one-general-exam-dog.jpg",
+        alt: "Đội ngũ Pet One kiểm tra sức khỏe tổng quát cho một chú chó",
+        placeholder: false,
       },
-      process: sharedProcessImage,
-      detail: sharedDetailImage,
+      process: {
+        src: "/images/clinic/pet-one-general-exam-cat.jpg",
+        alt: "Bác sĩ Pet One quan sát và kiểm tra nhẹ nhàng cho một chú mèo",
+        placeholder: false,
+      },
+      detail: {
+        src: "/images/clinic/pet-one-team-records.jpg",
+        alt: "Đội ngũ Pet One ghi nhận và đối chiếu thông tin trong buổi khám",
+        placeholder: false,
+      },
     },
     relatedServiceSlugs: ["noi-khoa", "tiem-phong"],
   },
@@ -268,13 +276,21 @@ export const serviceDetailPresentation: Record<
       "Cách cập nhật diễn tiến cho PetOne",
     ],
     images: {
-      hero: sharedProcessImage,
-      process: {
-        src: "/images/services/kham-tong-quat.png",
-        alt: "Hình ảnh minh hoạ bác sĩ thú y đánh giá thể trạng của một chú chó",
-        placeholder: true,
+      hero: {
+        src: "/images/clinic/pet-one-general-exam-cat.jpg",
+        alt: "Bác sĩ Pet One kiểm tra nhẹ nhàng cho một chú mèo",
+        placeholder: false,
       },
-      detail: sharedDetailImage,
+      process: {
+        src: "/images/clinic/pet-one-general-exam-dog.jpg",
+        alt: "Đội ngũ Pet One đánh giá thể trạng cho một chú chó",
+        placeholder: false,
+      },
+      detail: {
+        src: "/images/clinic/pet-one-team-records.jpg",
+        alt: "Đội ngũ Pet One đối chiếu thông tin hỗ trợ đánh giá sức khỏe",
+        placeholder: false,
+      },
     },
     relatedServiceSlugs: ["kham-tong-quat", "xet-nghiem"],
   },
@@ -480,16 +496,20 @@ export const serviceDetailPresentation: Record<
     ],
     images: {
       hero: {
-        src: "/images/services/chan-doan-hinh-anh.png",
-        alt: "Hình ảnh minh hoạ bác sĩ thú y thực hiện siêu âm cho một chú chó",
-        placeholder: true,
+        src: "/images/clinic/pet-one-ultrasound-team.jpg",
+        alt: "Đội ngũ Pet One thực hiện siêu âm cho thú cưng",
+        placeholder: false,
       },
       process: {
-        src: "/images/services/services-diagnostics-concept.png",
-        alt: "Hình ảnh minh hoạ buổi chăm sóc và quan sát thú y",
-        placeholder: true,
+        src: "/images/clinic/pet-one-ultrasound-console.jpg",
+        alt: "Bác sĩ Pet One theo dõi hình ảnh trên thiết bị siêu âm",
+        placeholder: false,
       },
-      detail: sharedDetailImage,
+      detail: {
+        src: "/images/clinic/pet-one-ultrasound-screen.jpg",
+        alt: "Màn hình siêu âm hỗ trợ bác sĩ quan sát tình trạng bên trong",
+        placeholder: false,
+      },
     },
     relatedServiceSlugs: ["xet-nghiem", "noi-khoa"],
   },
@@ -554,12 +574,20 @@ export const serviceDetailPresentation: Record<
     ],
     images: {
       hero: {
-        src: "/images/services/xet-nghiem.png",
-        alt: "Hình ảnh minh hoạ kỹ thuật viên thú y chuẩn bị mẫu xét nghiệm",
-        placeholder: true,
+        src: "/images/clinic/pet-one-lab-microscope.jpg",
+        alt: "Kỹ thuật viên Pet One quan sát mẫu xét nghiệm qua kính hiển vi",
+        placeholder: false,
       },
-      process: sharedDetailImage,
-      detail: sharedProcessImage,
+      process: {
+        src: "/images/clinic/pet-one-lab-pipette.jpg",
+        alt: "Kỹ thuật viên Pet One chuẩn bị mẫu bằng micropipette",
+        placeholder: false,
+      },
+      detail: {
+        src: "/images/clinic/pet-one-lab-analyzer.jpg",
+        alt: "Kỹ thuật viên Pet One vận hành thiết bị phân tích mẫu",
+        placeholder: false,
+      },
     },
     relatedServiceSlugs: ["chan-doan-hinh-anh", "noi-khoa"],
   },

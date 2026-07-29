@@ -10,12 +10,12 @@ export function BookingCta() {
     <section className="relative min-h-[40rem] overflow-hidden bg-text-primary text-surface sm:min-h-[43rem] lg:min-h-[47rem]">
       <div className="absolute inset-y-0 right-0 w-full sm:w-[64%] lg:w-[56%]">
         <Image
-          src="/images/pet-one-care.png"
+          src="/images/clinic/pet-one-general-exam-dog.jpg"
           alt=""
           fill
           sizes="(max-width: 639px) 100vw, 64vw"
           className="object-cover opacity-55"
-          style={{ objectPosition: "58% 50%" }}
+          style={{ objectPosition: "50% 44%" }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-text-primary via-text-primary/35 to-transparent sm:bg-gradient-to-r sm:from-text-primary sm:via-text-primary/55 sm:to-text-primary/5" />
       </div>

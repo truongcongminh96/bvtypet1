@@ -18,9 +18,9 @@ export const homeServicePresentation = {
     observationTags: ["Ăn ít", "Mệt hơn", "Ít vận động"],
     actionLabel: "Xem quy trình khám",
     image: {
-      src: "/images/pet-one-hero.png",
-      alt: "Ảnh minh hoạ bác sĩ thú y quan sát sức khỏe của chó và mèo",
-      placeholder: true,
+      src: "/images/clinic/pet-one-general-exam-dog.jpg",
+      alt: "Đội ngũ Pet One kiểm tra sức khỏe cho một chú chó",
+      placeholder: false,
     },
   },
   "tiem-phong": {

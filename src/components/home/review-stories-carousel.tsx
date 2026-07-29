@@ -45,7 +45,7 @@ function ReviewStoryCard({
 
   return (
     <li
-      className="review-story-card group relative h-[29rem] w-[min(82vw,18.25rem)] flex-none snap-center overflow-hidden rounded-[1.75rem] bg-text-primary shadow-[0_24px_60px_rgba(49,39,29,0.16)] sm:h-[27rem] sm:w-[17.5rem]"
+      className="review-story-card group relative h-[29rem] w-[min(82vw,18.25rem)] flex-none snap-center overflow-hidden rounded-[1.75rem] bg-text-primary shadow-[0_24px_60px_rgba(49,39,29,0.16)] sm:h-[27rem] sm:w-[17.5rem] md:snap-start"
       data-review-story
     >
       <Image
@@ -147,25 +147,44 @@ export function ReviewStoriesCarousel({
   const [isPaused, setIsPaused] = useState(false);
   const [isPageHidden, setIsPageHidden] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [cardsPerView, setCardsPerView] = useState(1);
+  const lastStartIndex = Math.max(0, items.length - cardsPerView);
+  const pageIndexes = Array.from(
+    { length: lastStartIndex + 1 },
+    (_, index) => index,
+  );
 
-  const scrollToReview = useCallback((index: number) => {
-    const track = trackRef.current;
-    const card = track?.querySelectorAll<HTMLElement>(
-      "[data-review-story]",
-    )[index];
-    if (!track || !card) return;
+  const scrollToReview = useCallback(
+    (index: number) => {
+      const track = trackRef.current;
+      const targetIndex = Math.min(Math.max(0, index), lastStartIndex);
+      const card = track?.querySelectorAll<HTMLElement>(
+        "[data-review-story]",
+      )[targetIndex];
+      if (!track || !card) return;
 
-    const left = card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2;
-    const shouldReduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+      const trackRect = track.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+      const cardLeft = cardRect.left - trackRect.left + track.scrollLeft;
+      const inlinePadding = Number.parseFloat(
+        window.getComputedStyle(track).paddingInlineStart,
+      );
+      const left =
+        cardsPerView === 1
+          ? cardLeft - (track.clientWidth - card.offsetWidth) / 2
+          : cardLeft - inlinePadding;
+      const shouldReduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
 
-    track.scrollTo({
-      left,
-      behavior: shouldReduceMotion ? "auto" : "smooth",
-    });
-    setActiveIndex(index);
-  }, []);
+      track.scrollTo({
+        left,
+        behavior: shouldReduceMotion ? "auto" : "smooth",
+      });
+      setActiveIndex(targetIndex);
+    },
+    [cardsPerView, lastStartIndex],
+  );
 
   useEffect(
     () => () => {
@@ -189,6 +208,27 @@ export function ReviewStoriesCarousel({
   }, []);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const updateCardsPerView = () => {
+      const nextCardsPerView = mediaQuery.matches ? 2 : 1;
+
+      setCardsPerView(nextCardsPerView);
+      setActiveIndex((currentIndex) =>
+        Math.min(
+          currentIndex,
+          Math.max(0, items.length - nextCardsPerView),
+        ),
+      );
+    };
+
+    updateCardsPerView();
+    mediaQuery.addEventListener("change", updateCardsPerView);
+
+    return () =>
+      mediaQuery.removeEventListener("change", updateCardsPerView);
+  }, [items.length]);
+
+  useEffect(() => {
     const updateVisibility = () => setIsPageHidden(document.hidden);
 
     updateVisibility();
@@ -209,7 +249,7 @@ export function ReviewStoriesCarousel({
     }
 
     const timeoutId = window.setTimeout(() => {
-      scrollToReview((activeIndex + 1) % items.length);
+      scrollToReview((activeIndex + 1) % (lastStartIndex + 1));
     }, 5000);
 
     return () => window.clearTimeout(timeoutId);
@@ -218,6 +258,7 @@ export function ReviewStoriesCarousel({
     isPageHidden,
     isPaused,
     items.length,
+    lastStartIndex,
     prefersReducedMotion,
     scrollToReview,
   ]);
@@ -226,16 +267,26 @@ export function ReviewStoriesCarousel({
     const track = trackRef.current;
     if (!track) return;
 
-    const trackCenter = track.scrollLeft + track.clientWidth / 2;
+    const trackRect = track.getBoundingClientRect();
+    const inlinePadding = Number.parseFloat(
+      window.getComputedStyle(track).paddingInlineStart,
+    );
+    const trackReference =
+      cardsPerView === 1
+        ? track.scrollLeft + track.clientWidth / 2
+        : track.scrollLeft + inlinePadding;
     const cards = Array.from(
       track.querySelectorAll<HTMLElement>("[data-review-story]"),
-    );
+    ).slice(0, lastStartIndex + 1);
     let nearestIndex = 0;
     let nearestDistance = Number.POSITIVE_INFINITY;
 
     cards.forEach((card, index) => {
-      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-      const distance = Math.abs(cardCenter - trackCenter);
+      const cardRect = card.getBoundingClientRect();
+      const cardLeft = cardRect.left - trackRect.left + track.scrollLeft;
+      const cardReference =
+        cardsPerView === 1 ? cardLeft + card.offsetWidth / 2 : cardLeft;
+      const distance = Math.abs(cardReference - trackReference);
 
       if (distance < nearestDistance) {
         nearestDistance = distance;
@@ -269,7 +320,7 @@ export function ReviewStoriesCarousel({
       <ul
         ref={trackRef}
         onScroll={handleScroll}
-        className="review-stories-track mx-auto flex max-w-[37rem] snap-x snap-mandatory gap-4 overflow-x-auto px-[calc((100%-min(82vw,18.25rem))/2)] py-3 sm:gap-5 sm:px-[calc((100%-17.5rem)/2)] lg:snap-proximity lg:px-0"
+        className="review-stories-track mx-auto flex max-w-[37rem] snap-x snap-mandatory gap-4 overflow-x-auto px-[calc((100%-min(82vw,18.25rem))/2)] py-3 sm:gap-5 sm:px-[calc((100%-17.5rem)/2)] md:snap-proximity md:px-0"
         aria-label="Các đánh giá của khách hàng Pet One"
       >
         {items.map((review, index) => (
@@ -289,13 +340,13 @@ export function ReviewStoriesCarousel({
         </button>
 
         <div className="flex items-center gap-2" aria-label="Chọn đánh giá">
-          {items.map((review, index) => (
+          {pageIndexes.map((index) => (
             <button
-              key={review.id}
+              key={items[index]?.id ?? index}
               type="button"
               onClick={() => scrollToReview(index)}
               className="grid min-h-7 min-w-7 place-items-center rounded-full"
-              aria-label={`Xem đánh giá ${index + 1} của ${items.length}`}
+              aria-label={`Xem nhóm đánh giá ${index + 1} của ${pageIndexes.length}`}
               aria-current={activeIndex === index ? "true" : undefined}
             >
               <span
@@ -312,9 +363,9 @@ export function ReviewStoriesCarousel({
         <button
           type="button"
           onClick={() =>
-            scrollToReview(Math.min(items.length - 1, activeIndex + 1))
+            scrollToReview(Math.min(lastStartIndex, activeIndex + 1))
           }
-          disabled={activeIndex === items.length - 1}
+          disabled={activeIndex === lastStartIndex}
           className="review-story-control"
           aria-label="Xem đánh giá tiếp theo"
         >
@@ -323,7 +374,7 @@ export function ReviewStoriesCarousel({
       </div>
 
       <p className="sr-only" aria-live={isPaused ? "polite" : "off"}>
-        Đang hiển thị đánh giá {activeIndex + 1} trên {items.length}
+        Đang hiển thị nhóm đánh giá {activeIndex + 1} trên {pageIndexes.length}
       </p>
     </div>
   );

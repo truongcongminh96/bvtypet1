@@ -49,9 +49,10 @@ export const serviceDirectoryGroups: ServiceDirectoryGroup[] = [
       variant: "mosaic",
       images: [
         {
-          src: "/images/services/kham-tong-quat.png",
-          alt: "Bác sĩ thú y kiểm tra sức khỏe tổng quát cho một chú chó",
-          placeholder: true,
+          src: "/images/clinic/pet-one-general-exam-dog.jpg",
+          alt: "Đội ngũ Pet One kiểm tra sức khỏe tổng quát cho một chú chó",
+          placeholder: false,
+          focalPoint: "50% 42%",
         },
         {
           src: "/images/services/tiem-phong.png",
@@ -59,14 +60,16 @@ export const serviceDirectoryGroups: ServiceDirectoryGroup[] = [
           placeholder: true,
         },
         {
-          src: "/images/services/chan-doan-hinh-anh.png",
-          alt: "Bác sĩ thú y thực hiện chẩn đoán hình ảnh cho thú cưng",
-          placeholder: true,
+          src: "/images/clinic/pet-one-ultrasound-team.jpg",
+          alt: "Đội ngũ Pet One thực hiện siêu âm cho thú cưng",
+          placeholder: false,
+          focalPoint: "50% 52%",
         },
         {
-          src: "/images/services/xet-nghiem.png",
-          alt: "Kỹ thuật viên thú y chuẩn bị mẫu xét nghiệm",
-          placeholder: true,
+          src: "/images/clinic/pet-one-lab-microscope.jpg",
+          alt: "Kỹ thuật viên Pet One quan sát mẫu xét nghiệm qua kính hiển vi",
+          placeholder: false,
+          focalPoint: "50% 46%",
         },
       ],
     },

@@ -33,7 +33,7 @@ describe("service directory", () => {
     expect(petShop?.cta.href).toBeUndefined();
   });
 
-  it("alternates editorial panels and provides collage imagery", () => {
+  it("alternates editorial panels and provides complete collage imagery", () => {
     expect(serviceDirectoryGroups.map((group) => group.layout)).toEqual([
       "media-left",
       "media-right",
@@ -45,7 +45,15 @@ describe("service directory", () => {
       serviceDirectoryGroups.every(
         (group) =>
           group.collage.images.length >= 2 &&
-          group.collage.images.every((image) => image.placeholder),
+          group.collage.images.every(
+            (image) => image.src.length > 0 && image.alt.length > 0,
+          ),
+      ),
+    ).toBe(true);
+
+    expect(
+      serviceDirectoryGroups.some((group) =>
+        group.collage.images.some((image) => !image.placeholder),
       ),
     ).toBe(true);
   });
