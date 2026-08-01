@@ -1,11 +1,7 @@
-import {
-  ChatCircleDots,
-  Phone,
-} from "@phosphor-icons/react/dist/ssr";
+import { ChatCircleDots } from "@phosphor-icons/react/dist/ssr";
 
 import { MotionGroup, MotionItem } from "@/components/motion/reveal";
 import { CareActionLink } from "@/components/ui/button";
-import { getPhoneHref, siteConfig } from "@/lib/site-config";
 
 export function ServicesCta() {
   return (
@@ -35,25 +31,13 @@ export function ServicesCta() {
             stagger={0.07}
           >
             <MotionItem>
-                <CareActionLink
-                  href="/lien-he#dat-lich"
-                  leadingIcon={<ChatCircleDots size={19} weight="duotone" />}
-                  className="w-full sm:w-auto"
-                >
-                  Đặt lịch khám
-                </CareActionLink>
-            </MotionItem>
-            <MotionItem>
-                {siteConfig.phone ? (
-                  <CareActionLink
-                    href={getPhoneHref()}
-                    variant="secondary"
-                    leadingIcon={<Phone size={18} weight="fill" />}
-                    className="w-full sm:w-auto"
-                  >
-                    Gọi phòng khám
-                  </CareActionLink>
-                ) : null}
+              <CareActionLink
+                href="/lien-he#dat-lich"
+                leadingIcon={<ChatCircleDots size={19} weight="duotone" />}
+                className="w-full sm:w-auto"
+              >
+                Đặt lịch khám
+              </CareActionLink>
             </MotionItem>
           </MotionGroup>
         </div>

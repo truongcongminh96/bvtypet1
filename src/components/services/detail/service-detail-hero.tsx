@@ -2,7 +2,6 @@ import {
   CalendarCheck,
   CaretRight,
   House,
-  Phone,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,7 +13,6 @@ import { CareActionLink } from "@/components/ui/button";
 import { CareNote } from "@/components/ui/care-note";
 import type { ServiceDetailPresentation } from "@/content/service-detail-presentation";
 import type { Service } from "@/content/site";
-import { getPhoneHref, siteConfig } from "@/lib/site-config";
 
 export function ServiceDetailHero({
   service,
@@ -23,10 +21,6 @@ export function ServiceDetailHero({
   service: Service;
   presentation: ServiceDetailPresentation;
 }) {
-  const phoneAction = siteConfig.phone
-    ? { href: getPhoneHref(), label: "Gọi phòng khám" }
-    : { href: "/lien-he", label: "Thông tin liên hệ" };
-
   return (
     <section className="overflow-hidden border-b border-border bg-surface-soft">
       <div className="shell py-8 sm:py-10 lg:py-14">
@@ -74,21 +68,13 @@ export function ServiceDetailHero({
               </MotionItem>
             </MotionGroup>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div className="mt-7">
               <CareActionLink
                 href="/lien-he#dat-lich"
                 leadingIcon={<CalendarCheck size={19} weight="duotone" />}
                 className="w-full sm:w-auto"
               >
                 {service.group === "pet-hotel" ? "Đặt lịch" : "Đặt lịch khám"}
-              </CareActionLink>
-              <CareActionLink
-                href={phoneAction.href}
-                variant="secondary"
-                leadingIcon={<Phone size={18} weight="fill" />}
-                className="w-full sm:w-auto"
-              >
-                {phoneAction.label}
               </CareActionLink>
             </div>
           </div>

@@ -5,6 +5,8 @@ const clinicDefaults = {
   googleMapsUrl: "https://maps.app.goo.gl/MPnJZTfC9wyFNQ9f7",
   googleMapsEmbedUrl:
     "https://maps.google.com/maps?cid=16726709539771933563&hl=vi&output=embed",
+  facebookUrl:
+    "https://www.facebook.com/pktypetonebinhtan/?locale=vi_VN",
 } as const;
 
 export const siteConfig = {
@@ -27,7 +29,8 @@ export const siteConfig = {
   googleMapsEmbedUrl:
     process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL?.trim() ||
     clinicDefaults.googleMapsEmbedUrl,
-  facebookUrl: process.env.NEXT_PUBLIC_FACEBOOK_URL?.trim() ?? "",
+  facebookUrl:
+    process.env.NEXT_PUBLIC_FACEBOOK_URL?.trim() || clinicDefaults.facebookUrl,
   instagramUrl: process.env.NEXT_PUBLIC_INSTAGRAM_URL?.trim() ?? "",
   zaloUrl: process.env.NEXT_PUBLIC_ZALO_URL?.trim() ?? "",
 } as const;
