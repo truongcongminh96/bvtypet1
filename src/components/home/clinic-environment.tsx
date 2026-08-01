@@ -10,8 +10,14 @@ const equipmentDisplaySlots = [
     matches: ["x quang", "x ray", "xray"],
   },
   {
-    name: "Mê bay hơi",
-    matches: ["me bay hoi", "gay me bay hoi", "may me"],
+    name: "Hệ thống gây mê hô hấp",
+    matches: [
+      "he thong gay me ho hap",
+      "gay me ho hap",
+      "me bay hoi",
+      "gay me bay hoi",
+      "may me",
+    ],
   },
   {
     name: "Siêu âm",

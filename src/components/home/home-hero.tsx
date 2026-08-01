@@ -1,4 +1,4 @@
-import { CalendarDots, Phone } from "@phosphor-icons/react/dist/ssr";
+import { CalendarDots } from "@phosphor-icons/react/dist/ssr";
 
 import { ArchImage } from "@/components/home/arch-image";
 import { HeroReviewProof } from "@/components/home/hero-review-proof";
@@ -6,7 +6,6 @@ import { HeroMedia } from "@/components/home/hero-media";
 import { MotionGroup, MotionItem } from "@/components/motion/reveal";
 import { CareActionLink } from "@/components/ui/button";
 import type { HomePageSettings } from "@/content/experience";
-import { getPhoneHref } from "@/lib/site-config";
 
 export function HomeHero({ settings }: { settings: HomePageSettings }) {
   const rating = settings.rating ?? 4.8;
@@ -49,7 +48,7 @@ export function HomeHero({ settings }: { settings: HomePageSettings }) {
             </p>
           </MotionItem>
           <MotionItem direction="up">
-            <div className="mt-6 flex flex-col gap-3 sm:mt-7 sm:flex-row sm:flex-nowrap">
+            <div className="mt-6 sm:mt-7">
               <CareActionLink
                 href="/lien-he#dat-lich"
                 className="w-full sm:w-auto"
@@ -58,16 +57,6 @@ export function HomeHero({ settings }: { settings: HomePageSettings }) {
                 }
               >
                 Đặt lịch khám
-              </CareActionLink>
-              <CareActionLink
-                href={getPhoneHref()}
-                variant="secondary"
-                className="w-full sm:w-auto"
-                leadingIcon={
-                  <Phone aria-hidden="true" size={18} weight="bold" />
-                }
-              >
-                Gọi phòng khám
               </CareActionLink>
             </div>
           </MotionItem>
