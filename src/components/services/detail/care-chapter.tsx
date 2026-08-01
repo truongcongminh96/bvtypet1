@@ -45,11 +45,6 @@ function ChapterMedia({
           />
         ) : null}
       </div>
-      {image.placeholder ? (
-        <figcaption className="mt-3 text-xs leading-5 text-text-muted">
-          Hình ảnh minh hoạ, chưa phải ảnh thực tế của PetOne.
-        </figcaption>
-      ) : null}
     </figure>
   );
 }

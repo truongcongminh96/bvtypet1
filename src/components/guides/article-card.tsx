@@ -10,14 +10,6 @@ import { cn } from "@/lib/cn";
 
 export type ArticleCardVariant = "featured" | "standard" | "compact";
 
-function PlaceholderCaption() {
-  return (
-    <figcaption className="border-t border-border bg-surface px-4 py-2 text-[0.7rem] leading-5 text-text-muted">
-      Ảnh minh hoạ, không đại diện cho cơ sở hoặc nhân sự thực tế của PetOne.
-    </figcaption>
-  );
-}
-
 export function ArticleCard({
   article,
   variant = "standard",
@@ -56,14 +48,8 @@ export function ArticleCard({
             <h3 className="mt-2 font-display text-xl font-semibold leading-[1.14] tracking-[-0.012em] text-text-primary">
               {article.title}
             </h3>
-            <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-text-muted">
-              <span>{article.readingTime} phút đọc</span>
-              {image.placeholder ? (
-                <>
-                  <span aria-hidden="true" className="h-3 w-px bg-border-strong" />
-                  <span>Ảnh minh hoạ</span>
-                </>
-              ) : null}
+            <div className="mt-3 text-xs text-text-muted">
+              {article.readingTime} phút đọc
             </div>
           </div>
         </Link>
@@ -89,7 +75,6 @@ export function ArticleCard({
                 className="motion-feedback object-cover transition-transform duration-700 group-hover:scale-[1.02]"
               />
             </div>
-            {article.coverImage.placeholder ? <PlaceholderCaption /> : null}
           </figure>
           <div className="flex min-w-0 flex-col p-6 sm:p-8 lg:p-10">
             <div className="flex items-start justify-between gap-5">
@@ -145,7 +130,6 @@ export function ArticleCard({
               className="motion-feedback object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             />
           </div>
-          {image.placeholder ? <PlaceholderCaption /> : null}
         </figure>
         <div className="flex min-w-0 flex-col p-6 sm:p-7">
           <div className="flex items-start justify-between gap-4">

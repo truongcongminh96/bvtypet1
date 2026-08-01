@@ -131,11 +131,6 @@ export function CareRecordCard({
                 className="object-cover object-center"
               />
             </div>
-            {image.placeholder ? (
-              <figcaption className="border-t border-border bg-surface px-4 py-2 text-xs leading-5 text-text-muted">
-                Ảnh minh hoạ, cần thay bằng ảnh thực tế của PetOne.
-              </figcaption>
-            ) : null}
           </figure>
         ) : null}
 

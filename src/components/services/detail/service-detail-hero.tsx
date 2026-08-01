@@ -133,11 +133,6 @@ export function ServiceDetailHero({
                 </CareNote>
               ))}
             </div>
-            {presentation.images.hero.placeholder ? (
-              <figcaption className="mt-3 text-xs leading-5 text-text-muted">
-                Hình ảnh minh hoạ. Cần thay bằng ảnh thực tế của PetOne trước khi phát hành.
-              </figcaption>
-            ) : null}
           </figure>
         </div>
       </div>

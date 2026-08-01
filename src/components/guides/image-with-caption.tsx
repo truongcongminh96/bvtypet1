@@ -15,15 +15,11 @@ export function ImageWithCaption({ block }: { block: ArticleImageBlock }) {
           className="object-cover"
         />
       </div>
-      {block.caption || block.image.placeholder ? (
+      {block.caption ? (
         <figcaption className="border-t border-border px-5 py-3 text-xs leading-6 text-text-muted">
-          {block.caption ? `${block.caption} ` : ""}
-          {block.image.placeholder
-            ? "Ảnh minh hoạ, không đại diện cho cơ sở hoặc nhân sự thực tế của PetOne."
-            : ""}
+          {block.caption}
         </figcaption>
       ) : null}
     </figure>
   );
 }
-

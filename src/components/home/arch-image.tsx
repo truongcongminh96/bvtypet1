@@ -28,10 +28,6 @@ export function ArchImage() {
           className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-text-primary/16 to-transparent"
         />
       </ImageReveal>
-
-      <figcaption className="relative z-[2] mx-auto mt-3 max-w-[27rem] text-center text-[0.68rem] leading-5 text-text-muted">
-        Hình ảnh minh hoạ.
-      </figcaption>
     </figure>
   );
 }

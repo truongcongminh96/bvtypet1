@@ -94,10 +94,6 @@ export function GuideListingHero({
               </div>
             </ImageReveal>
           </div>
-          <figcaption className="mt-3 text-center text-xs leading-5 text-text-muted">
-            Hình ảnh minh hoạ định hướng, không đại diện cho cơ sở hoặc nhân sự
-            thực tế của PetOne.
-          </figcaption>
         </figure>
 
         <MotionGroup

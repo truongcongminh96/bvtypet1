@@ -997,17 +997,6 @@ form[id] {
     pointer-events: none;
   }
 
-  .home-hero__media-caption {
-    position: absolute;
-    z-index: 4;
-    right: clamp(1.25rem, 2.2vw, 2.75rem);
-    bottom: clamp(7.75rem, 15vh, 9rem);
-    color: rgba(16, 46, 58, 0.72);
-    font-size: 0.68rem;
-    line-height: 1.25rem;
-    text-shadow: 0 1px 8px rgba(250, 252, 253, 0.9);
-  }
-
   .home-hero__scrim {
     position: absolute;
     z-index: 1;

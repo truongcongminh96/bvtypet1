@@ -94,12 +94,6 @@ export function ArticleDetailHero({ article }: { article: Article }) {
                 className="object-cover"
               />
             </ImageReveal>
-            {article.coverImage.placeholder ? (
-              <figcaption className="mt-3 text-center text-xs leading-5 text-text-muted">
-                Ảnh minh hoạ, không đại diện cho cơ sở hoặc nhân sự thực tế của
-                PetOne.
-              </figcaption>
-            ) : null}
           </figure>
         </div>
       </div>

@@ -28,10 +28,6 @@ export function HeroMedia() {
         <span className="home-hero__media-grid" aria-hidden="true" />
         <span className="home-hero__media-veil" aria-hidden="true" />
       </div>
-
-      <figcaption className="home-hero__media-caption">
-        Hình ảnh minh hoạ.
-      </figcaption>
     </m.figure>
   );
 }

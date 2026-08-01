@@ -84,11 +84,6 @@ export function ServiceImageCollage({
         ))}
       </div>
 
-      <span className="absolute bottom-5 right-5 z-10 rounded-full border border-white/70 bg-white/92 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-text-secondary shadow-sm backdrop-blur-sm">
-        {group.id === "pet-shop"
-          ? "Hình ảnh định hướng"
-          : "Hình ảnh minh hoạ"}
-      </span>
     </ImageReveal>
   );
 }
