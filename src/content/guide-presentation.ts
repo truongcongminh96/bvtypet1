@@ -79,11 +79,3 @@ export const guideHeroMedia = [
     focalPoint: "52% 50%",
   },
 ] as const;
-
-export const guideHeroCareNotes = [
-  "Ăn uống",
-  "Vận động",
-  "Hành vi",
-  "Da lông",
-] as const;
-

@@ -42,7 +42,7 @@ export default async function ContactPage() {
   return (
     <HomeMotionProvider>
       <section className="section-space">
-        <div className="shell grid items-start gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:gap-14">
+        <div className="shell grid items-start gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)] lg:gap-10 xl:grid-cols-[minmax(0,1.4fr)_minmax(19rem,0.6fr)] xl:gap-12">
           <div id="dat-lich" className="scroll-mt-28">
             <MotionSection
               className="rounded-[var(--radius-lg)] border border-border bg-surface p-5 shadow-[0_18px_46px_rgba(16,46,58,0.065)] sm:p-8 lg:p-10"

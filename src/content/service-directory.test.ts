@@ -4,11 +4,12 @@ import { serviceDirectoryGroups } from "@/content/service-directory";
 import { services } from "@/content/site";
 
 describe("service directory", () => {
-  it("exposes the four approved service groups in directory order", () => {
+  it("exposes the five approved service groups in directory order", () => {
     expect(serviceDirectoryGroups.map((group) => group.id)).toEqual([
       "kham-chua-benh",
       "phau-thuat",
       "spa-grooming",
+      "pet-hotel",
       "pet-shop",
     ]);
   });
@@ -33,12 +34,27 @@ describe("service directory", () => {
     expect(petShop?.cta.href).toBeUndefined();
   });
 
+  it("uses the booking CTA for every available service group", () => {
+    const availableGroups = serviceDirectoryGroups.filter(
+      (group) => group.id !== "pet-shop",
+    );
+
+    expect(
+      availableGroups.every(
+        (group) =>
+          group.cta.label === "Đặt lịch" &&
+          group.cta.href === "/lien-he#dat-lich",
+      ),
+    ).toBe(true);
+  });
+
   it("alternates editorial panels and provides complete collage imagery", () => {
     expect(serviceDirectoryGroups.map((group) => group.layout)).toEqual([
       "media-left",
       "media-right",
       "media-left",
       "media-right",
+      "media-left",
     ]);
 
     expect(

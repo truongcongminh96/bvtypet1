@@ -32,6 +32,23 @@ export const siteConfig = {
   zaloUrl: process.env.NEXT_PUBLIC_ZALO_URL?.trim() ?? "",
 } as const;
 
+export const footerClinicAddresses = [
+  {
+    address: "329 Tân Hương",
+    mapUrl: siteConfig.googleMapsUrl,
+  },
+  {
+    address: "201 đường số 7",
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=201%20%C4%91%C6%B0%E1%BB%9Dng%20s%E1%BB%91%207%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh",
+  },
+  {
+    address: "430 Lũy Bán Bích",
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=430%20L%C5%A9y%20B%C3%A1n%20B%C3%ADch%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh",
+  },
+] as const;
+
 export type ClinicContactDetails = Pick<
   typeof siteConfig,
   "phone" | "email" | "address" | "openingHours" | "googleMapsUrl"

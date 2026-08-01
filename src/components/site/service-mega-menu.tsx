@@ -113,19 +113,19 @@ export function ServiceMegaMenu({ active }: { active: boolean }) {
         id="service-mega-menu"
         aria-hidden={!open}
         className={cn(
-          "fixed left-1/2 top-[4.5rem] z-50 w-[min(calc(100vw-2rem),76rem)] -translate-x-1/2 pt-3 transition-[opacity,transform,visibility] duration-200",
+          "fixed left-1/2 top-[4.5rem] z-50 w-[min(calc(100vw-2rem),80rem)] -translate-x-1/2 pt-3 transition-[opacity,transform,visibility] duration-200",
           open
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-1 opacity-0",
         )}
       >
         <div className="rounded-[14px_28px_28px_28px] border border-border bg-surface p-5 shadow-[0_24px_64px_rgba(16,46,58,0.14)]">
-          <div className="grid grid-cols-4 gap-5">
+          <div className="grid grid-cols-5 gap-4">
             {serviceDirectoryGroups.map((group, groupIndex) => (
               <section
                 key={group.id}
                 aria-labelledby={`mega-${group.id}`}
-                className="min-w-0 border-r border-border pr-5 last:border-r-0 last:pr-0"
+                className="min-w-0 border-r border-border pr-4 last:border-r-0 last:pr-0"
               >
                 <Link
                   ref={groupIndex === 0 ? firstLinkRef : undefined}

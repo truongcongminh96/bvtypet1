@@ -208,9 +208,14 @@ export function ReviewStoriesCarousel({
   }, []);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const tabletQuery = window.matchMedia("(min-width: 640px)");
+    const desktopQuery = window.matchMedia("(min-width: 960px)");
     const updateCardsPerView = () => {
-      const nextCardsPerView = mediaQuery.matches ? 2 : 1;
+      const nextCardsPerView = desktopQuery.matches
+        ? 3
+        : tabletQuery.matches
+          ? 2
+          : 1;
 
       setCardsPerView(nextCardsPerView);
       setActiveIndex((currentIndex) =>
@@ -222,10 +227,13 @@ export function ReviewStoriesCarousel({
     };
 
     updateCardsPerView();
-    mediaQuery.addEventListener("change", updateCardsPerView);
+    tabletQuery.addEventListener("change", updateCardsPerView);
+    desktopQuery.addEventListener("change", updateCardsPerView);
 
-    return () =>
-      mediaQuery.removeEventListener("change", updateCardsPerView);
+    return () => {
+      tabletQuery.removeEventListener("change", updateCardsPerView);
+      desktopQuery.removeEventListener("change", updateCardsPerView);
+    };
   }, [items.length]);
 
   useEffect(() => {
@@ -320,7 +328,7 @@ export function ReviewStoriesCarousel({
       <ul
         ref={trackRef}
         onScroll={handleScroll}
-        className="review-stories-track mx-auto flex max-w-[37rem] snap-x snap-mandatory gap-4 overflow-x-auto px-[calc((100%-min(82vw,18.25rem))/2)] py-3 sm:gap-5 sm:px-[calc((100%-17.5rem)/2)] md:snap-proximity md:px-0"
+        className="review-stories-track mx-auto flex max-w-[55rem] snap-x snap-mandatory gap-4 overflow-x-auto px-[calc((100%-min(82vw,18.25rem))/2)] py-3 sm:gap-5 sm:px-[calc((100%-17.5rem)/2)] md:snap-proximity md:px-0"
         aria-label="Các đánh giá của khách hàng Pet One"
       >
         {items.map((review, index) => (

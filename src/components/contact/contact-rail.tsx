@@ -52,11 +52,11 @@ export function ContactRail({ contact }: { contact: ClinicContactDetails }) {
       <MotionSection amount={0.12}>
         <h2
           id="contact-rail-title"
-          className="font-display text-[clamp(2rem,3.4vw,3rem)] font-semibold leading-[1.08] tracking-[-0.015em] text-text-primary"
+          className="font-display text-[clamp(1.8rem,2.4vw,2.4rem)] font-semibold leading-[1.08] tracking-[-0.015em] text-text-primary"
         >
           {title}
         </h2>
-        <p className="mt-4 max-w-md text-sm leading-7 text-text-secondary">
+        <p className="mt-3 max-w-sm text-sm leading-6 text-text-secondary">
           {description}
         </p>
       </MotionSection>
@@ -77,7 +77,7 @@ export function ContactRail({ contact }: { contact: ClinicContactDetails }) {
       ) : null}
 
       <MotionGroup
-        className="mt-7 overflow-hidden rounded-[var(--radius-md)] border border-border bg-surface"
+        className="mt-6 overflow-hidden rounded-[var(--radius-md)] border border-border bg-surface"
         amount={0.1}
       >
         {items.map((item, index) => (
@@ -85,21 +85,21 @@ export function ContactRail({ contact }: { contact: ClinicContactDetails }) {
             key={item.key}
             className={index === 0 ? undefined : "border-t border-border"}
           >
-            <div className="grid grid-cols-[auto_1fr] gap-4 p-5 sm:p-6">
-              <span className="inline-flex size-11 items-center justify-center rounded-[var(--radius-sm)] bg-brand-blue-soft text-brand-blue-dark">
-                <item.icon aria-hidden="true" size={21} weight="duotone" />
+            <div className="grid grid-cols-[auto_1fr] gap-3 p-4 sm:p-5">
+              <span className="inline-flex size-10 items-center justify-center rounded-[var(--radius-sm)] bg-brand-blue-soft text-brand-blue-dark">
+                <item.icon aria-hidden="true" size={20} weight="duotone" />
               </span>
 
               <div className="min-w-0">
                 <h3 className="text-sm font-semibold text-text-primary">
                   {item.title}
                 </h3>
-                <p className="mt-1 text-sm leading-6 text-text-secondary">
+                <p className="mt-1 text-sm leading-5 text-text-secondary">
                   {item.description}
                 </p>
 
                 {item.value ? (
-                  <div className="mt-3 flex flex-col items-start gap-2">
+                  <div className="mt-2.5 flex flex-col items-start gap-1.5">
                     <p className="break-words text-sm font-semibold leading-6 text-text-primary">
                       {item.value}
                     </p>

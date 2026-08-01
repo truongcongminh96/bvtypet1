@@ -9,7 +9,8 @@ import { getServices } from "@/sanity/content";
 
 export const metadata: Metadata = {
   title: "Dịch vụ thú y",
-  description: "Tìm hiểu các nhóm dịch vụ chăm sóc, khám chữa bệnh và phẫu thuật tại Pet One.",
+  description:
+    "Tìm hiểu các dịch vụ khám chữa bệnh, chăm sóc, lưu trú Pet Hotel và phẫu thuật tại Pet One.",
 };
 
 export default async function ServicesPage() {

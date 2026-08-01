@@ -12,7 +12,7 @@ export function WhyPetOne({ settings }: { settings: HomePageSettings }) {
           <MotionSection direction="right" mobileDirection="left">
             <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.13em] text-brand-blue-dark">
               <span className="h-px w-9 bg-brand-blue/45" aria-hidden="true" />
-              Vì sao chọn Pet One
+              TOP NHỮNG LÍ DO CHỌN PET ONE
             </p>
             <h2 className="editorial-statement mt-5 max-w-[43rem] text-text-primary">
               Rõ điều đang làm,{" "}

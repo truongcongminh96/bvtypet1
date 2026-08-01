@@ -663,6 +663,77 @@ export const serviceDetailPresentation: Record<
     },
     relatedServiceSlugs: ["kham-tong-quat", "spa-grooming"],
   },
+  "pet-hotel": {
+    eyebrow: "Lưu trú & chăm sóc hằng ngày",
+    heroDescription:
+      "Khi bạn cần một nơi lưu trú có lịch chăm sóc rõ ràng và phù hợp với thói quen riêng của bé.",
+    careNotes: ["Ăn uống", "Thói quen", "Theo dõi"],
+    relevanceItems: [
+      "Bạn cần gửi bé trong ngày hoặc qua đêm",
+      "Bé có lịch ăn, nghỉ ngơi hoặc vận động riêng",
+      "Bé cần dùng sản phẩm chăm sóc theo hướng dẫn đã có",
+      "Bạn muốn thống nhất trước cách cập nhật tình trạng của bé",
+    ],
+    preparationItems: [
+      "Ghi lại lịch ăn, khẩu phần và thói quen uống nước",
+      "Chuẩn bị thức ăn hoặc vật dụng quen thuộc nếu cần",
+      "Cho PetOne biết tính cách và điều khiến bé dễ căng thẳng",
+      "Liệt kê sản phẩm hoặc hướng dẫn chăm sóc đang áp dụng",
+      "Cung cấp thông tin liên hệ trong thời gian bé lưu trú",
+    ],
+    visitSteps: [
+      {
+        id: "routine",
+        iconKey: "listen",
+        title: "Ghi nhận nhịp sinh hoạt",
+        description:
+          "PetOne trao đổi lịch ăn, nghỉ ngơi, vận động và những lưu ý riêng trước khi nhận bé.",
+      },
+      {
+        id: "settle",
+        iconKey: "care",
+        title: "Giúp bé làm quen",
+        description:
+          "Không gian và cách tiếp cận được điều chỉnh để bé có thời gian thích nghi.",
+      },
+      {
+        id: "care",
+        iconKey: "observe",
+        title: "Chăm sóc theo lịch đã thống nhất",
+        description:
+          "Các mốc ăn uống, nghỉ ngơi và vận động được theo dõi theo thông tin người nuôi cung cấp.",
+      },
+      {
+        id: "update",
+        iconKey: "follow-up",
+        title: "Cập nhật khi cần",
+        description:
+          "PetOne liên hệ khi có thay đổi đáng chú ý hoặc cần làm rõ cách chăm sóc.",
+      },
+    ],
+    afterVisitItems: [
+      "Nhận lại các ghi chú cần thiết về thời gian lưu trú",
+      "Tiếp tục lịch sinh hoạt quen thuộc khi bé về nhà",
+      "Theo dõi cách ăn uống, nghỉ ngơi và tương tác của bé",
+      "Liên hệ lại nếu bạn cần làm rõ thông tin",
+    ],
+    outcomeItems: [
+      "Lịch chăm sóc nào đã được thống nhất",
+      "Bé thích nghi với không gian lưu trú ra sao",
+      "Có thay đổi nào đáng chú ý trong thời gian lưu trú",
+      "Điều gì nên tiếp tục theo dõi khi về nhà",
+    ],
+    images: {
+      hero: {
+        src: "/images/pet-one-clinic.png",
+        alt: "Hình ảnh minh hoạ không gian trong nhà sáng và gọn gàng dành cho thú cưng lưu trú",
+        placeholder: true,
+      },
+      process: sharedProcessImage,
+      detail: sharedDetailImage,
+    },
+    relatedServiceSlugs: ["spa-grooming", "kham-tong-quat"],
+  },
 };
 
 const fallbackPreparationItems = [

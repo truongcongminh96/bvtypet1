@@ -1,8 +1,37 @@
-import { CheckCircle, ShieldCheck } from "@phosphor-icons/react/dist/ssr";
+import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 
 import { MotionGroup, MotionItem, MotionSection } from "@/components/motion/reveal";
 import type { Equipment } from "@/content/experience";
+
+const equipmentDisplaySlots = [
+  {
+    name: "X Quang",
+    matches: ["x quang", "x ray", "xray"],
+  },
+  {
+    name: "Mê bay hơi",
+    matches: ["me bay hoi", "gay me bay hoi", "may me"],
+  },
+  {
+    name: "Siêu âm",
+    matches: ["sieu am"],
+  },
+  {
+    name: "XN Sinh lý/Sinh hóa",
+    matches: ["xn sinh ly", "sinh ly sinh hoa", "xet nghiem sinh ly"],
+  },
+] as const;
+
+function normalizeEquipmentName(value: string) {
+  return value
+    .normalize("NFD")
+    .toLowerCase()
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
 
 export function ClinicEnvironment({ items }: { items: Equipment[] }) {
   return (
@@ -42,57 +71,71 @@ export function ClinicEnvironment({ items }: { items: Equipment[] }) {
       </MotionSection>
 
       <div className="shell">
-        {items.length > 0 ? (
-          <MotionGroup
-            className="relative z-10 -mt-2 ml-auto max-w-5xl border-t border-border-strong pt-7 sm:mt-1 lg:-mt-10 lg:bg-surface-soft/95 lg:px-8 lg:pt-8"
-            amount={0.12}
-            stagger={0.09}
+        <MotionGroup
+          className="relative z-10 -mt-2 border-t border-border-strong pt-7 sm:mt-1 lg:-mt-10 lg:bg-surface-soft/95 lg:px-8 lg:pt-8"
+          amount={0.12}
+          stagger={0.09}
+        >
+          <div
+            className="service-carousel-viewport pb-4 focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-brand-blue-dark"
+            role="region"
+            aria-label="Bốn nhóm trang thiết bị"
+            tabIndex={0}
           >
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-end">
-              {items.slice(0, 4).map((item, index) => (
+            {equipmentDisplaySlots.map((slot, index) => {
+              const item = items.find((candidate) => {
+                if (!candidate.verified) return false;
+
+                const normalizedName = normalizeEquipmentName(candidate.name);
+                return slot.matches.some((match) => normalizedName.includes(match));
+              });
+
+              return (
                 <MotionItem
-                  key={item.id}
-                  className="max-w-[17rem] lg:border-l lg:border-border-strong lg:pl-6"
+                  key={slot.name}
+                  className="flex min-h-56 w-[min(78vw,19rem)] flex-none snap-start flex-col rounded-[1.5rem] border border-border bg-surface/80 p-5 shadow-[0_12px_30px_rgba(16,46,58,0.06)] sm:w-[19rem] lg:min-h-64 lg:w-[20rem]"
                   direction={index % 2 === 0 ? "left" : "right"}
                   mobileDirection="left"
                 >
-                  <h3 className="font-display text-2xl font-semibold text-text-primary">
-                    {item.name}
+                  <span className="text-[0.625rem] font-bold uppercase tracking-[0.13em] text-brand-blue-dark">
+                    Thiết bị {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-3 font-display text-[1.85rem] font-semibold leading-[1.02] text-text-primary text-balance">
+                    {slot.name}
                   </h3>
-                  <p className="mt-2 text-xs leading-6 text-text-secondary">
-                    {item.summary}
-                  </p>
-                  <ul className="mt-3 space-y-2">
-                    {item.supports.slice(0, 2).map((support) => (
-                      <li key={support} className="flex gap-2 text-[0.7rem] leading-5 text-text-secondary">
-                        <CheckCircle
-                          aria-hidden="true"
-                          size={14}
-                          weight="fill"
-                          className="mt-0.5 shrink-0 text-brand-blue-dark"
-                        />
-                        {support}
-                      </li>
-                    ))}
-                  </ul>
+
+                  {item ? (
+                    <>
+                      <p className="mt-4 text-xs leading-6 text-text-secondary">
+                        {item.summary}
+                      </p>
+                      <ul className="mt-auto space-y-2 pt-4">
+                        {item.supports.slice(0, 2).map((support) => (
+                          <li
+                            key={support}
+                            className="flex gap-2 text-[0.7rem] leading-5 text-text-secondary"
+                          >
+                            <CheckCircle
+                              aria-hidden="true"
+                              size={14}
+                              weight="fill"
+                              className="mt-0.5 shrink-0 text-brand-blue-dark"
+                            />
+                            {support}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <p className="mt-auto pt-5 text-xs leading-6 text-text-muted">
+                      Thông tin chi tiết đang được đối chiếu trước khi công bố.
+                    </p>
+                  )}
                 </MotionItem>
-              ))}
-            </div>
-          </MotionGroup>
-        ) : (
-          <MotionSection className="mt-7 ml-auto flex max-w-2xl items-start gap-3 border-t border-border-strong pt-5" direction="right" mobileDirection="left">
-            <ShieldCheck
-              aria-hidden="true"
-              size={21}
-              weight="duotone"
-              className="mt-0.5 shrink-0 text-brand-blue-dark"
-            />
-            <p className="text-sm leading-7 text-text-secondary">
-              Danh mục thiết bị đang được Pet One đối chiếu hình ảnh, công dụng
-              và phạm vi hỗ trợ trước khi công bố.
-            </p>
-          </MotionSection>
-        )}
+              );
+            })}
+          </div>
+        </MotionGroup>
       </div>
     </section>
   );

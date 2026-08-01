@@ -10,7 +10,11 @@ import Link from "next/link";
 
 import { ConsultationForm } from "@/components/consultation/consultation-form";
 import { Brand } from "@/components/site/brand";
-import { getPhoneHref, siteConfig } from "@/lib/site-config";
+import {
+  footerClinicAddresses,
+  getPhoneHref,
+  siteConfig,
+} from "@/lib/site-config";
 
 const informationLinks = [
   { href: "/gioi-thieu", label: "Giới thiệu Pet One" },
@@ -22,15 +26,6 @@ const informationLinks = [
 ];
 
 export function Footer() {
-  const addressParts = siteConfig.address
-    ? siteConfig.address
-        .split(",")
-        .map((part) => part.trim())
-        .filter(Boolean)
-    : [];
-  const [streetAddress, ...localityParts] = addressParts;
-  const localityAddress = localityParts.join(", ");
-
   return (
     <footer className="relative bg-transparent pt-20 sm:pt-24">
       <svg
@@ -82,32 +77,33 @@ export function Footer() {
                     weight="fill"
                     className="mt-1 shrink-0 text-brand-blue-dark"
                   />
-                  {siteConfig.address ? (
-                    <Link
-                      href={siteConfig.googleMapsUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex max-w-[20rem] items-start gap-1.5 transition-colors hover:text-brand-blue-dark"
-                    >
-                      <span>
-                        <span className="block font-semibold text-text-primary">
-                          Địa chỉ phòng khám
-                        </span>
-                        <span className="mt-0.5 block">{streetAddress}</span>
-                        {localityAddress ? (
-                          <span className="block">{localityAddress}</span>
-                        ) : null}
-                      </span>
-                      <ArrowUpRight
-                        aria-hidden="true"
-                        size={14}
-                        weight="bold"
-                        className="mt-1 shrink-0"
-                      />
-                    </Link>
-                  ) : (
-                    <span>Địa chỉ đang được cập nhật.</span>
-                  )}
+                  <div className="max-w-[20rem]">
+                    <p className="font-semibold text-text-primary">
+                      Địa chỉ phòng khám
+                    </p>
+                    <ol className="mt-1 grid gap-1.5">
+                      {footerClinicAddresses.map((location, index) => (
+                        <li key={location.address}>
+                          <Link
+                            href={location.mapUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group inline-flex items-start gap-1.5 transition-colors hover:text-brand-blue-dark"
+                          >
+                            <span>
+                              {index + 1}. {location.address}
+                            </span>
+                            <ArrowUpRight
+                              aria-hidden="true"
+                              size={13}
+                              weight="bold"
+                              className="mt-1 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                            />
+                          </Link>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
                 </li>
                 <li className="flex items-center gap-3">
                   <EnvelopeSimple

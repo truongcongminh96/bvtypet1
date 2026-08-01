@@ -39,6 +39,7 @@ export const serviceType = defineType({
       options: {
         list: [
           { title: "Pet Shop", value: "pet-shop" },
+          { title: "Pet Hotel", value: "pet-hotel" },
           { title: "Khám chữa bệnh", value: "kham-chua-benh" },
           { title: "Spa / Grooming", value: "spa-grooming" },
           { title: "Phẫu thuật", value: "phau-thuat" },

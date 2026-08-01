@@ -349,6 +349,11 @@ const fallbackServiceImages: Record<string, ArticleImage> = {
     alt: "Nhân viên chăm sóc da lông cho thú cưng",
     placeholder: true,
   },
+  "pet-hotel": {
+    src: "/images/pet-one-clinic.png",
+    alt: "Không gian trong nhà sáng và gọn gàng dành cho thú cưng lưu trú",
+    placeholder: true,
+  },
   "chan-doan-hinh-anh": {
     src: "/images/clinic/pet-one-ultrasound-team.jpg",
     alt: "Đội ngũ Pet One thực hiện siêu âm hỗ trợ chẩn đoán",
@@ -386,6 +391,8 @@ function withServicePresentation(service: Service): Service {
     service.group ??
     (service.slug === "spa-grooming"
       ? "spa-grooming"
+      : service.slug === "pet-hotel"
+        ? "pet-hotel"
       : service.slug === "ngoai-khoa"
         ? "phau-thuat"
         : "kham-chua-benh");
@@ -397,9 +404,21 @@ function withServicePresentation(service: Service): Service {
   };
 }
 
+export function resolveServices(servicesFromSanity: Service[]): Service[] {
+  const resolvedSanity = servicesFromSanity.map(withServicePresentation);
+  const sanitySlugs = new Set(
+    resolvedSanity.map((service) => service.slug),
+  );
+  const missingFallbacks = fallbackServices
+    .filter((service) => !sanitySlugs.has(service.slug))
+    .map(withServicePresentation);
+
+  return [...resolvedSanity, ...missingFallbacks];
+}
+
 export async function getServices(): Promise<Service[]> {
   if (!isSanityConfigured) {
-    return fallbackServices.map(withServicePresentation);
+    return resolveServices([]);
   }
 
   try {
@@ -409,18 +428,14 @@ export async function getServices(): Promise<Service[]> {
       { next: { revalidate: 300 } },
     );
 
-    if (data.length === 0) {
-      return fallbackServices.map(withServicePresentation);
-    }
-
-    return data.map((service) =>
-      withServicePresentation({
+    return resolveServices(
+      data.map((service) => ({
         ...service,
         cardImage: normalizeServiceImage(service.cardImage),
-      }),
+      })),
     );
   } catch {
-    return fallbackServices.map(withServicePresentation);
+    return resolveServices([]);
   }
 }
 

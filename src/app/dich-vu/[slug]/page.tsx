@@ -55,6 +55,7 @@ export default async function ServiceDetailPage({
   }
 
   const presentation = getServiceDetailPresentation(service);
+  const isPetHotel = service.group === "pet-hotel";
   const servicesBySlug = new Map(
     services.map((item) => [item.slug, item]),
   );
@@ -72,8 +73,16 @@ export default async function ServiceDetailPage({
 
       <CareChapter
         id="truoc-buoi-kham"
-        title="Bạn kể lại những điều đã quan sát."
-        intro="Thông tin ngắn nhưng cụ thể giúp PetOne hiểu điều gì đã thay đổi và điều bạn đang lo lắng nhất."
+        title={
+          isPetHotel
+            ? "Bạn chia sẻ nhịp sinh hoạt quen thuộc của bé."
+            : "Bạn kể lại những điều đã quan sát."
+        }
+        intro={
+          isPetHotel
+            ? "Thông tin về ăn uống, nghỉ ngơi, vận động và tính cách giúp PetOne chuẩn bị cách chăm sóc phù hợp hơn."
+            : "Thông tin ngắn nhưng cụ thể giúp PetOne hiểu điều gì đã thay đổi và điều bạn đang lo lắng nhất."
+        }
         layout="media-right"
         tone="warm"
         image={presentation.images.detail}
@@ -86,7 +95,11 @@ export default async function ServiceDetailPage({
 
       <CareChapter
         id="trong-buoi-kham"
-        title="PetOne nối các thông tin lại với nhau."
+        title={
+          isPetHotel
+            ? "PetOne chăm sóc theo lịch đã thống nhất."
+            : "PetOne nối các thông tin lại với nhau."
+        }
         intro={service.description}
         layout="media-top"
         tone="white"
@@ -114,8 +127,16 @@ export default async function ServiceDetailPage({
 
       <CareChapter
         id="sau-buoi-kham"
-        title="Bạn biết rõ điều gì cần theo dõi ở nhà."
-        intro="Hướng dẫn sau buổi khám tập trung vào điều cần quan sát, cách cập nhật diễn tiến và thời điểm nên liên hệ lại."
+        title={
+          isPetHotel
+            ? "Bạn nhận lại những thông tin cần biết về bé."
+            : "Bạn biết rõ điều gì cần theo dõi ở nhà."
+        }
+        intro={
+          isPetHotel
+            ? "Sau thời gian lưu trú, PetOne chia sẻ những ghi nhận cần thiết để bạn tiếp tục theo dõi nhịp sinh hoạt của bé tại nhà."
+            : "Hướng dẫn sau buổi khám tập trung vào điều cần quan sát, cách cập nhật diễn tiến và thời điểm nên liên hệ lại."
+        }
         layout="text-only"
         tone="blue"
       >

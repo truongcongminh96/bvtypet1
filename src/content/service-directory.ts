@@ -74,7 +74,7 @@ export const serviceDirectoryGroups: ServiceDirectoryGroup[] = [
       ],
     },
     cta: {
-      label: "Đặt lịch khám",
+      label: "Đặt lịch",
       href: "/lien-he#dat-lich",
       tone: "blue",
     },
@@ -154,8 +154,8 @@ export const serviceDirectoryGroups: ServiceDirectoryGroup[] = [
       ],
     },
     cta: {
-      label: "Xem dịch vụ ngoại khoa",
-      href: "/dich-vu/ngoai-khoa",
+      label: "Đặt lịch",
+      href: "/lien-he#dat-lich",
       tone: "warm",
     },
     items: [
@@ -201,8 +201,8 @@ export const serviceDirectoryGroups: ServiceDirectoryGroup[] = [
       ],
     },
     cta: {
-      label: "Xem dịch vụ Spa và Grooming",
-      href: "/dich-vu/spa-grooming",
+      label: "Đặt lịch",
+      href: "/lien-he#dat-lich",
       tone: "blue",
     },
     items: [
@@ -216,6 +216,52 @@ export const serviceDirectoryGroups: ServiceDirectoryGroup[] = [
     ],
   },
   {
+    id: "pet-hotel",
+    label: "Pet Hotel",
+    eyebrow: "Lưu trú & chăm sóc",
+    subtitle: "Một nhịp sinh hoạt quen thuộc khi bạn vắng nhà",
+    description:
+      "Lưu trú với lịch ăn, nghỉ ngơi và vận động được ghi nhận riêng cho từng bé.",
+    tone: "white",
+    layout: "media-right",
+    collage: {
+      variant: "feature-stack",
+      images: [
+        {
+          src: "/images/pet-one-clinic.png",
+          alt: "Không gian trong nhà sáng và gọn gàng dành cho thú cưng lưu trú",
+          placeholder: true,
+        },
+        {
+          src: "/images/pet-one-care.png",
+          alt: "Nhân viên nhẹ nhàng chăm sóc thú cưng",
+          placeholder: true,
+          focalPoint: "50% 38%",
+        },
+        {
+          src: "/images/pet-one-hero.png",
+          alt: "Chó và mèo trong không gian chăm sóc tại PetOne",
+          placeholder: true,
+          focalPoint: "50% 42%",
+        },
+      ],
+    },
+    cta: {
+      label: "Đặt lịch",
+      href: "/lien-he#dat-lich",
+      tone: "blue",
+    },
+    items: [
+      {
+        slug: "pet-hotel",
+        label: "Pet Hotel",
+        description:
+          "Chăm sóc lưu trú dựa trên lịch ăn, nghỉ ngơi, vận động và những lưu ý riêng của từng bé.",
+        tag: "Lưu trú & chăm sóc",
+      },
+    ],
+  },
+  {
     id: "pet-shop",
     label: "Pet Shop",
     eyebrow: "Chăm sóc mỗi ngày",
@@ -223,7 +269,7 @@ export const serviceDirectoryGroups: ServiceDirectoryGroup[] = [
     description:
       "Sản phẩm chăm sóc dành cho nhu cầu hằng ngày của thú cưng.",
     tone: "warm",
-    layout: "media-right",
+    layout: "media-left",
     collage: {
       variant: "placeholder-pair",
       images: [

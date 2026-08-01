@@ -14,6 +14,7 @@ export type Service = {
 
 export type ServiceGroup =
   | "pet-shop"
+  | "pet-hotel"
   | "kham-chua-benh"
   | "spa-grooming"
   | "phau-thuat";
@@ -265,6 +266,22 @@ export const services: Service[] = [
       "Theo dõi thay đổi trong ăn uống",
     ],
     accent: "blue",
+  },
+  {
+    slug: "pet-hotel",
+    title: "Pet Hotel",
+    shortTitle: "Pet Hotel",
+    summary:
+      "Dịch vụ lưu trú và chăm sóc hằng ngày theo thói quen riêng của từng bé.",
+    description:
+      "PetOne ghi nhận lịch ăn, vận động, nghỉ ngơi và những lưu ý riêng trước thời gian lưu trú. Việc chăm sóc được sắp xếp theo nhịp sinh hoạt quen thuộc để bé dễ thích nghi hơn.",
+    points: [
+      "Trao đổi thói quen và lưu ý riêng của bé",
+      "Sắp xếp chăm sóc theo lịch sinh hoạt",
+      "Cập nhật tình trạng trong thời gian lưu trú",
+    ],
+    accent: "ice",
+    group: "pet-hotel",
   },
 ];
 

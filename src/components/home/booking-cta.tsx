@@ -1,9 +1,8 @@
-import { CalendarDots, Phone } from "@phosphor-icons/react/dist/ssr";
+import { CalendarDots } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 
 import { MotionGroup, MotionItem, MotionSection } from "@/components/motion/reveal";
 import { CareActionLink } from "@/components/ui/button";
-import { getPhoneHref } from "@/lib/site-config";
 
 export function BookingCta() {
   return (
@@ -44,21 +43,13 @@ export function BookingCta() {
               </p>
             </MotionItem>
             <MotionItem direction="left">
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <div className="mt-8 flex">
                 <CareActionLink
                   href="/lien-he#dat-lich"
                   className="w-full sm:w-auto"
                   leadingIcon={<CalendarDots aria-hidden="true" size={19} weight="bold" />}
                 >
                   Đặt lịch khám
-                </CareActionLink>
-                <CareActionLink
-                  href={getPhoneHref()}
-                  variant="panel-warm"
-                  className="w-full sm:w-auto"
-                  leadingIcon={<Phone aria-hidden="true" size={18} weight="bold" />}
-                >
-                  Gọi phòng khám
                 </CareActionLink>
               </div>
             </MotionItem>

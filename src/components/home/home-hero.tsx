@@ -1,5 +1,6 @@
 import { CalendarDots, Phone } from "@phosphor-icons/react/dist/ssr";
 
+import { ArchImage } from "@/components/home/arch-image";
 import { HeroReviewProof } from "@/components/home/hero-review-proof";
 import { HeroMedia } from "@/components/home/hero-media";
 import { MotionGroup, MotionItem } from "@/components/motion/reveal";
@@ -21,7 +22,7 @@ export function HomeHero({ settings }: { settings: HomePageSettings }) {
 
       <div className="home-hero__layout shell relative z-10 grid items-center gap-10 pt-10 pb-20 md:gap-12 md:pt-12 md:pb-24 lg:grid-cols-[minmax(0,0.43fr)_minmax(0,0.57fr)] lg:gap-0 lg:pt-10 lg:pb-32">
         <MotionGroup
-          className="relative z-10 max-w-[39rem] lg:pr-4 xl:pr-8"
+          className="relative z-10 order-2 max-w-[39rem] lg:order-1 lg:pr-4 xl:pr-8"
           amount={0.15}
           delay={0.12}
           stagger={0.1}
@@ -78,6 +79,10 @@ export function HomeHero({ settings }: { settings: HomePageSettings }) {
             />
           </MotionItem>
         </MotionGroup>
+
+        <div className="relative order-1 lg:hidden">
+          <ArchImage />
+        </div>
       </div>
 
       <svg

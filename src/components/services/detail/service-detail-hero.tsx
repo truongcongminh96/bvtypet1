@@ -80,7 +80,7 @@ export function ServiceDetailHero({
                 leadingIcon={<CalendarCheck size={19} weight="duotone" />}
                 className="w-full sm:w-auto"
               >
-                Đặt lịch khám
+                {service.group === "pet-hotel" ? "Đặt lịch" : "Đặt lịch khám"}
               </CareActionLink>
               <CareActionLink
                 href={phoneAction.href}

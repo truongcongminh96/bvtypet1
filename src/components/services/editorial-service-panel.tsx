@@ -1,7 +1,6 @@
 import {
   CalendarBlank,
   CaretRight,
-  PawPrint,
 } from "@phosphor-icons/react/dist/ssr";
 
 import { MotionGroup, MotionItem } from "@/components/motion/reveal";
@@ -33,12 +32,7 @@ export function EditorialServicePanel({
     return service ? [{ service, presentation }] : [];
   });
   const mediaFirst = group.layout === "media-left";
-  const ctaIcon =
-    group.id === "spa-grooming" ? (
-      <PawPrint size={18} weight="duotone" />
-    ) : (
-      <CalendarBlank size={18} weight="duotone" />
-    );
+  const ctaIcon = <CalendarBlank size={18} weight="duotone" />;
 
   return (
     <section

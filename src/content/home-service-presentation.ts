@@ -1,3 +1,5 @@
+import type { Service } from "@/content/site";
+
 export type HomeServicePresentation = {
   variant: "featured-photo" | "featured-notes" | "standard-record";
   suitability: string;
@@ -10,6 +12,52 @@ export type HomeServicePresentation = {
     placeholder: boolean;
   };
 };
+
+export const featuredHomeServiceSlugs = [
+  "tiem-phong",
+  "kham-tong-quat",
+  "ngoai-khoa",
+] as const;
+
+type FeaturedHomeServiceSlug = (typeof featuredHomeServiceSlugs)[number];
+
+const featuredHomeServiceLabels: Record<FeaturedHomeServiceSlug, string> = {
+  "tiem-phong": "Tiêm phòng",
+  "kham-tong-quat": "Khám bệnh tổng quát",
+  "ngoai-khoa": "Phẫu thuật",
+};
+
+export type FeaturedHomeService = {
+  service: Service;
+  displayTitle: string;
+};
+
+export function partitionHomeServices(
+  items: Service[],
+  fallbackItems: Service[] = [],
+): {
+  featured: FeaturedHomeService[];
+  remaining: Service[];
+} {
+  const catalog = new Map(
+    [...fallbackItems, ...items].map((service) => [service.slug, service]),
+  );
+  const featured = featuredHomeServiceSlugs.flatMap((slug) => {
+    const service = catalog.get(slug);
+
+    return service
+      ? [{ service, displayTitle: featuredHomeServiceLabels[slug] }]
+      : [];
+  });
+  const featuredSlugs = new Set(
+    featured.map(({ service }) => service.slug),
+  );
+
+  return {
+    featured,
+    remaining: items.filter((service) => !featuredSlugs.has(service.slug)),
+  };
+}
 
 export const homeServicePresentation = {
   "kham-tong-quat": {

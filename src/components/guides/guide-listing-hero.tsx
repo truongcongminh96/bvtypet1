@@ -3,14 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { CategoryNavigation } from "@/components/guides/category-navigation";
-import { CareNoteReveal } from "@/components/motion/care-note-reveal";
 import { ImageReveal } from "@/components/motion/image-reveal";
 import { MotionGroup, MotionItem } from "@/components/motion/reveal";
-import { CareNote } from "@/components/ui/care-note";
-import {
-  guideHeroCareNotes,
-  guideHeroMedia,
-} from "@/content/guide-presentation";
+import { guideHeroMedia } from "@/content/guide-presentation";
 import type { ArticleCategorySlug } from "@/content/site";
 
 export function GuideListingHero({
@@ -98,34 +93,6 @@ export function GuideListingHero({
                 />
               </div>
             </ImageReveal>
-            <CareNoteReveal
-              label={guideHeroCareNotes[0]}
-              className="left-[-0.5rem] top-[18%]"
-              delay={0.28}
-            />
-            <CareNoteReveal
-              label={guideHeroCareNotes[1]}
-              direction="left"
-              className="right-[-0.5rem] top-[34%]"
-              delay={0.48}
-            />
-            <CareNoteReveal
-              label={guideHeroCareNotes[2]}
-              className="bottom-[25%] left-[2%]"
-              delay={0.68}
-            />
-            <CareNoteReveal
-              label={guideHeroCareNotes[3]}
-              direction="left"
-              className="bottom-[11%] right-[2%]"
-              delay={0.88}
-            />
-          </div>
-
-          <div className="mt-2 grid grid-cols-2 gap-2 md:hidden">
-            {guideHeroCareNotes.map((note) => (
-              <CareNote key={note}>{note}</CareNote>
-            ))}
           </div>
           <figcaption className="mt-3 text-center text-xs leading-5 text-text-muted">
             Hình ảnh minh hoạ định hướng, không đại diện cho cơ sở hoặc nhân sự

@@ -33,7 +33,7 @@ export function FormField({
   children: ReactNode;
 }) {
   return (
-    <div className="min-w-0">
+    <div className="flex h-full min-w-0 flex-col">
       <label htmlFor={id} className="block text-sm font-semibold text-text-primary">
         {label}
         {required ? (
@@ -47,7 +47,7 @@ export function FormField({
           {helper}
         </p>
       ) : null}
-      <div className="mt-2">{children}</div>
+      <div className="mt-auto pt-2">{children}</div>
       {error ? (
         <p
           id={`${id}-error`}
