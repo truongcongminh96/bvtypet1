@@ -1,7 +1,7 @@
-import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 
+import { PetOneStudioLogo } from "./src/components/sanity/studio-logo";
 import { sanityDataset, sanityProjectId } from "./src/sanity/env";
 import { schemaTypes } from "./src/sanity/schemas";
 import {
@@ -9,6 +9,7 @@ import {
   singletonSchemaTypes,
   studioStructure,
 } from "./src/sanity/structure";
+import { petOneStudioTheme } from "./src/sanity/theme";
 
 export default defineConfig({
   name: "pet-one",
@@ -16,7 +17,13 @@ export default defineConfig({
   projectId: sanityProjectId,
   dataset: sanityDataset,
   basePath: "/studio",
-  plugins: [structureTool({ structure: studioStructure }), visionTool()],
+  plugins: [structureTool({ structure: studioStructure })],
+  theme: petOneStudioTheme,
+  studio: {
+    components: {
+      logo: PetOneStudioLogo,
+    },
+  },
   schema: {
     types: schemaTypes,
   },

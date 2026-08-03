@@ -373,7 +373,7 @@ const fallbackServiceImages: Record<string, ArticleImage> = {
   },
 };
 
-function normalizeServiceImage(image?: SanityImage): ArticleImage | undefined {
+function normalizeOptionalImage(image?: SanityImage): ArticleImage | undefined {
   if (!image?.src || !image.alt) {
     return undefined;
   }
@@ -431,7 +431,7 @@ export async function getServices(): Promise<Service[]> {
     return resolveServices(
       data.map((service) => ({
         ...service,
-        cardImage: normalizeServiceImage(service.cardImage),
+        cardImage: normalizeOptionalImage(service.cardImage),
       })),
     );
   } catch {
@@ -532,11 +532,13 @@ const reviewsQuery = `*[_type == "customerReview" && verificationStatus == "veri
   sourceUrl,
   avatar {
     "src": asset->url,
-    alt
+    alt,
+    hotspot
   },
   image {
     "src": asset->url,
-    alt
+    alt,
+    hotspot
   },
   "verified": true,
   order
@@ -638,6 +640,19 @@ type SanityHomePageSettings = {
   metrics?: HomePageSettings["metrics"];
 };
 
+type SanityEquipment = Omit<Equipment, "image"> & {
+  image?: SanityImage;
+};
+
+type SanityCustomerReview = Omit<CustomerReview, "avatar" | "image"> & {
+  avatar?: SanityImage;
+  image?: SanityImage;
+};
+
+type SanityAboutPage = Omit<AboutPageContent, "image"> & {
+  image?: SanityImage;
+};
+
 export function resolveHomePageSettings(
   data?: SanityHomePageSettings | null,
 ): HomePageSettings {
@@ -719,11 +734,47 @@ async function fetchVerifiedList<T extends { verified: boolean }>(
 }
 
 export function getEquipment(): Promise<Equipment[]> {
-  return fetchVerifiedList(equipmentQuery, fallbackEquipment);
+  if (!isSanityConfigured) return Promise.resolve(onlyVerified(fallbackEquipment));
+
+  return sanityClient
+    .fetch<SanityEquipment[]>(equipmentQuery, {}, { next: { revalidate: 300 } })
+    .then((data) =>
+      onlyVerified(
+        (data.length > 0 ? data : fallbackEquipment).map((item) => ({
+          ...item,
+          image:
+            "image" in item
+              ? normalizeOptionalImage(item.image as SanityImage | undefined)
+              : undefined,
+        })),
+      ),
+    )
+    .catch(() => onlyVerified(fallbackEquipment));
 }
 
 export function getCustomerReviews(): Promise<CustomerReview[]> {
-  return fetchVerifiedList(reviewsQuery, fallbackReviews);
+  if (!isSanityConfigured) return Promise.resolve(onlyVerified(fallbackReviews));
+
+  return sanityClient
+    .fetch<SanityCustomerReview[]>(reviewsQuery, {}, { next: { revalidate: 300 } })
+    .then((data) =>
+      onlyVerified(
+        (data.length > 0 ? data : fallbackReviews).map((item) => ({
+          ...item,
+          avatar:
+            "avatar" in item
+              ? normalizeOptionalImage(
+                  item.avatar as SanityImage | undefined,
+                )
+              : undefined,
+          image:
+            "image" in item
+              ? normalizeOptionalImage(item.image as SanityImage | undefined)
+              : undefined,
+        })),
+      ),
+    )
+    .catch(() => onlyVerified(fallbackReviews));
 }
 
 export function getClinicLocations(): Promise<ClinicLocation[]> {
@@ -733,12 +784,14 @@ export function getClinicLocations(): Promise<ClinicLocation[]> {
 export async function getAboutPage(): Promise<AboutPageContent> {
   if (!isSanityConfigured) return fallbackAboutPage;
   try {
-    const data = await sanityClient.fetch<AboutPageContent | null>(
+    const data = await sanityClient.fetch<SanityAboutPage | null>(
       aboutPageQuery,
       {},
       { next: { revalidate: 300 } },
     );
-    return data ?? fallbackAboutPage;
+    return data
+      ? { ...data, image: normalizeOptionalImage(data.image) }
+      : fallbackAboutPage;
   } catch {
     return fallbackAboutPage;
   }

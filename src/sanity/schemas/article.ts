@@ -165,17 +165,25 @@ export const articleType = defineType({
   name: "article",
   title: "Bài viết",
   type: "document",
+  groups: [
+    { name: "basic", title: "Thông tin", default: true },
+    { name: "images", title: "Hình ảnh" },
+    { name: "content", title: "Nội dung" },
+    { name: "relations", title: "Liên kết" },
+  ],
   fields: [
     defineField({
       name: "title",
       title: "Tiêu đề",
       type: "string",
+      group: "basic",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Đường dẫn",
       type: "slug",
+      group: "basic",
       options: { source: "title", maxLength: 96 },
       validation: (rule) => rule.required(),
     }),
@@ -183,6 +191,7 @@ export const articleType = defineType({
       name: "excerpt",
       title: "Mô tả ngắn",
       type: "text",
+      group: "basic",
       rows: 3,
       validation: (rule) => rule.required().max(240),
     }),
@@ -190,6 +199,7 @@ export const articleType = defineType({
       name: "lead",
       title: "Đoạn dẫn",
       type: "text",
+      group: "basic",
       rows: 4,
       validation: (rule) => rule.required(),
     }),
@@ -197,6 +207,7 @@ export const articleType = defineType({
       name: "category",
       title: "Chuyên mục",
       type: "string",
+      group: "basic",
       options: {
         list: [
           { title: "Sức khỏe hằng ngày", value: "suc-khoe-hang-ngay" },
@@ -212,6 +223,7 @@ export const articleType = defineType({
       name: "journeyStage",
       title: "Giai đoạn chăm sóc",
       type: "string",
+      group: "basic",
       options: {
         list: [
           { title: "Nhận ra thay đổi", value: "notice" },
@@ -225,18 +237,21 @@ export const articleType = defineType({
       name: "readingTime",
       title: "Thời gian đọc (phút)",
       type: "number",
+      group: "basic",
       validation: (rule) => rule.required().integer().min(1),
     }),
     defineField({
       name: "publishedAt",
       title: "Ngày xuất bản",
       type: "date",
+      group: "basic",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "coverImage",
       title: "Ảnh bìa",
       type: "image",
+      group: "images",
       options: { hotspot: true },
       fields: imageFields,
       validation: (rule) => rule.required(),
@@ -245,6 +260,7 @@ export const articleType = defineType({
       name: "thumbnailImage",
       title: "Ảnh thu nhỏ",
       type: "image",
+      group: "images",
       options: { hotspot: true },
       fields: imageFields,
     }),
@@ -252,6 +268,7 @@ export const articleType = defineType({
       name: "contentBlocks",
       title: "Nội dung bài viết",
       type: "array",
+      group: "content",
       of: contentBlockFields,
       validation: (rule) => rule.required().min(1),
     }),
@@ -259,6 +276,7 @@ export const articleType = defineType({
       name: "disclaimer",
       title: "Lưu ý biên tập",
       type: "text",
+      group: "content",
       rows: 3,
       initialValue:
         "Nội dung nhằm hỗ trợ quan sát và không thay thế đánh giá trực tiếp của bác sĩ thú y.",
@@ -268,6 +286,7 @@ export const articleType = defineType({
       name: "reviewedBy",
       title: "Người duyệt đã xác minh",
       type: "reference",
+      group: "relations",
       to: [{ type: "doctor" }],
       options: {
         filter: "verificationStatus == $status",
@@ -278,6 +297,7 @@ export const articleType = defineType({
       name: "relatedArticles",
       title: "Bài viết liên quan",
       type: "array",
+      group: "relations",
       of: [
         defineArrayMember({
           type: "reference",
@@ -289,12 +309,14 @@ export const articleType = defineType({
       name: "featured",
       title: "Bài viết nổi bật",
       type: "boolean",
+      group: "basic",
       initialValue: false,
     }),
     defineField({
       name: "tags",
       title: "Thẻ nội dung",
       type: "array",
+      group: "basic",
       of: [defineArrayMember({ type: "string" })],
       options: { layout: "tags" },
     }),

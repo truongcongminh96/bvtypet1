@@ -4,23 +4,31 @@ export const serviceType = defineType({
   name: "service",
   title: "Dịch vụ",
   type: "document",
+  groups: [
+    { name: "basic", title: "Thông tin", default: true },
+    { name: "display", title: "Hiển thị" },
+    { name: "content", title: "Nội dung" },
+  ],
   fields: [
     defineField({
       name: "title",
       title: "Tên dịch vụ",
       type: "string",
+      group: "basic",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "shortTitle",
       title: "Tên ngắn",
       type: "string",
+      group: "basic",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Đường dẫn",
       type: "slug",
+      group: "basic",
       options: { source: "title", maxLength: 96 },
       validation: (rule) => rule.required(),
     }),
@@ -28,6 +36,7 @@ export const serviceType = defineType({
       name: "summary",
       title: "Mô tả ngắn",
       type: "text",
+      group: "basic",
       rows: 3,
       validation: (rule) => rule.required().max(240),
     }),
@@ -35,6 +44,7 @@ export const serviceType = defineType({
       name: "group",
       title: "Nhóm dịch vụ",
       type: "string",
+      group: "display",
       initialValue: "kham-chua-benh",
       options: {
         list: [
@@ -51,6 +61,7 @@ export const serviceType = defineType({
       name: "cardImage",
       title: "Ảnh thẻ dịch vụ",
       type: "image",
+      group: "display",
       options: { hotspot: true },
       fields: [
         defineField({
@@ -65,18 +76,21 @@ export const serviceType = defineType({
       name: "featuredOnHome",
       title: "Hiển thị trong Top dịch vụ trang chủ",
       type: "boolean",
+      group: "display",
       initialValue: false,
     }),
     defineField({
       name: "homeOrder",
       title: "Thứ tự trên trang chủ",
       type: "number",
+      group: "display",
       initialValue: 10,
     }),
     defineField({
       name: "description",
       title: "Nội dung giới thiệu",
       type: "text",
+      group: "content",
       rows: 6,
       validation: (rule) => rule.required(),
     }),
@@ -84,6 +98,7 @@ export const serviceType = defineType({
       name: "points",
       title: "Các bước chính",
       type: "array",
+      group: "content",
       of: [{ type: "string" }],
       validation: (rule) => rule.required().min(2).max(5),
     }),
@@ -91,6 +106,7 @@ export const serviceType = defineType({
       name: "accent",
       title: "Màu nhấn",
       type: "string",
+      group: "display",
       initialValue: "blue",
       options: {
         list: [
@@ -106,6 +122,7 @@ export const serviceType = defineType({
       name: "order",
       title: "Thứ tự",
       type: "number",
+      group: "display",
       initialValue: 10,
     }),
   ],

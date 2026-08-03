@@ -43,6 +43,15 @@ export const homePageSettingsType = defineType({
   name: "homePageSettings",
   title: "Thiết lập trang chủ",
   type: "document",
+  groups: [
+    { name: "hero", title: "Hero", default: true },
+    { name: "why", title: "Lý do chọn" },
+    { name: "services", title: "Dịch vụ" },
+    { name: "equipment", title: "Thiết bị" },
+    { name: "reviews", title: "Đánh giá" },
+    { name: "articles", title: "Cẩm nang" },
+    { name: "booking", title: "Đặt lịch" },
+  ],
   initialValue: {
     hero: {
       eyebrow: fallbackHomePageSettings.hero.eyebrow,
@@ -86,6 +95,7 @@ export const homePageSettingsType = defineType({
       name: "hero",
       title: "Hero trang chủ",
       type: "object",
+      group: "hero",
       fields: [
         ...editorialCopyFields,
         defineField({
@@ -116,6 +126,7 @@ export const homePageSettingsType = defineType({
       name: "why",
       title: "Khối lý do chọn Pet One",
       type: "object",
+      group: "why",
       fields: [
         ...editorialCopyFields,
         defineField({
@@ -157,12 +168,14 @@ export const homePageSettingsType = defineType({
       name: "servicesSection",
       title: "Tiêu đề khối dịch vụ",
       type: "object",
+      group: "services",
       fields: editorialCopyFields,
     }),
     defineField({
       name: "equipmentSection",
       title: "Khối trang thiết bị",
       type: "object",
+      group: "equipment",
       fields: [
         ...editorialCopyFields,
         imageField("image", "Ảnh đại diện"),
@@ -178,6 +191,7 @@ export const homePageSettingsType = defineType({
       name: "reviewsSection",
       title: "Tiêu đề khối đánh giá",
       type: "object",
+      group: "reviews",
       fields: [
         defineField({ name: "eyebrow", title: "Nhãn nhỏ", type: "string" }),
         defineField({ name: "title", title: "Tiêu đề", type: "string" }),
@@ -193,6 +207,7 @@ export const homePageSettingsType = defineType({
       name: "articlesSection",
       title: "Tiêu đề khối cẩm nang",
       type: "object",
+      group: "articles",
       fields: [
         ...editorialCopyFields,
         defineField({
@@ -206,6 +221,7 @@ export const homePageSettingsType = defineType({
       name: "bookingCta",
       title: "CTA đặt lịch cuối trang",
       type: "object",
+      group: "booking",
       fields: [
         defineField({ name: "eyebrow", title: "Nhãn nhỏ", type: "string" }),
         defineField({ name: "title", title: "Tiêu đề", type: "string" }),
@@ -224,14 +240,15 @@ export const homePageSettingsType = defineType({
         imageField("image", "Ảnh nền"),
       ],
     }),
-    defineField({ name: "rating", title: "Điểm Google", type: "number", validation: (rule) => rule.min(1).max(5) }),
-    defineField({ name: "reviewCount", title: "Số lượt đánh giá Google", type: "number", validation: (rule) => rule.integer().positive() }),
-    defineField({ name: "googleMapsUrl", title: "Link Google Maps", type: "url" }),
+    defineField({ name: "rating", title: "Điểm Google", type: "number", group: "reviews", validation: (rule) => rule.min(1).max(5) }),
+    defineField({ name: "reviewCount", title: "Số lượt đánh giá Google", type: "number", group: "reviews", validation: (rule) => rule.integer().positive() }),
+    defineField({ name: "googleMapsUrl", title: "Link Google Maps", type: "url", group: "reviews" }),
     defineField({
       name: "metrics",
       title: "Số liệu đã xác minh",
       description: "Chỉ số chỉ hiển thị trên trang chủ khi được đánh dấu đã xác minh.",
       type: "array",
+      group: "equipment",
       validation: (rule) => rule.max(3),
       of: [{
         type: "object",
@@ -259,6 +276,7 @@ export const homePageSettingsType = defineType({
       name: "reasons",
       title: "Lý do chọn Pet One",
       type: "array",
+      group: "why",
       validation: (rule) => rule.max(6),
       of: [{
         type: "object",
