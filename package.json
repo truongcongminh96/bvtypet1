@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "sanity:migrate": "sanity exec scripts/migrate-to-sanity.ts --with-user-token",
+    "sanity:webhook": "sanity exec scripts/configure-sanity-webhook.ts --with-user-token",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
