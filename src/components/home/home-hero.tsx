@@ -11,11 +11,12 @@ export function HomeHero({ settings }: { settings: HomePageSettings }) {
   const rating = settings.rating ?? 4.8;
   const reviewCount = settings.reviewCount ?? 295;
   const googleMapsUrl = settings.googleMapsUrl ?? "/lien-he";
+  const content = settings.hero;
 
   return (
     <section className="home-hero relative isolate overflow-hidden">
       <div className="home-hero__desktop-media">
-        <HeroMedia />
+        <HeroMedia image={content.desktopImage} />
       </div>
       <div className="home-hero__scrim" aria-hidden="true" />
 
@@ -29,34 +30,32 @@ export function HomeHero({ settings }: { settings: HomePageSettings }) {
           <MotionItem direction="left">
             <p className="mb-4 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.13em] text-brand-blue-dark sm:mb-5">
               <span className="h-px w-9 bg-brand-blue/45" aria-hidden="true" />
-              Chăm từ điều bé chưa thể nói
+              {content.eyebrow}
             </p>
           </MotionItem>
           <MotionItem direction="left">
             <h1 className="home-hero__title text-text-primary">
-              <span className="block">Hiểu đúng.</span>
+              <span className="block">{content.title}</span>
               <span className="block text-brand-blue sm:whitespace-nowrap">
-                Chăm bé tốt hơn.
+                {content.titleAccent}
               </span>
             </h1>
           </MotionItem>
           <MotionItem direction="up">
             <p className="home-hero__description mt-5 max-w-[35rem] text-text-secondary sm:mt-6">
-              Pet One đồng hành cùng bạn nhận ra những thay đổi nhỏ trong sức
-              khỏe và hành vi của thú cưng, để mỗi quyết định chăm sóc đều rõ
-              ràng và kịp thời.
+              {content.description}
             </p>
           </MotionItem>
           <MotionItem direction="up">
             <div className="mt-6 sm:mt-7">
               <CareActionLink
-                href="/lien-he#dat-lich"
+                href={content.ctaHref}
                 className="w-full sm:w-auto"
                 leadingIcon={
                   <CalendarDots aria-hidden="true" size={19} weight="bold" />
                 }
               >
-                Đặt lịch khám
+                {content.ctaLabel}
               </CareActionLink>
             </div>
           </MotionItem>
@@ -70,7 +69,7 @@ export function HomeHero({ settings }: { settings: HomePageSettings }) {
         </MotionGroup>
 
         <div className="relative order-1 lg:hidden">
-          <ArchImage />
+          <ArchImage image={content.mobileImage} />
         </div>
       </div>
 

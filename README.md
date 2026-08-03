@@ -7,7 +7,7 @@ signature Care Notes và bảng màu sáng với xanh Pet One làm điểm nhấ
 
 - Next.js 16 App Router, React 19, TypeScript
 - Tailwind CSS 4, Motion, Phosphor Icons, Radix Dialog
-- Sanity Studio và nội dung dự phòng trong mã nguồn
+- Sanity Studio cho nội dung/ảnh và lớp dự phòng an toàn trong mã nguồn
 - React Hook Form, Zod, Server Actions
 - Resend và Cloudflare Turnstile
 - Vercel Analytics, Speed Insights
@@ -43,14 +43,27 @@ Thông tin công khai tại header và footer được cấu hình bằng:
 - `NEXT_PUBLIC_FACEBOOK_URL`
 - `NEXT_PUBLIC_INSTAGRAM_URL`
 
-Sanity là tùy chọn trong giai đoạn đầu:
+Sanity quản lý nội dung trang chủ và các collection nội dung:
 
 - `NEXT_PUBLIC_SANITY_PROJECT_ID`
 - `NEXT_PUBLIC_SANITY_DATASET`
-- `SANITY_API_READ_TOKEN`
 
-Khi chưa có Sanity, website dùng dữ liệu an toàn trong
-`src/content/site.ts`. Studio nằm tại `/studio`.
+Dataset hiện dùng chế độ public nên website không cần read token. Quyền chỉnh sửa
+do tài khoản Sanity quản lý; không lưu username/password admin trong `.env`.
+
+Studio nằm tại `/studio`. Lần đầu mở mục **Trang chủ**, Studio tạo document
+singleton với text mặc định đang dùng trên website. Ảnh chưa upload lên Sanity
+tiếp tục dùng file trong `public/images`, vì vậy có thể chuyển ảnh từng phần mà
+không làm hỏng giao diện.
+
+Trong Sanity Manage, thêm các origin sau vào phần API/CORS Origins:
+
+- `http://localhost:3000` (Allow credentials)
+- URL production trên Vercel, ví dụ `https://bvtypet1.vercel.app` (Allow credentials)
+
+Sau khi publish, website nhận nội dung mới trong tối đa khoảng 5 phút. Những
+document chưa tạo hoặc field chưa nhập sẽ tiếp tục dùng nội dung dự phòng trong
+`src/content`.
 
 ## Kiểm tra chất lượng
 
@@ -70,9 +83,12 @@ vercel
 vercel --prod
 ```
 
-Thêm các biến môi trường trước khi bật form đặt lịch. Cập nhật
+Thêm các biến môi trường trước khi bật form đặt lịch và Content Studio. Cập nhật
 `NEXT_PUBLIC_SITE_URL` thành tên miền chính thức để metadata, sitemap và
 canonical URL được tạo đúng.
+
+Các biến `NEXT_PUBLIC_SANITY_PROJECT_ID` và `NEXT_PUBLIC_SANITY_DATASET` phải
+được khai báo cho cả Production, Preview và Development trên Vercel.
 
 ## Nội dung cần thay trước khi phát hành chính thức
 

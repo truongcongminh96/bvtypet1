@@ -1,8 +1,9 @@
 import Image from "next/image";
 
 import { ImageReveal } from "@/components/motion/image-reveal";
+import type { ArticleImage } from "@/content/site";
 
-export function ArchImage() {
+export function ArchImage({ image }: { image: ArticleImage }) {
   return (
     <figure className="relative mx-auto w-full max-w-[42rem]">
       <span
@@ -14,14 +15,16 @@ export function ArchImage() {
         direction="up"
       >
         <Image
-          src="/images/pet-one-hero.png"
-          alt="Ảnh minh hoạ bác sĩ thú y đang kiểm tra nhẹ nhàng cho chó và mèo"
+          src={image.src}
+          alt={image.alt}
           fill
           priority
           loading="eager"
           sizes="(max-width: 639px) calc(100vw - 1.25rem), (max-width: 1023px) 72vw, 1px"
           className="object-cover"
-          style={{ objectPosition: "54% 46%" }}
+          style={
+            image.focalPoint ? { objectPosition: image.focalPoint } : undefined
+          }
         />
         <span
           aria-hidden="true"

@@ -566,6 +566,42 @@ const aboutPageQuery = `*[_type == "aboutPage"][0] {
 }`;
 
 const homePageSettingsQuery = `*[_type == "homePageSettings"][0] {
+  hero {
+    eyebrow,
+    title,
+    titleAccent,
+    description,
+    ctaLabel,
+    ctaHref,
+    desktopImage { "src": asset->url, alt, hotspot },
+    mobileImage { "src": asset->url, alt, hotspot }
+  },
+  why {
+    eyebrow,
+    title,
+    titleAccent,
+    description,
+    images[]{ "src": asset->url, alt, hotspot },
+    caption
+  },
+  servicesSection { eyebrow, title, titleAccent },
+  equipmentSection {
+    eyebrow,
+    title,
+    titleAccent,
+    image { "src": asset->url, alt, hotspot },
+    caption
+  },
+  reviewsSection { eyebrow, title, description },
+  articlesSection { eyebrow, title, titleAccent, linkLabel },
+  bookingCta {
+    eyebrow,
+    title,
+    description,
+    ctaLabel,
+    ctaHref,
+    image { "src": asset->url, alt, hotspot }
+  },
   rating,
   reviewCount,
   googleMapsUrl,
@@ -577,6 +613,97 @@ const homePageSettingsQuery = `*[_type == "homePageSettings"][0] {
     "verified": verificationStatus == "verified"
   }
 }`;
+
+type SanityHomePageSettings = {
+  rating?: number;
+  reviewCount?: number;
+  googleMapsUrl?: string;
+  hero?: Partial<Omit<HomePageSettings["hero"], "desktopImage" | "mobileImage">> & {
+    desktopImage?: SanityImage;
+    mobileImage?: SanityImage;
+  };
+  why?: Partial<Omit<HomePageSettings["why"], "images">> & {
+    images?: SanityImage[];
+  };
+  servicesSection?: Partial<HomePageSettings["servicesSection"]>;
+  equipmentSection?: Partial<Omit<HomePageSettings["equipmentSection"], "image">> & {
+    image?: SanityImage;
+  };
+  reviewsSection?: Partial<HomePageSettings["reviewsSection"]>;
+  articlesSection?: Partial<HomePageSettings["articlesSection"]>;
+  bookingCta?: Partial<Omit<HomePageSettings["bookingCta"], "image">> & {
+    image?: SanityImage;
+  };
+  reasons?: HomePageSettings["reasons"];
+  metrics?: HomePageSettings["metrics"];
+};
+
+export function resolveHomePageSettings(
+  data?: SanityHomePageSettings | null,
+): HomePageSettings {
+  const fallback = fallbackHomePageSettings;
+
+  return {
+    ...fallback,
+    rating: data?.rating ?? fallback.rating,
+    reviewCount: data?.reviewCount ?? fallback.reviewCount,
+    googleMapsUrl: data?.googleMapsUrl ?? fallback.googleMapsUrl,
+    hero: {
+      ...fallback.hero,
+      ...data?.hero,
+      desktopImage: normalizeImage(
+        data?.hero?.desktopImage,
+        fallback.hero.desktopImage,
+      ),
+      mobileImage: normalizeImage(
+        data?.hero?.mobileImage,
+        fallback.hero.mobileImage,
+      ),
+    },
+    why: {
+      ...fallback.why,
+      ...data?.why,
+      images: fallback.why.images.map((fallbackImage, index) =>
+        normalizeImage(data?.why?.images?.[index], fallbackImage),
+      ),
+    },
+    servicesSection: {
+      ...fallback.servicesSection,
+      ...data?.servicesSection,
+    },
+    equipmentSection: {
+      ...fallback.equipmentSection,
+      ...data?.equipmentSection,
+      image: normalizeImage(
+        data?.equipmentSection?.image,
+        fallback.equipmentSection.image,
+      ),
+    },
+    reviewsSection: {
+      ...fallback.reviewsSection,
+      ...data?.reviewsSection,
+    },
+    articlesSection: {
+      ...fallback.articlesSection,
+      ...data?.articlesSection,
+    },
+    bookingCta: {
+      ...fallback.bookingCta,
+      ...data?.bookingCta,
+      image: normalizeImage(
+        data?.bookingCta?.image,
+        fallback.bookingCta.image,
+      ),
+    },
+    reasons:
+      data?.reasons && data.reasons.length > 0
+        ? data.reasons.slice(0, 6)
+        : fallback.reasons,
+    metrics: (data?.metrics ?? [])
+      .filter((metric) => metric.verified)
+      .slice(0, 3),
+  };
+}
 
 async function fetchVerifiedList<T extends { verified: boolean }>(
   query: string,
@@ -620,25 +747,12 @@ export async function getAboutPage(): Promise<AboutPageContent> {
 export async function getHomePageSettings(): Promise<HomePageSettings> {
   if (!isSanityConfigured) return fallbackHomePageSettings;
   try {
-    const data = await sanityClient.fetch<HomePageSettings | null>(
+    const data = await sanityClient.fetch<SanityHomePageSettings | null>(
       homePageSettingsQuery,
       {},
       { next: { revalidate: 300 } },
     );
-    return {
-      ...fallbackHomePageSettings,
-      ...data,
-      rating: data?.rating ?? fallbackHomePageSettings.rating,
-      reviewCount:
-        data?.reviewCount ?? fallbackHomePageSettings.reviewCount,
-      googleMapsUrl:
-        data?.googleMapsUrl ?? fallbackHomePageSettings.googleMapsUrl,
-      reasons:
-        data?.reasons && data.reasons.length > 0
-          ? data.reasons.slice(0, 6)
-          : fallbackHomePageSettings.reasons,
-      metrics: (data?.metrics ?? []).filter((metric) => metric.verified).slice(0, 3),
-    };
+    return resolveHomePageSettings(data);
   } catch {
     return fallbackHomePageSettings;
   }

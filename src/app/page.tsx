@@ -28,15 +28,19 @@ export default async function HomePage() {
       <div className="overflow-x-clip">
         <HomeHero settings={settings} />
         <WhyPetOne settings={settings} />
-        <ServiceGrid items={services} />
-        <ClinicEnvironment items={equipment} />
+        <ServiceGrid items={services} content={settings.servicesSection} />
+        <ClinicEnvironment
+          items={equipment}
+          content={settings.equipmentSection}
+        />
         <CustomerReviews
           items={reviews}
           rating={settings.rating}
           reviewCount={settings.reviewCount}
+          content={settings.reviewsSection}
         />
-        <ArticleGrid items={articles} />
-        <BookingCta />
+        <ArticleGrid items={articles} content={settings.articlesSection} />
+        <BookingCta content={settings.bookingCta} />
       </div>
     </HomeMotionProvider>
   );

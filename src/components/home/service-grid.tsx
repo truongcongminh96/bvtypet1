@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ServiceCarousel } from "@/components/home/service-carousel";
 import { MotionGroup, MotionItem, MotionSection } from "@/components/motion/reveal";
 import { CareActionLink } from "@/components/ui/button";
+import type { HomePageSettings } from "@/content/experience";
 import { partitionHomeServices } from "@/content/home-service-presentation";
 import { services as fallbackServices, type Service } from "@/content/site";
 
@@ -16,8 +17,10 @@ function imagePosition(service: Service) {
 
 export function ServiceGrid({
   items = fallbackServices,
+  content,
 }: {
   items?: Service[];
+  content: HomePageSettings["servicesSection"];
 }) {
   const { featured, remaining } = partitionHomeServices(
     items,
@@ -31,12 +34,12 @@ export function ServiceGrid({
       <div className="shell">
         <MotionSection className="max-w-[48rem]" direction="left">
           <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.13em] text-brand-blue-dark sm:text-xs">
-            Những chăm sóc thường bắt đầu từ đây
+            {content.eyebrow}
           </p>
           <h2 className="mt-5 font-display text-[clamp(2.65rem,7vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.022em] text-text-primary text-balance">
-            Dịch vụ không bắt đầu bằng một chỉ định.{" "}
+            {content.title}{" "}
             <span className="text-brand-blue-dark">
-              Nó bắt đầu bằng điều bạn nhận thấy.
+              {content.titleAccent}
             </span>
           </h2>
         </MotionSection>

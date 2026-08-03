@@ -2,7 +2,7 @@ import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 
 import { MotionGroup, MotionItem, MotionSection } from "@/components/motion/reveal";
-import type { Equipment } from "@/content/experience";
+import type { Equipment, HomePageSettings } from "@/content/experience";
 
 const equipmentDisplaySlots = [
   {
@@ -39,17 +39,25 @@ function normalizeEquipmentName(value: string) {
     .trim();
 }
 
-export function ClinicEnvironment({ items }: { items: Equipment[] }) {
+export function ClinicEnvironment({
+  items,
+  content,
+}: {
+  items: Equipment[];
+  content: HomePageSettings["equipmentSection"];
+}) {
   return (
     <section className="relative overflow-hidden bg-surface-soft py-24 sm:py-28 lg:py-36">
       <div className="shell">
         <MotionSection className="ml-auto max-w-[64rem]" direction="right" mobileDirection="left">
           <p className="text-xs font-semibold uppercase tracking-[0.13em] text-brand-blue-dark">
-            Không gian chăm sóc
+            {content.eyebrow}
           </p>
           <h2 className="editorial-statement mt-5 text-text-primary">
-            Thiết bị chỉ có ý nghĩa khi trả lời{" "}
-            <span className="text-brand-blue-dark">một câu hỏi lâm sàng rõ ràng.</span>
+            {content.title}{" "}
+            <span className="text-brand-blue-dark">
+              {content.titleAccent}
+            </span>
           </h2>
         </MotionSection>
       </div>
@@ -58,12 +66,16 @@ export function ClinicEnvironment({ items }: { items: Equipment[] }) {
         <figure>
           <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem_4.5rem_1.5rem_1.5rem] bg-surface shadow-[0_28px_80px_rgba(16,46,58,0.12)] sm:aspect-[16/9] lg:aspect-[16/7]">
             <Image
-              src="/images/clinic/pet-one-ultrasound-team.jpg"
-              alt="Đội ngũ Pet One thực hiện siêu âm hỗ trợ đánh giá sức khỏe cho thú cưng"
+              src={content.image.src}
+              alt={content.image.alt}
               fill
               sizes="100vw"
               className="object-cover"
-              style={{ objectPosition: "50% 52%" }}
+              style={
+                content.image.focalPoint
+                  ? { objectPosition: content.image.focalPoint }
+                  : undefined
+              }
             />
             <span
               aria-hidden="true"
@@ -71,7 +83,7 @@ export function ClinicEnvironment({ items }: { items: Equipment[] }) {
             />
           </div>
           <figcaption className="shell mt-3 text-[0.68rem] leading-5 text-text-muted">
-            Hình ảnh thực tế trong quá trình siêu âm tại Pet One.
+            {content.caption}
           </figcaption>
         </figure>
       </MotionSection>

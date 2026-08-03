@@ -1,7 +1,13 @@
 import { StudioClient } from "@/components/sanity/studio-client";
 import { isSanityConfigured } from "@/sanity/env";
+import type { Metadata } from "next";
 
 export const dynamic = "force-static";
+
+export const metadata: Metadata = {
+  title: "Pet One Content Studio",
+  robots: { index: false, follow: false },
+};
 
 export default function StudioPage() {
   if (!isSanityConfigured) {

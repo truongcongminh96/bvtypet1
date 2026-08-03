@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { m } from "motion/react";
 
-const ease = [0.22, 1, 0.36, 1] as const;
-const mediaDescription =
-  "Ảnh minh hoạ bác sĩ thú y đang kiểm tra nhẹ nhàng cho chó và mèo";
+import type { ArticleImage } from "@/content/site";
 
-export function HeroMedia() {
+const ease = [0.22, 1, 0.36, 1] as const;
+
+export function HeroMedia({ image }: { image: ArticleImage }) {
   return (
     <m.figure
       data-motion-reveal
@@ -18,12 +18,15 @@ export function HeroMedia() {
     >
       <div className="home-hero__media-visual">
         <Image
-          src="/images/pet-one-hero-panorama.webp"
-          alt={mediaDescription}
+          src={image.src}
+          alt={image.alt}
           fill
           priority
           sizes="(min-width: 1024px) 60vw, 1px"
           className="home-hero__media-poster"
+          style={
+            image.focalPoint ? { objectPosition: image.focalPoint } : undefined
+          }
         />
         <span className="home-hero__media-grid" aria-hidden="true" />
         <span className="home-hero__media-veil" aria-hidden="true" />

@@ -52,6 +52,55 @@ export type HomePageSettings = {
   rating?: number;
   reviewCount?: number;
   googleMapsUrl?: string;
+  hero: {
+    eyebrow: string;
+    title: string;
+    titleAccent: string;
+    description: string;
+    ctaLabel: string;
+    ctaHref: string;
+    desktopImage: ArticleImage;
+    mobileImage: ArticleImage;
+  };
+  why: {
+    eyebrow: string;
+    title: string;
+    titleAccent: string;
+    description: string;
+    images: ArticleImage[];
+    caption: string;
+  };
+  servicesSection: {
+    eyebrow: string;
+    title: string;
+    titleAccent: string;
+  };
+  equipmentSection: {
+    eyebrow: string;
+    title: string;
+    titleAccent: string;
+    image: ArticleImage;
+    caption: string;
+  };
+  reviewsSection: {
+    eyebrow: string;
+    title: string;
+    description: string;
+  };
+  articlesSection: {
+    eyebrow: string;
+    title: string;
+    titleAccent: string;
+    linkLabel: string;
+  };
+  bookingCta: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    ctaLabel: string;
+    ctaHref: string;
+    image: ArticleImage;
+  };
   reasons: Array<{ title: string; description: string }>;
   metrics: Array<{
     value: string;
@@ -106,6 +155,105 @@ export const fallbackHomePageSettings: HomePageSettings = {
   rating: 4.8,
   reviewCount: 295,
   googleMapsUrl: siteConfig.googleMapsUrl,
+  hero: {
+    eyebrow: "Chăm từ điều bé chưa thể nói",
+    title: "Hiểu đúng.",
+    titleAccent: "Chăm bé tốt hơn.",
+    description:
+      "Pet One đồng hành cùng bạn nhận ra những thay đổi nhỏ trong sức khỏe và hành vi của thú cưng, để mỗi quyết định chăm sóc đều rõ ràng và kịp thời.",
+    ctaLabel: "Đặt lịch khám",
+    ctaHref: "/lien-he#dat-lich",
+    desktopImage: {
+      src: "/images/pet-one-hero-panorama.webp",
+      alt: "Ảnh minh hoạ bác sĩ thú y đang kiểm tra nhẹ nhàng cho chó và mèo",
+      focalPoint: "50% 50%",
+      placeholder: false,
+    },
+    mobileImage: {
+      src: "/images/pet-one-hero.png",
+      alt: "Ảnh minh hoạ bác sĩ thú y đang kiểm tra nhẹ nhàng cho chó và mèo",
+      focalPoint: "54% 46%",
+      placeholder: false,
+    },
+  },
+  why: {
+    eyebrow: "Top những lí do chọn Pet One",
+    title: "Rõ điều đang làm,",
+    titleAccent: "nhẹ nhàng với từng bé",
+    description:
+      "Một trải nghiệm chăm sóc được xây dựng để người nuôi hiểu, thú cưng bớt căng thẳng và kế hoạch theo dõi dễ tiếp tục.",
+    images: [
+      {
+        src: "/images/clinic/pet-one-general-exam-cat.jpg",
+        alt: "Bác sĩ Pet One kiểm tra nhẹ nhàng cho một chú mèo",
+        focalPoint: "50% 44%",
+        placeholder: false,
+      },
+      {
+        src: "/images/clinic/pet-one-team-records.jpg",
+        alt: "Đội ngũ Pet One ghi nhận và đối chiếu thông tin trong phòng khám",
+        focalPoint: "50% 42%",
+        placeholder: false,
+      },
+      {
+        src: "/images/clinic/pet-one-general-exam-dog.jpg",
+        alt: "Đội ngũ Pet One kiểm tra sức khỏe cho một chú chó",
+        focalPoint: "50% 42%",
+        placeholder: false,
+      },
+      {
+        src: "/images/clinic/pet-one-lab-microscope.jpg",
+        alt: "Kỹ thuật viên Pet One quan sát mẫu xét nghiệm qua kính hiển vi",
+        focalPoint: "50% 46%",
+        placeholder: false,
+      },
+    ],
+    caption:
+      "Hình ảnh thực tế trong quá trình thăm khám và hỗ trợ chẩn đoán tại Pet One.",
+  },
+  servicesSection: {
+    eyebrow: "Những chăm sóc thường bắt đầu từ đây",
+    title: "Dịch vụ không bắt đầu bằng một chỉ định.",
+    titleAccent: "Nó bắt đầu bằng điều bạn nhận thấy.",
+  },
+  equipmentSection: {
+    eyebrow: "Không gian chăm sóc",
+    title: "Thiết bị chỉ có ý nghĩa khi trả lời",
+    titleAccent: "một câu hỏi lâm sàng rõ ràng.",
+    image: {
+      src: "/images/clinic/pet-one-ultrasound-team.jpg",
+      alt: "Đội ngũ Pet One thực hiện siêu âm hỗ trợ đánh giá sức khỏe cho thú cưng",
+      focalPoint: "50% 52%",
+      placeholder: false,
+    },
+    caption: "Hình ảnh thực tế trong quá trình siêu âm tại Pet One.",
+  },
+  reviewsSection: {
+    eyebrow: "Trải nghiệm thực tế",
+    title: "Khách hàng Pet One",
+    description:
+      "Những chia sẻ được dẫn trực tiếp từ Google Review sau khi khách hàng trải nghiệm dịch vụ tại Pet One.",
+  },
+  articlesSection: {
+    eyebrow: "Cẩm nang Pet One",
+    title: "Đọc để nhận ra sớm hơn.",
+    titleAccent: "Chuẩn bị bình tĩnh hơn.",
+    linkLabel: "Xem thêm bài viết",
+  },
+  bookingCta: {
+    eyebrow: "Khi bạn đã sẵn sàng kể điều mình quan sát",
+    title: "Cùng Pet One nhìn rõ bước tiếp theo.",
+    description:
+      "Gửi thông tin trước để phòng khám chuẩn bị cuộc trao đổi phù hợp với tình trạng và mức độ hợp tác của bé.",
+    ctaLabel: "Đặt lịch khám",
+    ctaHref: "/lien-he#dat-lich",
+    image: {
+      src: "/images/clinic/pet-one-general-exam-dog.jpg",
+      alt: "Đội ngũ Pet One kiểm tra sức khỏe tổng quát cho một chú chó",
+      focalPoint: "50% 44%",
+      placeholder: false,
+    },
+  },
   metrics: [],
   reasons: [
     {

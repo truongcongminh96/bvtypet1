@@ -2,12 +2,13 @@ import { Star } from "@phosphor-icons/react/dist/ssr";
 
 import { ReviewStoriesCarousel } from "@/components/home/review-stories-carousel";
 import { MotionSection } from "@/components/motion/reveal";
-import type { CustomerReview } from "@/content/experience";
+import type { CustomerReview, HomePageSettings } from "@/content/experience";
 
 type CustomerReviewsProps = {
   items: CustomerReview[];
   rating?: number;
   reviewCount?: number;
+  content: HomePageSettings["reviewsSection"];
 };
 
 function formatRating(rating: number) {
@@ -21,6 +22,7 @@ export function CustomerReviews({
   items,
   rating = 4.8,
   reviewCount = 295,
+  content,
 }: CustomerReviewsProps) {
   if (items.length === 0) return null;
 
@@ -77,14 +79,13 @@ export function CustomerReviews({
             ))}
           </div>
           <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-brand-blue-dark">
-            Trải nghiệm thực tế
+            {content.eyebrow}
           </p>
           <h2 className="section-title mt-3 text-text-primary">
-            Khách hàng Pet One
+            {content.title}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-text-secondary sm:text-base">
-            Những chia sẻ được dẫn trực tiếp từ Google Review sau khi khách
-            hàng trải nghiệm dịch vụ tại Pet One.
+            {content.description}
           </p>
           <p className="mt-3 text-xs font-semibold text-text-primary/65">
             {formatRating(rating)}/5 · {reviewCount.toLocaleString("vi-VN")} đánh
