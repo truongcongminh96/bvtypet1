@@ -4,17 +4,24 @@ export const doctorType = defineType({
   name: "doctor",
   title: "Bác sĩ",
   type: "document",
+  groups: [
+    { name: "basic", title: "Thông tin", default: true },
+    { name: "profile", title: "Hồ sơ chuyên môn" },
+    { name: "display", title: "Hiển thị" },
+  ],
   fields: [
     defineField({
       name: "name",
       title: "Họ và tên",
       type: "string",
+      group: "basic",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Đường dẫn",
       type: "slug",
+      group: "basic",
       options: { source: "name", maxLength: 96 },
       validation: (rule) => rule.required(),
     }),
@@ -22,41 +29,48 @@ export const doctorType = defineType({
       name: "position",
       title: "Vị trí",
       type: "string",
+      group: "basic",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "specialty",
       title: "Chuyên môn",
       type: "string",
+      group: "basic",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "yearsOfExperience",
       title: "Số năm kinh nghiệm đã xác minh",
       type: "number",
+      group: "profile",
       validation: (rule) => rule.integer().positive(),
     }),
     defineField({
       name: "schedule",
       title: "Lịch làm việc",
       type: "string",
+      group: "profile",
     }),
     defineField({
       name: "biography",
       title: "Giới thiệu chuyên môn",
       type: "text",
+      group: "profile",
       rows: 6,
     }),
     defineField({
       name: "credentials",
       title: "Chứng chỉ và bằng cấp",
       type: "array",
+      group: "profile",
       of: [{ type: "string" }],
     }),
     defineField({
       name: "journey",
       title: "Hành trình nghề nghiệp",
       type: "array",
+      group: "profile",
       of: [
         {
           type: "object",
@@ -90,6 +104,7 @@ export const doctorType = defineType({
       name: "image",
       title: "Ảnh hồ sơ",
       type: "image",
+      group: "display",
       options: { hotspot: true },
       fields: [
         defineField({
@@ -104,6 +119,7 @@ export const doctorType = defineType({
       name: "verificationStatus",
       title: "Trạng thái xác minh",
       type: "string",
+      group: "display",
       initialValue: "draft",
       options: {
         layout: "radio",
@@ -118,6 +134,7 @@ export const doctorType = defineType({
       name: "order",
       title: "Thứ tự",
       type: "number",
+      group: "display",
       initialValue: 10,
     }),
   ],

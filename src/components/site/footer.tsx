@@ -10,11 +10,8 @@ import Link from "next/link";
 
 import { ConsultationForm } from "@/components/consultation/consultation-form";
 import { Brand } from "@/components/site/brand";
-import {
-  footerClinicAddresses,
-  getPhoneHref,
-  siteConfig,
-} from "@/lib/site-config";
+import type { ClinicLocation } from "@/content/experience";
+import { getPhoneHref, type SiteSettings } from "@/lib/site-config";
 
 const informationLinks = [
   { href: "/gioi-thieu", label: "Giới thiệu Pet One" },
@@ -25,7 +22,23 @@ const informationLinks = [
   { href: "/chinh-sach-bao-mat", label: "Chính sách bảo mật" },
 ];
 
-export function Footer() {
+export function Footer({
+  locations,
+  settings,
+}: {
+  locations: ClinicLocation[];
+  settings: SiteSettings;
+}) {
+  const displayLocations =
+    locations.length > 0
+      ? locations
+      : [
+          {
+            address: settings.address,
+            mapUrl: settings.googleMapsUrl,
+          },
+        ];
+
   return (
     <footer className="relative bg-transparent pt-20 sm:pt-24">
       <svg
@@ -43,15 +56,14 @@ export function Footer() {
       <div className="relative bg-surface-warm">
         <div className="shell grid gap-10 pb-10 pt-5 sm:pb-12 md:grid-cols-2 lg:grid-cols-[1.05fr_0.7fr_1fr] lg:gap-14 lg:pb-14 lg:pt-3">
           <div className="lg:pt-2">
-            <Brand />
+            <Brand settings={settings} />
             <p className="mt-5 max-w-sm text-sm leading-7 text-text-secondary">
-              Pet One giúp người nuôi hiểu rõ tình trạng của bé và biết điều gì
-              cần làm tiếp theo.
+              {settings.footerDescription}
             </p>
 
-            {siteConfig.phone ? (
+            {settings.phone ? (
               <Link
-                href={getPhoneHref()}
+                href={getPhoneHref(settings.phone)}
                 className="mt-6 inline-flex min-h-16 items-center gap-3 rounded-full bg-brand-blue-dark px-4 pr-6 text-white shadow-[0_14px_30px_rgba(13,95,168,0.2)] transition-transform hover:-translate-y-0.5"
               >
                 <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-white/15">
@@ -62,7 +74,7 @@ export function Footer() {
                     Tư vấn &amp; đặt lịch
                   </span>
                   <span className="mt-0.5 block text-lg font-bold tracking-[0.04em]">
-                    {siteConfig.phone}
+                    {settings.phone}
                   </span>
                 </span>
               </Link>
@@ -82,7 +94,7 @@ export function Footer() {
                       Địa chỉ phòng khám
                     </p>
                     <ol className="mt-1 grid gap-1.5">
-                      {footerClinicAddresses.map((location, index) => (
+                      {displayLocations.map((location, index) => (
                         <li key={location.address}>
                           <Link
                             href={location.mapUrl}
@@ -112,12 +124,12 @@ export function Footer() {
                     weight="fill"
                     className="shrink-0 text-brand-blue-dark"
                   />
-                  {siteConfig.email ? (
+                  {settings.email ? (
                     <Link
-                      href={`mailto:${siteConfig.email}`}
+                      href={`mailto:${settings.email}`}
                       className="transition-colors hover:text-brand-blue-dark"
                     >
-                      {siteConfig.email}
+                      {settings.email}
                     </Link>
                   ) : (
                     <span>Email đang được cập nhật.</span>
@@ -131,7 +143,7 @@ export function Footer() {
                     className="mt-1 shrink-0 text-brand-blue-dark"
                   />
                   <span>
-                    {siteConfig.openingHours ||
+                    {settings.openingHours ||
                       "Giờ hoạt động đang được cập nhật."}
                   </span>
                 </li>
@@ -187,16 +199,15 @@ export function Footer() {
         <div className="shell pb-8 sm:pb-10">
           <div className="rounded-[var(--radius-md)] border border-border bg-surface px-5 py-5 text-center shadow-[0_10px_28px_rgba(16,46,58,0.045)] sm:px-8">
             <p className="text-sm font-semibold uppercase tracking-[0.06em] text-text-primary">
-              Pet One Veterinary Care
+              {settings.name} {settings.tagline}
             </p>
             <div className="mt-2 flex flex-col items-center justify-center gap-1 text-xs leading-5 text-text-muted sm:flex-row sm:gap-2">
-              <p>© {new Date().getFullYear()} Pet One.</p>
+              <p>© {new Date().getFullYear()} {settings.name}.</p>
               <span aria-hidden="true" className="hidden sm:inline">
                 ·
               </span>
               <p>
-                Nội dung chăm sóc có tính tham khảo, không thay thế chẩn đoán
-                trực tiếp.
+                {settings.footerDisclaimer}
               </p>
               <span aria-hidden="true" className="hidden sm:inline">
                 ·

@@ -7,12 +7,16 @@ import {
 import Link from "next/link";
 
 import { buttonStyles } from "@/components/ui/button";
-import { getContactHref, getPhoneHref, siteConfig } from "@/lib/site-config";
+import {
+  getContactHref,
+  getPhoneHref,
+  type SiteSettings,
+} from "@/lib/site-config";
 
 const iconClass =
   "inline-flex size-12 shrink-0 items-center justify-center rounded-[var(--radius-sm)] border border-border bg-surface text-brand-blue-dark";
 
-export function MobileActionBar() {
+export function MobileActionBar({ settings }: { settings: SiteSettings }) {
   return (
     <nav
       aria-label="Hành động nhanh"
@@ -27,21 +31,21 @@ export function MobileActionBar() {
           Đặt lịch
         </Link>
         <Link
-          href={getContactHref(siteConfig.zaloUrl)}
-          target={siteConfig.zaloUrl ? "_blank" : undefined}
-          rel={siteConfig.zaloUrl ? "noreferrer" : undefined}
+          href={getContactHref(settings.zaloUrl)}
+          target={settings.zaloUrl ? "_blank" : undefined}
+          rel={settings.zaloUrl ? "noreferrer" : undefined}
           aria-label="Liên hệ Pet One qua Zalo"
           className={iconClass}
         >
           <ChatCircleDots aria-hidden="true" size={20} weight="fill" />
         </Link>
-        <Link href={getPhoneHref()} aria-label="Gọi Pet One" className={iconClass}>
+        <Link href={getPhoneHref(settings.phone)} aria-label="Gọi Pet One" className={iconClass}>
           <Phone aria-hidden="true" size={19} weight="fill" className="text-brand-red-strong" />
         </Link>
         <Link
-          href={getContactHref(siteConfig.facebookUrl)}
-          target={siteConfig.facebookUrl ? "_blank" : undefined}
-          rel={siteConfig.facebookUrl ? "noreferrer" : undefined}
+          href={getContactHref(settings.facebookUrl)}
+          target={settings.facebookUrl ? "_blank" : undefined}
+          rel={settings.facebookUrl ? "noreferrer" : undefined}
           aria-label="Facebook Pet One"
           className={iconClass}
         >

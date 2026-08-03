@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import { fallbackHomePageSettings } from "@/content/experience";
 import { services as fallbackServices } from "@/content/site";
+import { fallbackSiteSettings } from "@/lib/site-config";
 import {
   resolveHomePageSettings,
   resolveServices,
+  resolveSiteSettings,
 } from "@/sanity/content";
 
 describe("service content resolution", () => {
@@ -59,5 +61,22 @@ describe("home page settings resolution", () => {
 
     expect(resolved.equipmentSection.image.focalPoint).toBe("25% 75%");
     expect(resolved.metrics).toEqual([]);
+  });
+});
+
+describe("site settings resolution", () => {
+  it("merges CMS contact details and normalizes the logo hotspot", () => {
+    const resolved = resolveSiteSettings({
+      phone: "0900 000 000",
+      logo: {
+        src: "https://cdn.sanity.io/images/project/production/logo.jpg",
+        alt: "Logo mới",
+        hotspot: { x: 0.4, y: 0.6 },
+      },
+    });
+
+    expect(resolved.phone).toBe("0900 000 000");
+    expect(resolved.name).toBe(fallbackSiteSettings.name);
+    expect(resolved.logo?.focalPoint).toBe("40% 60%");
   });
 });

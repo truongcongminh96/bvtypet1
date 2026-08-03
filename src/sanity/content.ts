@@ -26,8 +26,13 @@ import type {
   VerifiedDoctor,
 } from "@/content/site";
 import { sanityClient } from "@/sanity/client";
+import { sanityFetchOptions } from "@/sanity/cache";
 import { isSanityConfigured } from "@/sanity/env";
 import { onlyVerified } from "@/lib/verified-content";
+import {
+  fallbackSiteSettings,
+  type SiteSettings,
+} from "@/lib/site-config";
 
 const servicesQuery = `*[_type == "service"] | order(order asc) {
   "slug": slug.current,
@@ -425,7 +430,7 @@ export async function getServices(): Promise<Service[]> {
     const data = await sanityClient.fetch<SanityService[]>(
       servicesQuery,
       {},
-      { next: { revalidate: 300 } },
+      sanityFetchOptions,
     );
 
     return resolveServices(
@@ -469,7 +474,7 @@ export async function getArticles(): Promise<Article[]> {
     const data = await sanityClient.fetch<SanityArticle[]>(
       articlesQuery,
       {},
-      { next: { revalidate: 300 } },
+      sanityFetchOptions,
     );
 
     const normalizedArticles = data.flatMap((record) => {
@@ -494,7 +499,7 @@ export async function getDoctors(): Promise<Doctor[]> {
     const data = await sanityClient.fetch<VerifiedDoctor[]>(
       doctorsQuery,
       {},
-      { next: { revalidate: 300 } },
+      sanityFetchOptions,
     );
 
     return data.length > 0 ? data : fallbackDoctors;
@@ -616,6 +621,25 @@ const homePageSettingsQuery = `*[_type == "homePageSettings"][0] {
   }
 }`;
 
+const siteSettingsQuery = `*[_type == "siteSettings" && _id == "siteSettings"][0] {
+  name,
+  tagline,
+  title,
+  description,
+  footerDescription,
+  footerDisclaimer,
+  logo { "src": asset->url, alt, hotspot },
+  phone,
+  email,
+  address,
+  openingHours,
+  googleMapsUrl,
+  googleMapsEmbedUrl,
+  facebookUrl,
+  instagramUrl,
+  zaloUrl
+}`;
+
 type SanityHomePageSettings = {
   rating?: number;
   reviewCount?: number;
@@ -652,6 +676,20 @@ type SanityCustomerReview = Omit<CustomerReview, "avatar" | "image"> & {
 type SanityAboutPage = Omit<AboutPageContent, "image"> & {
   image?: SanityImage;
 };
+
+type SanitySiteSettings = Partial<Omit<SiteSettings, "logo">> & {
+  logo?: SanityImage;
+};
+
+export function resolveSiteSettings(
+  data?: SanitySiteSettings | null,
+): SiteSettings {
+  return {
+    ...fallbackSiteSettings,
+    ...data,
+    logo: normalizeImage(data?.logo, fallbackSiteSettings.logo!),
+  };
+}
 
 export function resolveHomePageSettings(
   data?: SanityHomePageSettings | null,
@@ -726,7 +764,7 @@ async function fetchVerifiedList<T extends { verified: boolean }>(
 ): Promise<T[]> {
   if (!isSanityConfigured) return onlyVerified(fallback);
   try {
-    const data = await sanityClient.fetch<T[]>(query, {}, { next: { revalidate: 300 } });
+    const data = await sanityClient.fetch<T[]>(query, {}, sanityFetchOptions);
     return onlyVerified(data.length > 0 ? data : fallback);
   } catch {
     return onlyVerified(fallback);
@@ -737,7 +775,7 @@ export function getEquipment(): Promise<Equipment[]> {
   if (!isSanityConfigured) return Promise.resolve(onlyVerified(fallbackEquipment));
 
   return sanityClient
-    .fetch<SanityEquipment[]>(equipmentQuery, {}, { next: { revalidate: 300 } })
+    .fetch<SanityEquipment[]>(equipmentQuery, {}, sanityFetchOptions)
     .then((data) =>
       onlyVerified(
         (data.length > 0 ? data : fallbackEquipment).map((item) => ({
@@ -756,7 +794,7 @@ export function getCustomerReviews(): Promise<CustomerReview[]> {
   if (!isSanityConfigured) return Promise.resolve(onlyVerified(fallbackReviews));
 
   return sanityClient
-    .fetch<SanityCustomerReview[]>(reviewsQuery, {}, { next: { revalidate: 300 } })
+    .fetch<SanityCustomerReview[]>(reviewsQuery, {}, sanityFetchOptions)
     .then((data) =>
       onlyVerified(
         (data.length > 0 ? data : fallbackReviews).map((item) => ({
@@ -787,7 +825,7 @@ export async function getAboutPage(): Promise<AboutPageContent> {
     const data = await sanityClient.fetch<SanityAboutPage | null>(
       aboutPageQuery,
       {},
-      { next: { revalidate: 300 } },
+      sanityFetchOptions,
     );
     return data
       ? { ...data, image: normalizeOptionalImage(data.image) }
@@ -803,10 +841,24 @@ export async function getHomePageSettings(): Promise<HomePageSettings> {
     const data = await sanityClient.fetch<SanityHomePageSettings | null>(
       homePageSettingsQuery,
       {},
-      { next: { revalidate: 300 } },
+      sanityFetchOptions,
     );
     return resolveHomePageSettings(data);
   } catch {
     return fallbackHomePageSettings;
+  }
+}
+
+export async function getSiteSettings(): Promise<SiteSettings> {
+  if (!isSanityConfigured) return fallbackSiteSettings;
+  try {
+    const data = await sanityClient.fetch<SanitySiteSettings | null>(
+      siteSettingsQuery,
+      {},
+      sanityFetchOptions,
+    );
+    return resolveSiteSettings(data);
+  } catch {
+    return fallbackSiteSettings;
   }
 }

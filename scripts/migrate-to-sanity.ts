@@ -5,6 +5,7 @@ import { getCliClient } from "sanity/cli";
 
 import {
   fallbackAboutPage,
+  fallbackEquipment,
   fallbackHomePageSettings,
   fallbackLocations,
   fallbackReviews,
@@ -12,11 +13,14 @@ import {
 import { featuredHomeServiceSlugs } from "../src/content/home-service-presentation";
 import {
   articles,
+  doctors,
   services,
   type ArticleContentBlock,
   type ArticleImage,
   type Service,
+  type VerifiedDoctor,
 } from "../src/content/site";
+import { fallbackSiteSettings } from "../src/lib/site-config";
 
 const client = getCliClient({ apiVersion: "2026-07-25" });
 const uploadedImages = new Map<string, SanityImageValue>();
@@ -297,6 +301,46 @@ async function buildDocuments(): Promise<MigrationDocument[]> {
     })),
   );
 
+  const verifiedDoctors = doctors.filter(
+    (doctor): doctor is VerifiedDoctor => doctor.status === "verified",
+  );
+  const doctorDocuments = await Promise.all(
+    verifiedDoctors.map(async (doctor, index) => ({
+      _id: documentId("doctor", doctor.slug),
+      _type: "doctor",
+      slug: { _type: "slug", current: doctor.slug },
+      name: doctor.name,
+      position: doctor.position,
+      specialty: doctor.specialty,
+      yearsOfExperience: doctor.yearsOfExperience,
+      schedule: doctor.schedule,
+      biography: doctor.biography,
+      credentials: doctor.credentials,
+      journey: doctor.journey?.map((item, journeyIndex) => ({
+        ...item,
+        _key: `journey-${journeyIndex + 1}`,
+      })),
+      image: doctor.image ? await uploadImage(doctor.image) : undefined,
+      verificationStatus: "verified",
+      order: index + 1,
+    })),
+  );
+
+  const equipmentDocuments = await Promise.all(
+    fallbackEquipment.map(async (equipment) => ({
+      _id: documentId("equipment", equipment.id),
+      _type: "equipment",
+      name: equipment.name,
+      summary: equipment.summary,
+      supports: equipment.supports,
+      image: equipment.image
+        ? await uploadImage(equipment.image)
+        : undefined,
+      verificationStatus: equipment.verified ? "verified" : "draft",
+      order: equipment.order,
+    })),
+  );
+
   const locationDocuments = fallbackLocations.map((location) => ({
     _id: documentId("clinicLocation", location.id),
     _type: "clinicLocation",
@@ -328,11 +372,23 @@ async function buildDocuments(): Promise<MigrationDocument[]> {
     })),
   };
 
+  const siteSettingsDocument = {
+    _id: "siteSettings",
+    _type: "siteSettings",
+    ...fallbackSiteSettings,
+    logo: fallbackSiteSettings.logo
+      ? await uploadImage(fallbackSiteSettings.logo)
+      : undefined,
+  };
+
   return [
+    siteSettingsDocument,
     await buildHomePageDocument(),
     aboutPageDocument,
     ...serviceDocuments,
     ...articleDocuments,
+    ...doctorDocuments,
+    ...equipmentDocuments,
     ...reviewDocuments,
     ...locationDocuments,
   ];
@@ -345,6 +401,10 @@ async function main() {
     ...articles.map((article) => `article.${article.slug}`),
     ...fallbackReviews.map((review) => `customerReview.${review.id}`),
     ...fallbackLocations.map((location) => `clinicLocation.${location.id}`),
+    ...doctors.flatMap((doctor) =>
+      doctor.status === "verified" ? [`doctor.${doctor.slug}`] : [],
+    ),
+    ...fallbackEquipment.map((equipment) => `equipment.${equipment.id}`),
   ];
   let transaction = client.transaction();
 

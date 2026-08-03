@@ -6,6 +6,7 @@ import { clinicLocationType } from "@/sanity/schemas/clinic-location";
 import { customerReviewType } from "@/sanity/schemas/customer-review";
 import { equipmentType } from "@/sanity/schemas/equipment";
 import { homePageSettingsType } from "@/sanity/schemas/home-page-settings";
+import { siteSettingsType } from "@/sanity/schemas/site-settings";
 
 export const schemaTypes = [
   serviceType,
@@ -16,4 +17,5 @@ export const schemaTypes = [
   customerReviewType,
   aboutPageType,
   homePageSettingsType,
+  siteSettingsType,
 ];

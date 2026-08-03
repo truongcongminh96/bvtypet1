@@ -539,4 +539,22 @@ export const fallbackLocations: ClinicLocation[] = [
     verified: true,
     order: 1,
   },
+  {
+    id: "pet-one-duong-so-7",
+    name: "Pet One - Đường số 7",
+    address: "201 đường số 7, Hồ Chí Minh",
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=201%20%C4%91%C6%B0%E1%BB%9Dng%20s%E1%BB%91%207%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh",
+    verified: true,
+    order: 2,
+  },
+  {
+    id: "pet-one-luy-ban-bich",
+    name: "Pet One - Lũy Bán Bích",
+    address: "430 Lũy Bán Bích, Hồ Chí Minh",
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=430%20L%C5%A9y%20B%C3%A1n%20B%C3%ADch%2C%20H%E1%BB%93%20Ch%C3%AD%20Minh",
+    verified: true,
+    order: 3,
+  },
 ];

@@ -8,6 +8,7 @@ import { Header } from "@/components/site/header";
 import { MobileActionBar } from "@/components/site/mobile-action-bar";
 import { FloatingContactRail } from "@/components/site/floating-contact-rail";
 import { siteConfig } from "@/lib/site-config";
+import { getClinicLocations, getSiteSettings } from "@/sanity/content";
 
 import "./globals.css";
 
@@ -27,56 +28,64 @@ const bodyFont = Be_Vietnam_Pro({
   weight: ["400", "500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: siteConfig.title,
-    template: "%s | Pet One",
-  },
-  description: siteConfig.description,
-  applicationName: siteConfig.name,
-  keywords: [
-    "phòng khám thú y",
-    "chăm sóc thú cưng",
-    "bác sĩ thú y",
-    "Pet One",
-  ],
-  openGraph: {
-    type: "website",
-    locale: "vi_VN",
-    siteName: siteConfig.name,
-    title: siteConfig.title,
-    description: siteConfig.description,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.title,
-    description: siteConfig.description,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title: {
+      default: settings.title,
+      template: `%s | ${settings.name}`,
+    },
+    description: settings.description,
+    applicationName: settings.name,
+    keywords: [
+      "phòng khám thú y",
+      "chăm sóc thú cưng",
+      "bác sĩ thú y",
+      settings.name,
+    ],
+    openGraph: {
+      type: "website",
+      locale: "vi_VN",
+      siteName: settings.name,
+      title: settings.title,
+      description: settings.description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: settings.title,
+      description: settings.description,
+    },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#fafcfd",
   colorScheme: "light",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [settings, locations] = await Promise.all([
+    getSiteSettings(),
+    getClinicLocations(),
+  ]);
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "VeterinaryCare",
-    name: siteConfig.name,
+    name: settings.name,
     url: siteConfig.url,
-    description: siteConfig.description,
-    ...(siteConfig.phone ? { telephone: siteConfig.phone } : {}),
-    ...(siteConfig.email ? { email: siteConfig.email } : {}),
-    ...(siteConfig.address ? { address: siteConfig.address } : {}),
-    ...(siteConfig.googleMapsUrl ? { hasMap: siteConfig.googleMapsUrl } : {}),
-    ...(siteConfig.openingHours
-      ? { openingHours: siteConfig.openingHours }
+    description: settings.description,
+    ...(settings.phone ? { telephone: settings.phone } : {}),
+    ...(settings.email ? { email: settings.email } : {}),
+    ...(settings.address ? { address: settings.address } : {}),
+    ...(settings.googleMapsUrl ? { hasMap: settings.googleMapsUrl } : {}),
+    ...(settings.openingHours
+      ? { openingHours: settings.openingHours }
       : {}),
   };
 
@@ -94,11 +103,11 @@ export default function RootLayout({
         >
           Đi tới nội dung chính
         </a>
-        <Header />
+        <Header settings={settings} />
         <main id="main-content">{children}</main>
-        <Footer />
-        <FloatingContactRail />
-        <MobileActionBar />
+        <Footer settings={settings} locations={locations} />
+        <FloatingContactRail settings={settings} />
+        <MobileActionBar settings={settings} />
         <Analytics />
         <SpeedInsights />
         <script

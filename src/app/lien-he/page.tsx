@@ -6,12 +6,8 @@ import { ClinicLocations } from "@/components/contact/clinic-locations";
 import { HomeMotionProvider } from "@/components/motion/home-motion-provider";
 import { MotionSection } from "@/components/motion/reveal";
 import { contactPageContent } from "@/content/contact-page";
-import {
-  clinicContactDetails,
-  getPhoneHref,
-  siteConfig,
-} from "@/lib/site-config";
-import { getClinicLocations } from "@/sanity/content";
+import { getPhoneHref } from "@/lib/site-config";
+import { getClinicLocations, getSiteSettings } from "@/sanity/content";
 
 export const metadata: Metadata = {
   title: "Liên hệ và đặt lịch",
@@ -26,8 +22,20 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const { form } = contactPageContent;
-  const supportPhoneHref = siteConfig.phone ? getPhoneHref() : undefined;
-  const locations = await getClinicLocations();
+  const [locations, settings] = await Promise.all([
+    getClinicLocations(),
+    getSiteSettings(),
+  ]);
+  const supportPhoneHref = settings.phone
+    ? getPhoneHref(settings.phone)
+    : undefined;
+  const contact = {
+    phone: settings.phone,
+    email: settings.email,
+    address: settings.address,
+    openingHours: settings.openingHours,
+    googleMapsUrl: settings.googleMapsUrl,
+  };
   const locationSchema = locations.map((location) => ({
     "@context": "https://schema.org",
     "@type": "VeterinaryCare",
@@ -60,13 +68,13 @@ export default async function ContactPage() {
 
               <div className="mt-6 sm:mt-8">
                 <BookingForm
-                  supportPhone={siteConfig.phone || undefined}
+                  supportPhone={settings.phone || undefined}
                   supportPhoneHref={supportPhoneHref}
                 />
               </div>
             </MotionSection>
           </div>
-          <ContactRail contact={clinicContactDetails} />
+          <ContactRail contact={contact} />
         </div>
       </section>
 

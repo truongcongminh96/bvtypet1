@@ -14,6 +14,7 @@ import { ServiceMegaMenu } from "@/components/site/service-mega-menu";
 import { buttonStyles } from "@/components/ui/button";
 import { serviceDirectoryGroups } from "@/content/service-directory";
 import { cn } from "@/lib/cn";
+import type { SiteSettings } from "@/lib/site-config";
 
 const navigation = [
   { href: "/", label: "Trang chủ" },
@@ -80,7 +81,7 @@ function SearchDialog() {
   );
 }
 
-export function Header() {
+export function Header({ settings }: { settings: SiteSettings }) {
   const pathname = usePathname();
   const isActive = (href: string) =>
     href === "/"
@@ -90,7 +91,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/85 bg-surface/94 backdrop-blur-lg">
       <div className="shell flex h-[4.5rem] items-center justify-between gap-2 lg:gap-3 xl:gap-4">
-        <Brand />
+        <Brand settings={settings} />
 
         <nav
           className="hidden min-w-0 items-center gap-0 lg:flex xl:gap-1"
@@ -154,7 +155,9 @@ export function Header() {
               <Dialog.Overlay className="fixed inset-0 z-[70] bg-text-primary/24 backdrop-blur-sm" />
               <Dialog.Content className="fixed inset-y-0 right-0 z-[80] w-[min(88vw,23rem)] overflow-y-auto border-l border-border bg-surface p-5 shadow-[0_24px_70px_rgba(16,46,58,0.16)] outline-none">
                 <div className="flex items-center justify-between">
-                  <Dialog.Title asChild><Brand compact /></Dialog.Title>
+                  <Dialog.Title asChild>
+                    <Brand compact settings={settings} />
+                  </Dialog.Title>
                   <Dialog.Close asChild>
                     <button type="button" aria-label="Đóng menu" className="inline-flex size-11 items-center justify-center rounded-[var(--radius-sm)] border border-border">
                       <X aria-hidden="true" size={23} />

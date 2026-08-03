@@ -1,6 +1,7 @@
 import {
   Article,
   FirstAidKit,
+  GearSix,
   House,
   Info,
   MapPin,
@@ -11,6 +12,7 @@ import {
 import type { StructureResolver } from "sanity/structure";
 
 export const singletonSchemaTypes = new Set([
+  "siteSettings",
   "homePageSettings",
   "aboutPage",
 ]);
@@ -26,6 +28,17 @@ export const studioStructure: StructureResolver = (structure) =>
     .list()
     .title("Nội dung Pet One")
     .items([
+      structure
+        .listItem()
+        .id("siteSettings")
+        .title("Cài đặt chung")
+        .icon(GearSix)
+        .child(
+          structure
+            .document()
+            .schemaType("siteSettings")
+            .documentId("siteSettings"),
+        ),
       structure
         .listItem()
         .id("homePageSettings")
